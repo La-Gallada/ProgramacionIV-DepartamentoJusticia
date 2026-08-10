@@ -1,2 +1,12 @@
-# ProgramacionIV-DepartamentoJusticia
-Proyecto final de Programación IV - Sistema web para la administración de investigaciones, casos judiciales, evidencias, operativos y procesos judiciales.
+# DepartamentoJusticia
+
+Proyecto Final - Programación IV
+
+Sistema web para la administración de información del Departamento de Justicia.
+
+Tecnologías:
+
+- ASP.NET Core MVC
+- .NET 8
+- Entity Framework Core
+- SQL Server
