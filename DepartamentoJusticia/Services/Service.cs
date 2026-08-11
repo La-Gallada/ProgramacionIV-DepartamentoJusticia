@@ -9,9 +9,11 @@ public class Service : DbContext
     {
     }
 
-    public DbSet<Agente> Agentes { get; set; } 
+    public DbSet<Agente> Agentes { get; set; }
+    public DbSet<CasoJudicial> casosJudiciales { get; set; }
+    public DbSet<Sospechoso> sospechosos { get; set; }
 
-    
+
 
     #region Agentes Federales
 
