@@ -1,0 +1,46 @@
+﻿@model List<DepartamentoJusticia.Models.Agente>
+
+<h1>Lista de Agentes Federales</h1>
+
+<p>
+    <a asp-action="Create">Agregar Agente</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Número de Placa</th>
+            <th>Nombre Completo</th>
+            <th>Especialidad</th>
+            <th>Rango</th>
+            <th>Fecha de Ingreso</th>
+            <th>Años de Experiencia</th>
+            <th>Salario Base</th>
+            <th>Salario Total</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var agente in Model)
+        {
+            <tr>
+                <td>@agente.Id</td>
+                <td>@agente.NumeroPlaca</td>
+                <td>@agente.NombreCompleto</td>
+                <td>@agente.Especialidad</td>
+                <td>@agente.Rango</td>
+                <td>@agente.FechaIngreso.ToString("dd/MM/yyyy")</td>
+                <td>@agente.AniosExperiencia</td>
+                <td>@agente.SalarioBase</td>
+                <td>@agente.SalarioTotal</td>
+                <td>@agente.Estado</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@agente.Id">Editar</a> |
+                    <a asp-action="Delete" asp-route-id="@agente.Id">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
