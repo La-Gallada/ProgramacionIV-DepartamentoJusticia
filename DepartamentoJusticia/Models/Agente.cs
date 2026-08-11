@@ -13,7 +13,8 @@ namespace DepartamentoJusticia.Models
         private int aniosExperiencia;
         private double salarioBase;
         private string estado;
-        public Agente(int id, string numeroPlaca, string nombreCompleto, string especialidad, string rango, DateTime fechaIngreso, int aniosExperiencia, double salarioBase, string estado)
+        private double salarioTotal;
+        public Agente(int id, string numeroPlaca, string nombreCompleto, string especialidad, string rango, DateTime fechaIngreso, int aniosExperiencia, double salarioBase, string estado,double salarioTotal)
         {
             this.Id = id;
             this.NumeroPlaca = numeroPlaca;
@@ -24,6 +25,7 @@ namespace DepartamentoJusticia.Models
             this.AniosExperiencia = aniosExperiencia;
             this.SalarioBase = salarioBase;
             this.Estado = estado;
+            this.SalarioTotal = salarioTotal;
         }
         public Agente()
         {
@@ -36,9 +38,30 @@ namespace DepartamentoJusticia.Models
             this.AniosExperiencia = 0;
             this.SalarioBase = 0;
             this.Estado = "";
+            this.SalarioTotal = 0;
         }
-        //negro de mierda
-        
+
+        public double CalcularSalarioTotal()
+        {
+            // 1.8% del salario base por cada año de experiencia
+            double incentivoExperiencia = SalarioBase * 0.018 * AniosExperiencia;
+
+            // Si el rango no es válido, no hay incentivo
+            double incentivoRango = 0;
+
+            // Porcentaje según el rango, siempre sobre el salario base
+            if (Rango == "Especial")
+                incentivoRango = SalarioBase * 0.10;
+            else if (Rango == "Supervisor")
+                incentivoRango = SalarioBase * 0.15;
+            else if (Rango == "Adjunto a Cargo")
+                incentivoRango = SalarioBase * 0.20;
+            else if (Rango == "Directivos Superiores")
+                incentivoRango = SalarioBase * 0.25;
+
+            // Suma de los tres componentes
+            return SalarioBase + incentivoExperiencia + incentivoRango;
+        }
 
         [Required]
         public int Id { get => id; set => id = value; }
@@ -50,5 +73,6 @@ namespace DepartamentoJusticia.Models
         public int AniosExperiencia { get => aniosExperiencia; set => aniosExperiencia = value; }
         public double SalarioBase { get => salarioBase; set => salarioBase = value; }
         public string Estado { get => estado; set => estado = value; }
+        public double SalarioTotal { get => salarioTotal; set => salarioTotal = value; }
     }
 }
