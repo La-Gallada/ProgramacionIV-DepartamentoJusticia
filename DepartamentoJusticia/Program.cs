@@ -1,11 +1,6 @@
-using DepartamentoJusticia.Services;
-using Microsoft.EntityFrameworkCore;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddDbContext<Service>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DepartamentoJusticia")));
 builder.Services.AddSession();
 
 var app = builder.Build();

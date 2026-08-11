@@ -1,85 +1,123 @@
 using DepartamentoJusticia.Models;
-using Microsoft.EntityFrameworkCore;
+using System.Data.Entity;
 
 namespace DepartamentoJusticia.Services;
 
 public class Service : DbContext
 {
-    public Service(DbContextOptions<Service> options) : base(options)
+    public Service() : base("DepartamentoJusticia")
     {
     }
 
-    public DbSet<Agente> Agentes { get; set; }
-    public DbSet<CasoJudicial> CasosJudiciales { get; set; }
-    public DbSet<Sospechoso> Sospechosos { get; set; }
-    public DbSet<Evidencia> Evidencias { get; set; }
-    public DbSet<Operativo> Operativos { get; set; }
-    public DbSet<Tribunal> Tribunales { get; set; }
-    public DbSet<Audiencia> Audiencias { get; set; }
-    public DbSet<Usuario> Usuarios { get; set; }
-    public DbSet<Bitacora> Bitacoras { get; set; }
+    public DbSet<Agente> Agentes { get; set; } = null!;
+    public DbSet<CasoJudicial> CasosJudiciales { get; set; } = null!;
+    public DbSet<Sospechoso> Sospechosos { get; set; } = null!;
+    public DbSet<Evidencia> Evidencias { get; set; } = null!;
+    public DbSet<Operativo> Operativos { get; set; } = null!;
+    public DbSet<Tribunal> Tribunales { get; set; } = null!;
+    public DbSet<Audiencia> Audiencias { get; set; } = null!;
+    public DbSet<Usuario> Usuarios { get; set; } = null!;
+    public DbSet<Bitacora> Bitacoras { get; set; } = null!;
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(DbModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
+        // Nombres exactos de las tablas
         modelBuilder.Entity<Agente>()
-            .Property(agente => agente.SalarioBase)
-            .HasColumnType("decimal(18,2)");
+            .ToTable("Agentes");
 
         modelBuilder.Entity<CasoJudicial>()
-            .HasOne(caso => caso.Agente)
-            .WithMany(agente => agente.CasosJudiciales)
-            .HasForeignKey(caso => caso.AgenteId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .ToTable("CasosJudiciales");
 
         modelBuilder.Entity<Sospechoso>()
-            .HasOne(sospechoso => sospechoso.CasoJudicial)
-            .WithMany(caso => caso.Sospechosos)
-            .HasForeignKey(sospechoso => sospechoso.CasoJudicialId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .ToTable("Sospechosos");
 
         modelBuilder.Entity<Evidencia>()
-            .HasOne(evidencia => evidencia.CasoJudicial)
+            .ToTable("Evidencias");
+
+        modelBuilder.Entity<Operativo>()
+            .ToTable("Operativos");
+
+        modelBuilder.Entity<Tribunal>()
+            .ToTable("Tribunales");
+
+        modelBuilder.Entity<Audiencia>()
+            .ToTable("Audiencias");
+
+        modelBuilder.Entity<Usuario>()
+            .ToTable("Usuarios");
+
+        modelBuilder.Entity<Bitacora>()
+            .ToTable("Bitacoras");
+
+        // Precisión para valores monetarios
+        modelBuilder.Entity<Agente>()
+            .Property(agente => agente.SalarioBase)
+            .HasPrecision(18, 2);
+
+        // Caso Judicial -> Agente
+        modelBuilder.Entity<CasoJudicial>()
+            .HasRequired(caso => caso.Agente)
+            .WithMany(agente => agente.CasosJudiciales)
+            .HasForeignKey(caso => caso.AgenteId)
+            .WillCascadeOnDelete(false);
+
+        // Sospechoso -> Caso Judicial
+        modelBuilder.Entity<Sospechoso>()
+            .HasRequired(sospechoso => sospechoso.CasoJudicial)
+            .WithMany(caso => caso.Sospechosos)
+            .HasForeignKey(sospechoso => sospechoso.CasoJudicialId)
+            .WillCascadeOnDelete(false);
+
+        // Evidencia -> Caso Judicial
+        modelBuilder.Entity<Evidencia>()
+            .HasRequired(evidencia => evidencia.CasoJudicial)
             .WithMany(caso => caso.Evidencias)
             .HasForeignKey(evidencia => evidencia.CasoJudicialId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .WillCascadeOnDelete(false);
 
+        // Operativo -> Caso Judicial
         modelBuilder.Entity<Operativo>()
-            .HasOne(operativo => operativo.CasoJudicial)
+            .HasRequired(operativo => operativo.CasoJudicial)
             .WithMany(caso => caso.Operativos)
             .HasForeignKey(operativo => operativo.CasoJudicialId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .WillCascadeOnDelete(false);
 
+        // Operativo -> Agente 1
         modelBuilder.Entity<Operativo>()
-            .HasOne(operativo => operativo.Agente1)
+            .HasRequired(operativo => operativo.Agente1)
             .WithMany()
             .HasForeignKey(operativo => operativo.Agente1Id)
-            .OnDelete(DeleteBehavior.Restrict);
+            .WillCascadeOnDelete(false);
 
+        // Operativo -> Agente 2
         modelBuilder.Entity<Operativo>()
-            .HasOne(operativo => operativo.Agente2)
+            .HasRequired(operativo => operativo.Agente2)
             .WithMany()
             .HasForeignKey(operativo => operativo.Agente2Id)
-            .OnDelete(DeleteBehavior.Restrict);
+            .WillCascadeOnDelete(false);
 
+        // Operativo -> Agente 3
         modelBuilder.Entity<Operativo>()
-            .HasOne(operativo => operativo.Agente3)
+            .HasRequired(operativo => operativo.Agente3)
             .WithMany()
             .HasForeignKey(operativo => operativo.Agente3Id)
-            .OnDelete(DeleteBehavior.Restrict);
+            .WillCascadeOnDelete(false);
 
+        // Audiencia -> Caso Judicial
         modelBuilder.Entity<Audiencia>()
-            .HasOne(audiencia => audiencia.CasoJudicial)
+            .HasRequired(audiencia => audiencia.CasoJudicial)
             .WithMany(caso => caso.Audiencias)
             .HasForeignKey(audiencia => audiencia.CasoJudicialId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .WillCascadeOnDelete(false);
 
+        // Audiencia -> Tribunal
         modelBuilder.Entity<Audiencia>()
-            .HasOne(audiencia => audiencia.Tribunal)
+            .HasRequired(audiencia => audiencia.Tribunal)
             .WithMany(tribunal => tribunal.Audiencias)
             .HasForeignKey(audiencia => audiencia.TribunalId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .WillCascadeOnDelete(false);
     }
 
     #region Agentes Federales
