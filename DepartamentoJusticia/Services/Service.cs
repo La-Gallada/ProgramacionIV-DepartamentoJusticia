@@ -16,6 +16,8 @@ public class Service : DbContext
     public DbSet<Operativo> operativos { get; set; }
     public DbSet<Tribunal> tribunales { get; set; }
     public DbSet<Audiencia> audiencias { get; set; }
+    public DbSet<Usuario> usuarios { get; set; }
+    public DbSet<Bitacora> bitacoras { get; set; }
 
 
 
