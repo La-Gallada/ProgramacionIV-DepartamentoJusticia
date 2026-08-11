@@ -37,7 +37,8 @@ namespace DepartamentoJusticia.Models
             this.SalarioBase = 0;
             this.Estado = "";
         }
-
+        //negro de mierda
+        
 
         [Required]
         public int Id { get => id; set => id = value; }
