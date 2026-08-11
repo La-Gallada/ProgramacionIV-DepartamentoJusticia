@@ -150,9 +150,67 @@ public class Service : DbContext
         return true;
     }
 
+    public Usuario? ValidarUsuario(string nombreUsuario, string contrasenia)
+    {
+        Usuario? usuario = usuarios.FirstOrDefault(u => u.NombreUsuario == nombreUsuario);
+
+        if (usuario == null)
+        {
+            return null;
+        }
+
+        if (usuario.Contrasenia != contrasenia)
+        {
+            return null;
+        }
+
+        if (usuario.Estado != "Activo")
+        {
+            return null;
+        }
+
+        return usuario;
+    }
+
     #endregion
 
     #region Bitácora
+
+    public void RegistrarBitacora(string nombreUsuario, string resultado)
+    {
+        Bitacora bitacora = new Bitacora();
+        bitacora.Fecha = DateTime.Now.Date;
+        bitacora.Hora = DateTime.Now.TimeOfDay;
+        bitacora.NombreUsuario = nombreUsuario;
+        bitacora.Resultado = resultado;
+
+        bitacoras.Add(bitacora);
+        SaveChanges();
+    }
+
+    public List<Bitacora> ObtenerBitacora()
+    {
+        List<Bitacora> listaBitacora = bitacoras.AsNoTracking().ToList();
+        return listaBitacora;
+    }
+
+    public List<Bitacora> BuscarBitacora(string nombreUsuario, string resultado)
+    {
+        IQueryable<Bitacora> consulta = bitacoras.AsNoTracking();
+
+        if (!string.IsNullOrWhiteSpace(nombreUsuario))
+        {
+            consulta = consulta.Where(b => b.NombreUsuario.Contains(nombreUsuario));
+        }
+
+        if (!string.IsNullOrWhiteSpace(resultado))
+        {
+            consulta = consulta.Where(b => b.Resultado == resultado);
+        }
+
+        List<Bitacora> listaBitacora = consulta.ToList();
+        return listaBitacora;
+    }
 
     #endregion
 }

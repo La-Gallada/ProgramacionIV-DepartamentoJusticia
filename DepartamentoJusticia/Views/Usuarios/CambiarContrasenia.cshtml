@@ -15,12 +15,12 @@
 
     <div class="mb-3">
         <label for="nuevaContrasenia" class="form-label">Nueva contrasena</label>
-        <input id="nuevaContrasenia" name="nuevaContrasenia" type="password" class="form-control" />
+        <input id="nuevaContrasenia" name="nuevaContrasenia" type="password" class="form-control" required />
     </div>
 
     <div class="mb-3">
         <label for="confirmarNuevaContrasenia" class="form-label">Confirmar nueva contrasena</label>
-        <input id="confirmarNuevaContrasenia" name="confirmarNuevaContrasenia" type="password" class="form-control" />
+        <input id="confirmarNuevaContrasenia" name="confirmarNuevaContrasenia" type="password" class="form-control" required />
         <span class="text-danger">@Html.ValidationMessage("confirmarNuevaContrasenia")</span>
     </div>
 
