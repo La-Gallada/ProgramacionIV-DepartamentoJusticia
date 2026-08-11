@@ -12,6 +12,8 @@ public class Service : DbContext
     public DbSet<Agente> Agentes { get; set; }
     public DbSet<CasoJudicial> casosJudiciales { get; set; }
     public DbSet<Sospechoso> sospechosos { get; set; }
+    public DbSet<Evidencia> evidencias { get; set; }
+    public DbSet<Operativo> operativos { get; set; }
 
 
 

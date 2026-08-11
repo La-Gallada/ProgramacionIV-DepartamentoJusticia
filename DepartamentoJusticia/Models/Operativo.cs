@@ -4,42 +4,52 @@ namespace DepartamentoJusticia.Models;
 
 public class Operativo
 {
-    public int Id { get; set; }
+    private int id;
+    private string nombreOperativo;
+    private DateTime fechaEjecucion;
+    private string ciudad;
+    private string tipoOperativo;
+    private string nombreAgente1;
+    private string nombreAgente2;
+    private string nombreAgente3;
+    private string resultado;
+    private string numeroCaso;
+    public Operativo(int id, string nombreOperativo, DateTime fechaEjecucion, string ciudad, string tipoOperativo, string nombreAgente1, string nombreAgente2, string nombreAgente3, string resultado, string numeroCaso)
+    {
+        this.Id = id;
+        this.NombreOperativo = nombreOperativo;
+        this.FechaEjecucion = fechaEjecucion;
+        this.Ciudad = ciudad;
+        this.TipoOperativo = tipoOperativo;
+        this.NombreAgente1 = nombreAgente1;
+        this.NombreAgente2 = nombreAgente2;
+        this.NombreAgente3 = nombreAgente3;
+        this.Resultado = resultado;
+        this.NumeroCaso = numeroCaso;
+    }
+    public Operativo()
+    {
+        this.Id = 0;
+        this.NombreOperativo = "";
+        this.FechaEjecucion = DateTime.MinValue;
+        this.Ciudad = "";
+        this.TipoOperativo = "";
+        this.NombreAgente1 = "";
+        this.NombreAgente2 = "";
+        this.NombreAgente3 = "";
+        this.Resultado = "";
+        this.NumeroCaso = "";
+    }
 
     [Required]
-    [Display(Name = "Nombre del operativo")]
-    public string NombreOperativo { get; set; } = string.Empty;
-
-    [Display(Name = "Fecha de ejecución")]
-    public DateTime FechaEjecucion { get; set; }
-
-    [Required]
-    public string Ciudad { get; set; } = string.Empty;
-
-    [Required]
-    [Display(Name = "Tipo de operativo")]
-    public string TipoOperativo { get; set; } = string.Empty;
-
-    [Display(Name = "Agente 1")]
-    public int Agente1Id { get; set; }
-
-    public Agente Agente1 { get; set; } = null!;
-
-    [Display(Name = "Agente 2")]
-    public int Agente2Id { get; set; }
-
-    public Agente Agente2 { get; set; } = null!;
-
-    [Display(Name = "Agente 3")]
-    public int Agente3Id { get; set; }
-
-    public Agente Agente3 { get; set; } = null!;
-
-    [Required]
-    public string Resultado { get; set; } = string.Empty;
-
-    [Display(Name = "Caso judicial")]
-    public int CasoJudicialId { get; set; }
-
-    public CasoJudicial CasoJudicial { get; set; } = null!;
+    public int Id { get => id; set => id = value; }
+    public string NombreOperativo { get => nombreOperativo; set => nombreOperativo = value; }
+    public DateTime FechaEjecucion { get => fechaEjecucion; set => fechaEjecucion = value; }
+    public string Ciudad { get => ciudad; set => ciudad = value; }
+    public string TipoOperativo { get => tipoOperativo; set => tipoOperativo = value; }
+    public string NombreAgente1 { get => nombreAgente1; set => nombreAgente1 = value; }
+    public string NombreAgente2 { get => nombreAgente2; set => nombreAgente2 = value; }
+    public string NombreAgente3 { get => nombreAgente3; set => nombreAgente3 = value; }
+    public string Resultado { get => resultado; set => resultado = value; }
+    public string NumeroCaso { get => numeroCaso; set => numeroCaso = value; }
 }
