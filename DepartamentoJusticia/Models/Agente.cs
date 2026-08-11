@@ -1,36 +1,53 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace DepartamentoJusticia.Models;
-
-public class Agente
+namespace DepartamentoJusticia.Models
 {
-    public int Id { get; set; }
+    public class Agente
+    {
+        private int id;
+        private string numeroPlaca;
+        private string nombreCompleto;
+        private string especialidad;
+        private string rango;
+        private DateTime fechaIngreso;
+        private int aniosExperiencia;
+        private double salarioBase;
+        private string estado;
+        public Agente(int id, string numeroPlaca, string nombreCompleto, string especialidad, string rango, DateTime fechaIngreso, int aniosExperiencia, double salarioBase, string estado)
+        {
+            this.Id = id;
+            this.NumeroPlaca = numeroPlaca;
+            this.NombreCompleto = nombreCompleto;
+            this.Especialidad = especialidad;
+            this.Rango = rango;
+            this.FechaIngreso = fechaIngreso;
+            this.AniosExperiencia = aniosExperiencia;
+            this.SalarioBase = salarioBase;
+            this.Estado = estado;
+        }
+        public Agente()
+        {
+            this.Id = 0;
+            this.NumeroPlaca = "";
+            this.NombreCompleto = "";
+            this.Especialidad = "";
+            this.Rango = "";
+            this.FechaIngreso = DateTime.MinValue;
+            this.AniosExperiencia = 0;
+            this.SalarioBase = 0;
+            this.Estado = "";
+        }
 
-    [Required]
-    [Display(Name = "Número de placa")]
-    public string NumeroPlaca { get; set; } = string.Empty;
 
-    [Required]
-    [Display(Name = "Nombre completo")]
-    public string NombreCompleto { get; set; } = string.Empty;
-
-    [Required]
-    public string Especialidad { get; set; } = string.Empty;
-
-    [Required]
-    public string Rango { get; set; } = string.Empty;
-
-    [Display(Name = "Fecha de ingreso")]
-    public DateTime FechaIngreso { get; set; }
-
-    [Display(Name = "Años de experiencia")]
-    public int AniosExperiencia { get; set; }
-
-    [Display(Name = "Salario base")]
-    public decimal SalarioBase { get; set; }
-
-    [Required]
-    public string Estado { get; set; } = string.Empty;
-
-    public ICollection<CasoJudicial> CasosJudiciales { get; set; } = new List<CasoJudicial>();
+        [Required]
+        public int Id { get => id; set => id = value; }
+        public string NumeroPlaca { get => numeroPlaca; set => numeroPlaca = value; }
+        public string NombreCompleto { get => nombreCompleto; set => nombreCompleto = value; }
+        public string Especialidad { get => especialidad; set => especialidad = value; }
+        public string Rango { get => rango; set => rango = value; }
+        public DateTime FechaIngreso { get => fechaIngreso; set => fechaIngreso = value; }
+        public int AniosExperiencia { get => aniosExperiencia; set => aniosExperiencia = value; }
+        public double SalarioBase { get => salarioBase; set => salarioBase = value; }
+        public string Estado { get => estado; set => estado = value; }
+    }
 }
