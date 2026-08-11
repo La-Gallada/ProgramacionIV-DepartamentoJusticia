@@ -4,39 +4,43 @@ namespace DepartamentoJusticia.Models;
 
 public class CasoJudicial
 {
-    public int Id { get; set; }
-
+    private int id;
+    private string numeroCaso;
+    private string nombreCaso;
+    private string tipoDelito;
+    private string estado;
+    private DateTime fechaApertura;
+    private string descripcion;
+    private string nombreAgente;
+    public CasoJudicial(int id, string numeroCaso, string nombreCaso, string tipoDelito, string estado, DateTime fechaApertura, string descripcion, string nombreAgente)
+    {
+        this.Id = id;
+        this.NumeroCaso = numeroCaso;
+        this.NombreCaso = nombreCaso;
+        this.TipoDelito = tipoDelito;
+        this.Estado = estado;
+        this.FechaApertura = fechaApertura;
+        this.Descripcion = descripcion;
+        this.NombreAgente = nombreAgente;
+    }
+    public CasoJudicial()
+    {
+        this.Id = 0;
+        this.NumeroCaso = "";
+        this.NombreCaso = "";
+        this.TipoDelito = "";
+        this.Estado = "";
+        this.FechaApertura = DateTime.MinValue;
+        this.Descripcion = "";
+        this.NombreAgente = "";
+    }
     [Required]
-    [Display(Name = "Número de caso")]
-    public string NumeroCaso { get; set; } = string.Empty;
-
-    [Required]
-    [Display(Name = "Nombre del caso")]
-    public string NombreCaso { get; set; } = string.Empty;
-
-    [Required]
-    [Display(Name = "Tipo de delito")]
-    public string TipoDelito { get; set; } = string.Empty;
-
-    [Required]
-    public string Estado { get; set; } = string.Empty;
-
-    [Display(Name = "Fecha de apertura")]
-    public DateTime FechaApertura { get; set; }
-
-    [Required]
-    public string Descripcion { get; set; } = string.Empty;
-
-    [Display(Name = "Agente")]
-    public int AgenteId { get; set; }
-
-    public Agente Agente { get; set; } = null!;
-
-    public ICollection<Sospechoso> Sospechosos { get; set; } = new List<Sospechoso>();
-
-    public ICollection<Evidencia> Evidencias { get; set; } = new List<Evidencia>();
-
-    public ICollection<Operativo> Operativos { get; set; } = new List<Operativo>();
-
-    public ICollection<Audiencia> Audiencias { get; set; } = new List<Audiencia>();
+    public int Id { get => id; set => id = value; }
+    public string NumeroCaso { get => numeroCaso; set => numeroCaso = value; }
+    public string NombreCaso { get => nombreCaso; set => nombreCaso = value; }
+    public string TipoDelito { get => tipoDelito; set => tipoDelito = value; }
+    public string Estado { get => estado; set => estado = value; }
+    public DateTime FechaApertura { get => fechaApertura; set => fechaApertura = value; }
+    public string Descripcion { get => descripcion; set => descripcion = value; }
+    public string NombreAgente { get => nombreAgente; set => nombreAgente = value; }
 }
