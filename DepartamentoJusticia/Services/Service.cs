@@ -135,7 +135,50 @@ public class Service : DbContext
 
     #endregion
 
-    #region Operativos
+    #region Operativos CRUD
+    public void agregarOperativo(Operativo operativito)
+    {
+        operativos.Add(operativito);
+        SaveChanges();
+    }
+
+    public List<Operativo> mostrarOperativos()
+    {
+        return operativos.ToList();
+    }
+
+    public Operativo buscarOperativo(int id)
+    {
+        var operativoBuscado = operativos.FirstOrDefault(o => o.Id == id);
+        if (operativoBuscado != null)
+            return operativoBuscado;
+        else throw new Exception("Este operativo no se encuentra registrado");
+    }
+
+    public void eliminarOperativo(Operativo operativito)
+    {
+        operativos.Remove(operativito);
+        SaveChanges();
+    }
+
+    public void actualizarOperativo(Operativo operativito)
+    {
+        var operativoAntiguo = operativos.FirstOrDefault(o => o.Id == operativito.Id);
+        if (operativoAntiguo != null)
+        {
+            operativoAntiguo.NombreOperativo = operativito.NombreOperativo;
+            operativoAntiguo.FechaEjecucion = operativito.FechaEjecucion;
+            operativoAntiguo.Ciudad = operativito.Ciudad;
+            operativoAntiguo.TipoOperativo = operativito.TipoOperativo;
+            operativoAntiguo.NombreAgente1 = operativito.NombreAgente1;
+            operativoAntiguo.NombreAgente2 = operativito.NombreAgente2;
+            operativoAntiguo.NombreAgente3 = operativito.NombreAgente3;
+            operativoAntiguo.Resultado = operativito.Resultado;
+            operativoAntiguo.NumeroCaso = operativito.NumeroCaso;
+            SaveChanges();
+        }
+        else throw new Exception("No se pudo actualizar el operativo");
+    }
 
     #endregion
 
