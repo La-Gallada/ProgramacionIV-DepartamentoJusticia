@@ -1,0 +1,44 @@
+﻿@model List<DepartamentoJusticia.Models.CasoJudicial>
+
+<h1>Lista de Casos Judiciales</h1>
+
+<p>
+    <a asp-action="Create">Agregar Caso</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Número de Caso</th>
+            <th>Nombre del Caso</th>
+            <th>Tipo de Delito</th>
+            <th>Prioridad</th>
+            <th>Estado</th>
+            <th>Fecha de Apertura</th>
+            <th>Descripción</th>
+            <th>Agente Asignado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var caso in Model)
+        {
+            <tr>
+                <td>@caso.Id</td>
+                <td>@caso.NumeroCaso</td>
+                <td>@caso.NombreCaso</td>
+                <td>@caso.TipoDelito</td>
+                <td>@caso.Prioridad</td>
+                <td>@caso.Estado</td>
+                <td>@caso.FechaApertura.ToString("dd/MM/yyyy")</td>
+                <td>@caso.Descripcion</td>
+                <td>@caso.NombreAgente</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@caso.Id">Editar</a> |
+                    <a asp-action="Delete" asp-route-id="@caso.Id">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

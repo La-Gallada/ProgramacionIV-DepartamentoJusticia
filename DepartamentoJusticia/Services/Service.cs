@@ -21,25 +21,25 @@ public class Service : DbContext
 
 
 
-    #region Agentes Federales
+    #region Agentes Federales CRUD
 
-
-
-    #endregion
-
-    #region Casos Judiciales CRUD
     public void agregarAgente(Agente agentito)
-    { 
+    {
         Agentes.Add(agentito);
         SaveChanges();
     }
 
     public List<Agente> mostrarAgentes()
-    { 
+    {
 
-    return Agentes.ToList();
+        return Agentes.ToList();
 
     }
+    public List<Agente> mostrarAgentesActivos()
+    {
+        return Agentes.Where(a => a.Estado == "Activo").ToList();
+    }
+
 
     public Agente buscarAgente(int id)
     {
@@ -50,9 +50,9 @@ public class Service : DbContext
     }
 
     public void eliminarAgente(Agente agentito)
-    { 
-    Agentes.Remove(agentito);
-     SaveChanges();
+    {
+        Agentes.Remove(agentito);
+        SaveChanges();
     }
 
     public void actualizarAgente(Agente agentito)
@@ -72,9 +72,56 @@ public class Service : DbContext
             SaveChanges();
         }
         else throw new Exception("No se pudo actualizar el agente");
-    
+
     }
 
+    #endregion
+
+    #region Casos Judiciales CRUD
+
+    public void agregarCaso(CasoJudicial casito)
+    {
+        casosJudiciales.Add(casito);
+        SaveChanges();
+    }
+
+    public List<CasoJudicial> mostrarCasos()
+    {
+        return casosJudiciales.ToList();
+    }
+
+
+    public CasoJudicial buscarCaso(int id)
+    {
+        var casoBuscado = casosJudiciales.FirstOrDefault(c => c.Id == id);
+        if (casoBuscado != null)
+            return casoBuscado;
+        else throw new Exception("Este caso judicial no se encuentra registrado");
+    }
+
+    public void eliminarCaso(CasoJudicial casito)
+    {
+        casosJudiciales.Remove(casito);
+        SaveChanges();
+    }
+
+    public void actualizarCaso(CasoJudicial casito)
+    {
+        var casoAntiguo = casosJudiciales.FirstOrDefault(c => c.Id == casito.Id);
+        if (casoAntiguo != null)
+        {
+            casoAntiguo.NumeroCaso = casito.NumeroCaso;
+            casoAntiguo.NombreCaso = casito.NombreCaso;
+            casoAntiguo.TipoDelito = casito.TipoDelito;
+            casoAntiguo.Estado = casito.Estado;
+            casoAntiguo.FechaApertura = casito.FechaApertura;
+            casoAntiguo.Descripcion = casito.Descripcion;
+            casoAntiguo.NombreAgente = casito.NombreAgente;
+            casoAntiguo.Prioridad = casito.Prioridad;
+            SaveChanges();
+        }
+        else throw new Exception("No se pudo actualizar el caso judicial");
+    }
 
 
 

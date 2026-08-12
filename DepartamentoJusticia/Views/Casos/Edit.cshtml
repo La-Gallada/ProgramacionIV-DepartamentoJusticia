@@ -1,0 +1,71 @@
+﻿@model DepartamentoJusticia.Models.CasoJudicial
+<h1>Editar Caso Judicial</h1>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        @{
+            var agentes = ViewBag.Agentes;
+        }
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="NumeroCaso" class="control-label"></label>
+                <input asp-for="NumeroCaso" class="form-control" />
+                <span asp-validation-for="NumeroCaso" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NombreCaso" class="control-label"></label>
+                <input asp-for="NombreCaso" class="form-control" />
+                <span asp-validation-for="NombreCaso" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TipoDelito" class="control-label"></label>
+                <select asp-for="TipoDelito" class="form-control">
+                    <option value="">Seleccione un tipo de delito</option>
+                    <option value="Contra las personas">Contra las personas</option>
+                    <option value="Contra el Patrimonio">Contra el Patrimonio</option>
+                    <option value="Económicos">Económicos</option>
+                    <option value="Contra la Seguridad Pública">Contra la Seguridad Pública</option>
+                    <option value="Contra el Estado">Contra el Estado</option>
+                </select>
+                <span asp-validation-for="TipoDelito" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Estado" class="control-label"></label>
+                <select asp-for="Estado" class="form-control">
+                    <option value="">Seleccione un estado</option>
+                    <option value="Ingresado">Ingresado</option>
+                    <option value="En proceso">En proceso</option>
+                    <option value="Finalizado">Finalizado</option>
+                </select>
+                <span asp-validation-for="Estado" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechaApertura" class="control-label"></label>
+                <input asp-for="FechaApertura" type="date" class="form-control" />
+                <span asp-validation-for="FechaApertura" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Descripcion" class="control-label"></label>
+                <textarea asp-for="Descripcion" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="Descripcion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NombreAgente" class="control-label"></label>
+                <select asp-for="NombreAgente" class="form-control">
+                    <option value="">Seleccione un agente</option>
+                    @foreach (var agente in agentes)
+                    {
+                        <option value="@agente.NombreCompleto">@agente.NombreCompleto</option>
+                    }
+                </select>
+                <span asp-validation-for="NombreAgente" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3">
+                <input type="submit" value="Guardar cambios" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
