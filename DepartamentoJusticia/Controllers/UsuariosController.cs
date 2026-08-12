@@ -13,14 +13,15 @@ public class UsuariosController : ControladorBase
         this.service = service;
     }
 
-    public IActionResult Index(string nombreCompleto, string nombreUsuario, string cargo, string estado)
+    public IActionResult Index(string nombreCompleto, string identificacion, string nombreUsuario, string cargo, string estado)
     {
         ViewBag.NombreCompleto = nombreCompleto;
+        ViewBag.Identificacion = identificacion;
         ViewBag.NombreUsuario = nombreUsuario;
         ViewBag.Cargo = cargo;
         ViewBag.Estado = estado;
 
-        List<Usuario> listaUsuarios = service.BuscarUsuarios(nombreCompleto, nombreUsuario, cargo, estado);
+        List<Usuario> listaUsuarios = service.BuscarUsuarios(nombreCompleto, identificacion, nombreUsuario, cargo, estado);
         return View(listaUsuarios);
     }
 

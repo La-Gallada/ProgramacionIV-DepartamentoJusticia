@@ -108,13 +108,18 @@ public class Service : DbContext
         return usuarios.Any(u => u.NombreUsuario == nombreUsuario && u.Id != idExcluir);
     }
 
-    public List<Usuario> BuscarUsuarios(string nombreCompleto, string nombreUsuario, string cargo, string estado)
+    public List<Usuario> BuscarUsuarios(string nombreCompleto, string identificacion, string nombreUsuario, string cargo, string estado)
     {
         IQueryable<Usuario> consulta = usuarios.AsNoTracking();
 
         if (!string.IsNullOrWhiteSpace(nombreCompleto))
         {
             consulta = consulta.Where(u => u.NombreCompleto.Contains(nombreCompleto));
+        }
+
+        if (!string.IsNullOrWhiteSpace(identificacion))
+        {
+            consulta = consulta.Where(u => u.Identificacion.Contains(identificacion));
         }
 
         if (!string.IsNullOrWhiteSpace(nombreUsuario))
