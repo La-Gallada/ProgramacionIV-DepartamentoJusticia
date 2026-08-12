@@ -1,3 +1,4 @@
+using DepartamentoJusticia.Models;
 using DepartamentoJusticia.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,11 +18,13 @@ public class LoginController : Controller
     {
         return View();
     }
-
+    
     [HttpPost]
     public IActionResult Index(string nombreUsuario, string contrasenia)
     {
-        if (service.ValidarUsuario(nombreUsuario, contrasenia) == null)
+        Usuario? usuario = service.ValidarUsuario(nombreUsuario, contrasenia);
+
+        if (usuario == null)
         {
             service.RegistrarBitacora(nombreUsuario, "Fallido");
             ModelState.AddModelError("", "Las credenciales son invalidas o el usuario no esta activo.");
@@ -29,6 +32,13 @@ public class LoginController : Controller
         }
 
         service.RegistrarBitacora(nombreUsuario, "Exitoso");
-        return RedirectToAction("Index", "Usuarios");
+        HttpContext.Session.SetString("Username", usuario.NombreUsuario);
+        return RedirectToAction("Index", "Inicio");
+    }
+
+    public IActionResult Logout()
+    {
+        HttpContext.Session.Clear();
+        return RedirectToAction("Index", "Login");
     }
 }
