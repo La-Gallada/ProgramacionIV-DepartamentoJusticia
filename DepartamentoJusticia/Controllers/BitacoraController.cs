@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DepartamentoJusticia.Controllers;
 
-public class BitacoraController : Controller
+public class BitacoraController : ControladorBase
 {
     private readonly Service service;
 

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DepartamentoJusticia.Controllers;
 
-public class UsuariosController : Controller
+public class UsuariosController : ControladorBase
 {
     private readonly Service service;
 
