@@ -13,12 +13,13 @@ public class BitacoraController : ControladorBase
         this.service = service;
     }
 
-    public IActionResult Index(string nombreUsuario, string resultado)
+    public IActionResult Index(string nombreUsuario, string resultado, DateTime? fecha)
     {
         ViewBag.NombreUsuario = nombreUsuario;
         ViewBag.Resultado = resultado;
+        ViewBag.Fecha = fecha?.ToString("yyyy-MM-dd");
 
-        List<Bitacora> listaBitacora = service.BuscarBitacora(nombreUsuario, resultado);
+        List<Bitacora> listaBitacora = service.BuscarBitacora(nombreUsuario, resultado, fecha);
         return View(listaBitacora);
     }
 }

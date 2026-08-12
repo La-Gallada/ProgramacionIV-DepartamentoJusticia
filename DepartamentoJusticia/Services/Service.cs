@@ -199,7 +199,7 @@ public class Service : DbContext
         return listaBitacora;
     }
 
-    public List<Bitacora> BuscarBitacora(string nombreUsuario, string resultado)
+    public List<Bitacora> BuscarBitacora(string nombreUsuario, string resultado, DateTime? fecha)
     {
         IQueryable<Bitacora> consulta = bitacoras.AsNoTracking();
 
@@ -211,6 +211,12 @@ public class Service : DbContext
         if (!string.IsNullOrWhiteSpace(resultado))
         {
             consulta = consulta.Where(b => b.Resultado == resultado);
+        }
+
+        if (fecha.HasValue)
+        {
+            DateTime fechaBuscar = fecha.Value.Date;
+            consulta = consulta.Where(b => b.Fecha == fechaBuscar);
         }
 
         List<Bitacora> listaBitacora = consulta.ToList();
