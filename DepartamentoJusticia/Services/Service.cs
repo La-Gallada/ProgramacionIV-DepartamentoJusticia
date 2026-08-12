@@ -199,7 +199,7 @@ public class Service : DbContext
         return listaBitacora;
     }
 
-    public List<Bitacora> BuscarBitacora(string nombreUsuario, string resultado, DateTime? fecha, string orden)
+    public List<Bitacora> BuscarBitacora(string nombreUsuario, string resultado, DateTime? fecha)
     {
         IQueryable<Bitacora> consulta = bitacoras.AsNoTracking();
 
@@ -219,14 +219,7 @@ public class Service : DbContext
             consulta = consulta.Where(b => b.Fecha == fechaBuscar);
         }
 
-        if (orden == "antiguos")
-        {
-            consulta = consulta.OrderBy(b => b.Fecha).ThenBy(b => b.Hora);
-        }
-        else
-        {
-            consulta = consulta.OrderByDescending(b => b.Fecha).ThenByDescending(b => b.Hora);
-        }
+        consulta = consulta.OrderByDescending(b => b.Fecha).ThenByDescending(b => b.Hora);
 
         List<Bitacora> listaBitacora = consulta.ToList();
         return listaBitacora;
