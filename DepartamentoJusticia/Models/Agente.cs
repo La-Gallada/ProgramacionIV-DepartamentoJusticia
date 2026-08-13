@@ -40,6 +40,7 @@ namespace DepartamentoJusticia.Models
             this.Estado = "";
             this.SalarioTotal = 0;
         }
+        //Pacha con jet
 
         public double CalcularSalarioTotal()
         {
