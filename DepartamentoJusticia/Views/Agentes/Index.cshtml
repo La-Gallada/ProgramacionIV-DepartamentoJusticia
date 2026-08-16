@@ -5,6 +5,36 @@
 <p>
     <a asp-action="Create">Agregar Agente</a>
 </p>
+<form asp-action="Index" method="post" class="mb-3">
+    <div class="form-group d-flex align-items-end" style="gap: 10px;">
+        <div>
+            <label for="nombreCompleto" class="control-label">Nombre completo</label>
+            <input type="text" name="nombreCompleto" id="nombreCompleto" class="form-control" />
+        </div>
+        <div style="min-width: 250px;">
+            <label for="especialidad" class="control-label">Especialidad</label>
+            <select name="especialidad" id="especialidad" class="form-control">
+                <option value="">Todas</option>
+                <option value="Investigación Criminal y Narcóticos">Investigación Criminal y Narcóticos</option>
+                <option value="Manejo de Explosivos">Manejo de Explosivos</option>
+                <option value="Ciberseguridad y Delitos Tecnológicos">Ciberseguridad y Delitos Tecnológicos</option>
+                <option value="Tácticas Especiales y Rescate">Tácticas Especiales y Rescate</option>
+                <option value="Forense">Forense</option>
+            </select>
+        </div>
+        <div style="min-width: 200px;">
+            <label for="rango" class="control-label">Rango</label>
+            <select name="rango" id="rango" class="form-control">
+                <option value="">Todos</option>
+                <option value="Especial">Especial</option>
+                <option value="Supervisor">Supervisor</option>
+                <option value="Adjunto a Cargo">Adjunto a Cargo</option>
+                <option value="Directivos Superiores">Directivos Superiores</option>
+            </select>
+        </div>
+        <input type="submit" value="Buscar" class="btn btn-primary" />
+    </div>
+</form>
 
 <table class="table">
     <thead>

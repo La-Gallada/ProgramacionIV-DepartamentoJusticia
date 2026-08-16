@@ -5,6 +5,35 @@
 <p>
     <a asp-action="Create">Agregar Caso</a>
 </p>
+<form asp-action="Index" method="post" class="mb-3">
+    <div class="form-group d-flex align-items-end" style="gap: 10px;">
+        <div>
+            <label for="numeroCaso" class="control-label">Número de caso</label>
+            <input type="text" name="numeroCaso" id="numeroCaso" class="form-control" />
+        </div>
+        <div style="min-width: 250px;">
+            <label for="tipoDelito" class="control-label">Tipo de delito</label>
+            <select name="tipoDelito" id="tipoDelito" class="form-control">
+                <option value="">Todos</option>
+                <option value="Contra las personas">Contra las personas</option>
+                <option value="Contra el Patrimonio">Contra el Patrimonio</option>
+                <option value="Económicos">Económicos</option>
+                <option value="Contra la Seguridad Pública">Contra la Seguridad Pública</option>
+                <option value="Contra el Estado">Contra el Estado</option>
+            </select>
+        </div>
+        <div style="min-width: 150px;">
+            <label for="prioridad" class="control-label">Prioridad</label>
+            <select name="prioridad" id="prioridad" class="form-control">
+                <option value="">Todas</option>
+                <option value="Alta">Alta</option>
+                <option value="Media">Media</option>
+                <option value="Baja">Baja</option>
+            </select>
+        </div>
+        <input type="submit" value="Buscar" class="btn btn-primary" />
+    </div>
+</form>
 
 <table class="table">
     <thead>
