@@ -1,0 +1,37 @@
+@model Evidencia
+
+@{
+    ViewData["Title"] = "Eliminar evidencia";
+}
+
+<h1>Eliminar evidencia</h1>
+
+<p>Confirme si desea eliminar la siguiente evidencia.</p>
+
+<dl class="row">
+    <dt class="col-sm-3">Codigo</dt>
+    <dd class="col-sm-9">@Model.Codigo</dd>
+
+    <dt class="col-sm-3">Tipo de evidencia</dt>
+    <dd class="col-sm-9">@Model.TipoEvidencia</dd>
+
+    <dt class="col-sm-3">Descripcion</dt>
+    <dd class="col-sm-9">@Model.Descripcion</dd>
+
+    <dt class="col-sm-3">Lugar del hallazgo</dt>
+    <dd class="col-sm-9">@Model.LugarHallazgo</dd>
+
+    <dt class="col-sm-3">Fecha de recoleccion</dt>
+    <dd class="col-sm-9">@Model.FechaRecoleccion.ToString("dd/MM/yyyy")</dd>
+
+    <dt class="col-sm-3">Caso judicial</dt>
+    <dd class="col-sm-9">@Model.NumeroCaso</dd>
+</dl>
+
+<form asp-action="Delete" method="post">
+    <input asp-for="Id" type="hidden" />
+    <input name="confirmar" type="hidden" value="si" />
+
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

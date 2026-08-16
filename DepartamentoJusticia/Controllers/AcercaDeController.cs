@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DepartamentoJusticia.Controllers;
 
-public class InicioController : ControladorBase
+public class AcercaDeController : ControladorBase
 {
-    public IActionResult Index()
+    public ActionResult Index()
     {
         return View();
     }

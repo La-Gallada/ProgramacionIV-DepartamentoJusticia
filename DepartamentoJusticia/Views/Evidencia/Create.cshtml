@@ -1,0 +1,66 @@
+@model Evidencia
+
+@{
+    ViewData["Title"] = "Agregar evidencia";
+    List<CasoJudicial>? casosJudiciales = ViewBag.CasosJudiciales as List<CasoJudicial>;
+}
+
+<h1>Agregar evidencia</h1>
+
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="Id" class="form-label">Id</label>
+        <input asp-for="Id" type="number" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Codigo" class="form-label">Codigo</label>
+        <input asp-for="Codigo" type="text" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="TipoEvidencia" class="form-label">Tipo de evidencia</label>
+        <select asp-for="TipoEvidencia" class="form-select" required>
+            <option value="">Seleccione</option>
+            <option value="Biologica">Biologica</option>
+            <option value="Digital">Digital</option>
+            <option value="Balistica">Balistica</option>
+            <option value="Documental">Documental</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Descripcion" class="form-label">Descripcion</label>
+        <textarea asp-for="Descripcion" class="form-control" rows="3" required></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="LugarHallazgo" class="form-label">Lugar del hallazgo</label>
+        <input asp-for="LugarHallazgo" type="text" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="FechaRecoleccion" class="form-label">Fecha de recoleccion</label>
+        <input asp-for="FechaRecoleccion" type="date" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="NumeroCaso" class="form-label">Caso judicial</label>
+        <select asp-for="NumeroCaso" class="form-select" required>
+            <option value="">Seleccione</option>
+            @if (casosJudiciales != null)
+            {
+                @foreach (CasoJudicial caso in casosJudiciales)
+                {
+                    <option value="@caso.NumeroCaso">@caso.NumeroCaso - @caso.NombreCaso</option>
+                }
+            }
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <button type="reset" class="btn btn-secondary">Limpiar</button>
+    <a asp-action="Index" class="btn btn-link">Volver al listado</a>
+</form>
