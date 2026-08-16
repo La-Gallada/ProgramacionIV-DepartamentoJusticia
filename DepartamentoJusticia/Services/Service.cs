@@ -1,5 +1,6 @@
 using DepartamentoJusticia.Models;
 using System.Data.Entity;
+using System.Linq;
 
 namespace DepartamentoJusticia.Services;
 
@@ -18,7 +19,7 @@ public class Service : DbContext
     public DbSet<Audiencia> audiencias { get; set; }
     public DbSet<Usuario> usuarios { get; set; }
     public DbSet<Bitacora> bitacoras { get; set; }
-
+    //holaas
 
 
     #region Agentes Federales
@@ -26,6 +27,10 @@ public class Service : DbContext
     #endregion
 
     #region Casos Judiciales
+    public List<CasoJudicial> mostrarCasoJudicial()
+    {
+        return casosJudiciales.ToList();
+    }
 
     #endregion
 
@@ -34,7 +39,70 @@ public class Service : DbContext
     #endregion
 
     #region Evidencias
+    public void agregarEvidencia(Evidencia evidencita)
+    {
+        evidencias.Add(evidencita);
+        SaveChanges();
+    }
 
+    public List<Evidencia> mostrarEvidencias()
+    {
+        return evidencias.ToList();
+    }
+
+    public List<Evidencia> buscarEvidencias(string codigo, string tipoEvidencia, DateTime? fechaRecoleccion)
+    {
+        IQueryable<Evidencia> consulta = evidencias;
+
+        if (!string.IsNullOrWhiteSpace(codigo))
+        {
+            consulta = consulta.Where(e => e.Codigo.Contains(codigo));
+        }
+
+        if (!string.IsNullOrWhiteSpace(tipoEvidencia))
+        {
+            consulta = consulta.Where(e => e.TipoEvidencia == tipoEvidencia);
+        }
+
+        if (fechaRecoleccion.HasValue)
+        {
+            DateTime fechaBuscar = fechaRecoleccion.Value.Date;
+            consulta = consulta.Where(e => DbFunctions.TruncateTime(e.FechaRecoleccion) == fechaBuscar);
+        }
+
+        return consulta.ToList();
+    }
+
+    public Evidencia buscarEvidencia(int id)
+    {
+        var evidenciaBuscada = evidencias.FirstOrDefault(v => v.Id == id);
+        if (evidenciaBuscada != null)
+            return evidenciaBuscada;
+        else throw new Exception("No se encuentra esa evidencia");
+    }
+
+    public void eliminarEvidencia(Evidencia evidencita)
+    {
+        evidencias.Remove(evidencita);
+        SaveChanges();
+    }
+
+    public void actualizarEvidencia(Evidencia evidencita)
+    {
+        var evidenciaAntigua = evidencias.FirstOrDefault(v => v.Id == evidencita.Id);
+        if (evidenciaAntigua != null)
+        {
+            evidenciaAntigua.Codigo = evidencita.Codigo;
+            evidenciaAntigua.TipoEvidencia = evidencita.TipoEvidencia;
+            evidenciaAntigua.Descripcion = evidencita.Descripcion;
+            evidenciaAntigua.LugarHallazgo = evidencita.LugarHallazgo;
+            evidenciaAntigua.FechaRecoleccion = evidencita.FechaRecoleccion;
+            evidenciaAntigua.NumeroCaso = evidencita.NumeroCaso;
+            
+            SaveChanges();
+        }
+        else throw new Exception("No se pudo actualizar la evidencia");
+    }
     #endregion
 
     #region Operativos
@@ -42,7 +110,72 @@ public class Service : DbContext
     #endregion
 
     #region Tribunales
+    public void agregarTribunal(Tribunal tribunalito)
+    {
+        tribunales.Add(tribunalito);
+        SaveChanges();
+    }
 
+    public List<Tribunal> mostrarTribunales()
+    {
+        return tribunales.ToList();
+    }
+
+    public List<Tribunal> buscarTribunales(string nombre, string ciudad, string estado, string juezAsignado)
+    {
+        IQueryable<Tribunal> consulta = tribunales;
+
+        if (!string.IsNullOrWhiteSpace(nombre))
+        {
+            consulta = consulta.Where(t => t.Nombre.Contains(nombre));
+        }
+
+        if (!string.IsNullOrWhiteSpace(ciudad))
+        {
+            consulta = consulta.Where(t => t.Ciudad.Contains(ciudad));
+        }
+
+        if (!string.IsNullOrWhiteSpace(estado))
+        {
+            consulta = consulta.Where(t => t.Estado == estado);
+        }
+
+        if (!string.IsNullOrWhiteSpace(juezAsignado))
+        {
+            consulta = consulta.Where(t => t.JuezAsignado.Contains(juezAsignado));
+        }
+
+        return consulta.ToList();
+    }
+
+    public Tribunal buscarTribunal(int id)
+    {
+        var tribunalBuscado = tribunales.FirstOrDefault(v => v.Id == id);
+        if (tribunalBuscado != null)
+            return tribunalBuscado;
+        else throw new Exception("No se encuentra ese tribunal");
+    }
+
+    public void eliminarTribunal(Tribunal tribunalito)
+    {
+        tribunales.Remove(tribunalito);
+        SaveChanges();
+    }
+
+    public void actualizarTribunal(Tribunal tribunalito)
+    {
+        var tribunalAntiguo = tribunales.FirstOrDefault(v => v.Id == tribunalito.Id);
+        if (tribunalAntiguo != null)
+        {
+            tribunalAntiguo.Nombre = tribunalito.Nombre;
+            tribunalAntiguo.Estado = tribunalito.Estado;
+            tribunalAntiguo.Ciudad = tribunalito.Ciudad;
+            tribunalAntiguo.JuezAsignado = tribunalito.JuezAsignado;
+            tribunalAntiguo.CantidadSalas = tribunalito.CantidadSalas;
+            SaveChanges();
+        }
+        else throw new Exception("No se pudo actualizar el tribunal");
+    }
     #endregion
 
     #region Audiencias

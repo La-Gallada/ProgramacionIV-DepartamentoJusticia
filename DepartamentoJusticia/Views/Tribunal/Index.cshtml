@@ -1,0 +1,68 @@
+@model IEnumerable<Tribunal>
+
+@{
+    ViewData["Title"] = "Tribunales";
+}
+
+<h1>Tribunales</h1>
+
+<form asp-action="Index" method="get" class="mb-3">
+    <div class="row">
+        <div class="col-md-3 mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input id="nombre" name="nombre" type="text" class="form-control" value="@ViewBag.Nombre" />
+        </div>
+        <div class="col-md-3 mb-3">
+            <label for="ciudad" class="form-label">Ciudad</label>
+            <input id="ciudad" name="ciudad" type="text" class="form-control" value="@ViewBag.Ciudad" />
+        </div>
+        <div class="col-md-3 mb-3">
+            <label for="estado" class="form-label">Estado</label>
+            <select id="estado" name="estado" class="form-select">
+                <option value="">Todos</option>
+                <option value="Activo" selected="@(ViewBag.Estado == "Activo")">Activo</option>
+                <option value="Inactivo" selected="@(ViewBag.Estado == "Inactivo")">Inactivo</option>
+            </select>
+        </div>
+        <div class="col-md-3 mb-3">
+            <label for="juezAsignado" class="form-label">Juez asignado</label>
+            <input id="juezAsignado" name="juezAsignado" type="text" class="form-control" value="@ViewBag.JuezAsignado" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Buscar</button>
+    <a asp-action="Index" class="btn btn-secondary">Limpiar</a>
+</form>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Agregar tribunal</a>
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Estado</th>
+            <th>Ciudad</th>
+            <th>Juez asignado</th>
+            <th>Cantidad de salas</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Tribunal tribunal in Model)
+        {
+            <tr>
+                <td>@tribunal.Nombre</td>
+                <td>@tribunal.Estado</td>
+                <td>@tribunal.Ciudad</td>
+                <td>@tribunal.JuezAsignado</td>
+                <td>@tribunal.CantidadSalas</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@tribunal.Id">Editar</a> |
+                    <a asp-action="Delete" asp-route-id="@tribunal.Id">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
