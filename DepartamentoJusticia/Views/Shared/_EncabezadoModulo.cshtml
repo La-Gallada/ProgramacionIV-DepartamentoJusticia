@@ -1,0 +1,30 @@
+@*
+    Encabezado estandar de un modulo: titulo, descripcion y boton de agregar.
+
+    Uso desde cualquier vista:
+        <partial name="_EncabezadoModulo" model='new EncabezadoModulo {
+            Titulo = "Sospechosos",
+            Descripcion = "Personas vinculadas a los casos judiciales.",
+            TextoBoton = "Agregar sospechoso",
+            Controlador = "Sospechosos",
+            Accion = "Crear" }' />
+
+    Si no se quiere boton, dejar TextoBoton en null.
+*@
+@model DepartamentoJusticia.ViewModels.EncabezadoModulo
+
+<div class="dj-encabezado">
+    <div>
+        <h1>@Model.Titulo</h1>
+        @if (!string.IsNullOrWhiteSpace(Model.Descripcion))
+        {
+            <p>@Model.Descripcion</p>
+        }
+    </div>
+    @if (!string.IsNullOrWhiteSpace(Model.TextoBoton))
+    {
+        <a class="dj-boton dj-boton-primario"
+           asp-controller="@Model.Controlador"
+           asp-action="@Model.Accion">@Model.TextoBoton</a>
+    }
+</div>

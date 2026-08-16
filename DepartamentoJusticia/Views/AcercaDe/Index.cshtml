@@ -1,0 +1,67 @@
+@{
+    ViewData["Title"] = "Acerca de";
+}
+
+<partial name="_EncabezadoModulo" model='new EncabezadoModulo {
+    Titulo = "Acerca del sistema",
+    Descripcion = "Informacion general del proyecto y del equipo de desarrollo." }' />
+
+<div class="dj-panel">
+    <div class="dj-panel-titulo">Identificacion del proyecto</div>
+    <div class="dj-panel-cuerpo">
+        <dl class="dj-detalle">
+            <div class="dj-detalle-item">
+                <dt>Nombre de la aplicacion</dt>
+                <dd>Sistema del Departamento de Justicia</dd>
+            </div>
+            <div class="dj-detalle-item">
+                <dt>Universidad</dt>
+                <dd>@ViewBag.Universidad</dd>
+            </div>
+            <div class="dj-detalle-item">
+                <dt>Curso</dt>
+                <dd>@ViewBag.Curso</dd>
+            </div>
+            <div class="dj-detalle-item">
+                <dt>Profesora</dt>
+                <dd>@ViewBag.Profesora</dd>
+            </div>
+            <div class="dj-detalle-item">
+                <dt>Version del sistema</dt>
+                <dd>@ViewBag.Version</dd>
+            </div>
+        </dl>
+    </div>
+</div>
+
+<div class="dj-panel">
+    <div class="dj-panel-titulo">Integrantes del grupo</div>
+    <div class="dj-panel-cuerpo">
+        <div class="dj-tabla-envoltura">
+            <table class="dj-tabla">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Responsabilidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var integrante in (List<string[]>)ViewBag.Integrantes)
+                    {
+                        <tr>
+                            <td>@integrante[0]</td>
+                            <td>@integrante[1]</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="dj-panel">
+    <div class="dj-panel-titulo">Imagen institucional</div>
+    <div class="dj-panel-cuerpo">
+        <img src="~/img/portada.svg" alt="Departamento de Justicia" style="width:100%;border-radius:6px;" />
+    </div>
+</div>
