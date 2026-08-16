@@ -48,6 +48,13 @@ public class Service : DbContext
             return agenteBuscado;
         else throw new Exception("Este agente no se encuentra registrado");
     }
+    public Agente buscarAgentePorNombre(string nombreCompleto)
+    {
+        var agenteBuscado = Agentes.FirstOrDefault(a => a.NombreCompleto == nombreCompleto);
+        if (agenteBuscado != null)
+            return agenteBuscado;
+        else throw new Exception("Este agente no se encuentra registrado");
+    }
 
     public void eliminarAgente(Agente agentito)
     {
@@ -73,6 +80,21 @@ public class Service : DbContext
         }
         else throw new Exception("No se pudo actualizar el agente");
 
+    }
+
+    public List<Agente> buscarAgentesPorNombre(string nombreCompleto)
+    {
+        return Agentes.Where(a => a.NombreCompleto == nombreCompleto).ToList();
+    }
+
+    public List<Agente> buscarAgentesPorEspecialidad(string especialidad)
+    {
+        return Agentes.Where(a => a.Especialidad == especialidad).ToList();
+    }
+
+    public List<Agente> buscarAgentesPorRango(string rango)
+    {
+        return Agentes.Where(a => a.Rango == rango).ToList();
     }
 
     #endregion
@@ -123,7 +145,20 @@ public class Service : DbContext
         else throw new Exception("No se pudo actualizar el caso judicial");
     }
 
+    public List<CasoJudicial> buscarCasosPorNumero(string numeroCaso)
+    {
+        return casosJudiciales.Where(c => c.NumeroCaso == numeroCaso).ToList();
+    }
 
+    public List<CasoJudicial> buscarCasosPorTipoDelito(string tipoDelito)
+    {
+        return casosJudiciales.Where(c => c.TipoDelito == tipoDelito).ToList();
+    }
+
+    public List<CasoJudicial> buscarCasosPorPrioridad(string prioridad)
+    {
+        return casosJudiciales.Where(c => c.Prioridad == prioridad).ToList();
+    }
 
     #endregion
 
@@ -175,9 +210,29 @@ public class Service : DbContext
             operativoAntiguo.NombreAgente3 = operativito.NombreAgente3;
             operativoAntiguo.Resultado = operativito.Resultado;
             operativoAntiguo.NumeroCaso = operativito.NumeroCaso;
+            operativoAntiguo.CostoOperativo = operativito.CostoOperativo;
             SaveChanges();
         }
         else throw new Exception("No se pudo actualizar el operativo");
+    }
+    public List<Operativo> buscarOperativosPorCiudad(string ciudad)
+    {
+        return operativos.Where(o => o.Ciudad == ciudad).ToList();
+    }
+
+    public List<Operativo> buscarOperativosPorFecha(DateTime fecha)
+    {
+        return operativos.Where(o => o.FechaEjecucion == fecha).ToList();
+    }
+
+    public List<Operativo> buscarOperativosPorTipo(string tipoOperativo)
+    {
+        return operativos.Where(o => o.TipoOperativo == tipoOperativo).ToList();
+    }
+
+    public List<Operativo> buscarOperativosPorResultado(string resultado)
+    {
+        return operativos.Where(o => o.Resultado == resultado).ToList();
     }
 
     #endregion
