@@ -3,23 +3,21 @@ using DepartamentoJusticia.Models;
 using DepartamentoJusticia.Services;
 namespace DepartamentoJusticia.Controllers;
 
-public class EvidenciaController : Controller
+public class EvidenciaController : ControladorBase
 {
     Service service;
 
     public EvidenciaController() { service = new Service(); }
 
     // GET: EvidenciaController
-    public ActionResult Index()
+    public ActionResult Index(string codigo, string tipoEvidencia, DateTime? fechaRecoleccion)
     {
-        var evidencias = service.mostrarEvidencias();
-        return View(evidencias);
-    }
+        ViewBag.Codigo = codigo;
+        ViewBag.TipoEvidencia = tipoEvidencia;
+        ViewBag.FechaRecoleccion = fechaRecoleccion?.ToString("yyyy-MM-dd");
 
-    // GET: EvidenciaController/Details/5
-    public ActionResult Details(int id)
-    {
-        return View();
+        var evidencias = service.buscarEvidencias(codigo, tipoEvidencia, fechaRecoleccion);
+        return View(evidencias);
     }
 
     // GET: EvidenciaController/Create
@@ -41,11 +39,13 @@ public class EvidenciaController : Controller
                 service.agregarEvidencia(evidencita);
                 return RedirectToAction("Index");
             }
-            else return View();
+            ViewBag.CasosJudiciales = service.mostrarCasoJudicial();
+            return View(evidencita);
         }
         catch
         {
-            return View();
+            ViewBag.CasosJudiciales = service.mostrarCasoJudicial();
+            return View(evidencita);
         }
     }
 
@@ -78,12 +78,29 @@ public class EvidenciaController : Controller
         }
         catch
         {
-            return View();
+            ViewBag.CasosJudiciales = service.mostrarCasoJudicial();
+            return View(evidencita);
         }
     }
 
     // GET: EvidenciaController/Delete/5
     public ActionResult Delete(int id)
+    {
+        try
+        {
+            var evidenciaBuscada = service.buscarEvidencia(id);
+            return View(evidenciaBuscada);
+        }
+        catch (Exception)
+        {
+            return RedirectToAction("Index");
+        }
+    }
+
+    // POST: EvidenciaController/Delete/5
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public ActionResult Delete(int id, string confirmar)
     {
         try
         {

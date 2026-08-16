@@ -1,0 +1,68 @@
+@model IEnumerable<Evidencia>
+
+@{
+    ViewData["Title"] = "Evidencias";
+}
+
+<h1>Evidencias</h1>
+
+<form asp-action="Index" method="get" class="mb-3">
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <label for="codigo" class="form-label">Codigo</label>
+            <input id="codigo" name="codigo" type="text" class="form-control" value="@ViewBag.Codigo" />
+        </div>
+        <div class="col-md-4 mb-3">
+            <label for="tipoEvidencia" class="form-label">Tipo de evidencia</label>
+            <select id="tipoEvidencia" name="tipoEvidencia" class="form-select">
+                <option value="">Todos</option>
+                <option value="Biologica" selected="@(ViewBag.TipoEvidencia == "Biologica")">Biologica</option>
+                <option value="Digital" selected="@(ViewBag.TipoEvidencia == "Digital")">Digital</option>
+                <option value="Balistica" selected="@(ViewBag.TipoEvidencia == "Balistica")">Balistica</option>
+                <option value="Documental" selected="@(ViewBag.TipoEvidencia == "Documental")">Documental</option>
+            </select>
+        </div>
+        <div class="col-md-4 mb-3">
+            <label for="fechaRecoleccion" class="form-label">Fecha de recoleccion</label>
+            <input id="fechaRecoleccion" name="fechaRecoleccion" type="date" class="form-control" value="@ViewBag.FechaRecoleccion" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Buscar</button>
+    <a asp-action="Index" class="btn btn-secondary">Limpiar</a>
+</form>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Agregar evidencia</a>
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Codigo</th>
+            <th>Tipo</th>
+            <th>Descripcion</th>
+            <th>Lugar del hallazgo</th>
+            <th>Fecha de recoleccion</th>
+            <th>Caso judicial</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Evidencia evidencia in Model)
+        {
+            <tr>
+                <td>@evidencia.Codigo</td>
+                <td>@evidencia.TipoEvidencia</td>
+                <td>@evidencia.Descripcion</td>
+                <td>@evidencia.LugarHallazgo</td>
+                <td>@evidencia.FechaRecoleccion.ToString("dd/MM/yyyy")</td>
+                <td>@evidencia.NumeroCaso</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@evidencia.Id">Editar</a> |
+                    <a asp-action="Delete" asp-route-id="@evidencia.Id">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

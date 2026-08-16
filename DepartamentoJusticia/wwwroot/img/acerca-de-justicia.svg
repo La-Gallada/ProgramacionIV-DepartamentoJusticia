@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360" role="img" aria-labelledby="title desc">
+  <title id="title">Departamento de Justicia</title>
+  <desc id="desc">Ilustracion sencilla relacionada con justicia.</desc>
+  <rect width="640" height="360" fill="#f5f7fa"/>
+  <rect x="80" y="280" width="480" height="28" fill="#31445a"/>
+  <rect x="140" y="245" width="360" height="35" fill="#3f5874"/>
+  <rect x="300" y="92" width="40" height="153" fill="#31445a"/>
+  <rect x="245" y="75" width="150" height="18" rx="4" fill="#31445a"/>
+  <rect x="315" y="50" width="10" height="225" fill="#243345"/>
+  <path d="M195 105 L245 205 H145 Z" fill="#d7b46a"/>
+  <path d="M445 105 L495 205 H395 Z" fill="#d7b46a"/>
+  <line x1="195" y1="93" x2="195" y2="205" stroke="#243345" stroke-width="8"/>
+  <line x1="445" y1="93" x2="445" y2="205" stroke="#243345" stroke-width="8"/>
+  <line x1="195" y1="105" x2="445" y2="105" stroke="#243345" stroke-width="8"/>
+  <circle cx="320" cy="50" r="24" fill="#d7b46a"/>
+  <text x="320" y="330" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#243345">Departamento de Justicia</text>
+</svg>

@@ -1,5 +1,6 @@
 using DepartamentoJusticia.Models;
 using System.Data.Entity;
+using System.Linq;
 
 namespace DepartamentoJusticia.Services;
 
@@ -49,6 +50,29 @@ public class Service : DbContext
         return evidencias.ToList();
     }
 
+    public List<Evidencia> buscarEvidencias(string codigo, string tipoEvidencia, DateTime? fechaRecoleccion)
+    {
+        IQueryable<Evidencia> consulta = evidencias;
+
+        if (!string.IsNullOrWhiteSpace(codigo))
+        {
+            consulta = consulta.Where(e => e.Codigo.Contains(codigo));
+        }
+
+        if (!string.IsNullOrWhiteSpace(tipoEvidencia))
+        {
+            consulta = consulta.Where(e => e.TipoEvidencia == tipoEvidencia);
+        }
+
+        if (fechaRecoleccion.HasValue)
+        {
+            DateTime fechaBuscar = fechaRecoleccion.Value.Date;
+            consulta = consulta.Where(e => DbFunctions.TruncateTime(e.FechaRecoleccion) == fechaBuscar);
+        }
+
+        return consulta.ToList();
+    }
+
     public Evidencia buscarEvidencia(int id)
     {
         var evidenciaBuscada = evidencias.FirstOrDefault(v => v.Id == id);
@@ -95,6 +119,33 @@ public class Service : DbContext
     public List<Tribunal> mostrarTribunales()
     {
         return tribunales.ToList();
+    }
+
+    public List<Tribunal> buscarTribunales(string nombre, string ciudad, string estado, string juezAsignado)
+    {
+        IQueryable<Tribunal> consulta = tribunales;
+
+        if (!string.IsNullOrWhiteSpace(nombre))
+        {
+            consulta = consulta.Where(t => t.Nombre.Contains(nombre));
+        }
+
+        if (!string.IsNullOrWhiteSpace(ciudad))
+        {
+            consulta = consulta.Where(t => t.Ciudad.Contains(ciudad));
+        }
+
+        if (!string.IsNullOrWhiteSpace(estado))
+        {
+            consulta = consulta.Where(t => t.Estado == estado);
+        }
+
+        if (!string.IsNullOrWhiteSpace(juezAsignado))
+        {
+            consulta = consulta.Where(t => t.JuezAsignado.Contains(juezAsignado));
+        }
+
+        return consulta.ToList();
     }
 
     public Tribunal buscarTribunal(int id)
