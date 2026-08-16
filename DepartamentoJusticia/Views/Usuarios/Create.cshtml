@@ -1,0 +1,65 @@
+@model Usuario
+
+@{
+    ViewData["Title"] = "Agregar usuario";
+}
+
+<h1>Agregar usuario</h1>
+
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="NombreCompleto" class="form-label">Nombre completo</label>
+        <input asp-for="NombreCompleto" type="text" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Identificacion" class="form-label">Identificacion</label>
+        <input asp-for="Identificacion" type="text" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Cargo" class="form-label">Cargo</label>
+        <select asp-for="Cargo" class="form-select" required>
+            <option value="">Seleccione</option>
+            <option value="Administrador">Administrador</option>
+            <option value="Fiscalizador">Fiscalizador</option>
+            <option value="Digitador">Digitador</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="FechaRegistro" class="form-label">Fecha de registro</label>
+        <input asp-for="FechaRegistro" type="date" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Estado" class="form-label">Estado</label>
+        <select asp-for="Estado" class="form-select" required>
+            <option value="">Seleccione</option>
+            <option value="Activo">Activo</option>
+            <option value="Inactivo">Inactivo</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="NombreUsuario" class="form-label">Nombre de usuario</label>
+        <input asp-for="NombreUsuario" type="text" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Contrasenia" class="form-label">Contrasena</label>
+        <input asp-for="Contrasenia" type="password" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label for="confirmarContrasenia" class="form-label">Confirmar contrasena</label>
+        <input id="confirmarContrasenia" name="confirmarContrasenia" type="password" class="form-control" required />
+        <span class="text-danger">@Html.ValidationMessage("confirmarContrasenia")</span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <button type="reset" class="btn btn-secondary">Limpiar</button>
+    <a asp-action="Index" class="btn btn-link">Volver al listado</a>
+</form>
