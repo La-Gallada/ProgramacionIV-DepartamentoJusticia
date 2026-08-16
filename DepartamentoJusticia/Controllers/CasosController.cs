@@ -16,6 +16,26 @@ namespace DepartamentoJusticia.Controllers
             var casos = service.mostrarCasos();
             return View(casos);
         }
+        // POST: CasosController (busqueda por criterios)
+        [HttpPost]
+        public ActionResult Index(string numeroCaso, string tipoDelito, string prioridad)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(numeroCaso))
+                    return View(service.buscarCasosPorNumero(numeroCaso));
+                else if (!string.IsNullOrEmpty(tipoDelito))
+                    return View(service.buscarCasosPorTipoDelito(tipoDelito));
+                else if (!string.IsNullOrEmpty(prioridad))
+                    return View(service.buscarCasosPorPrioridad(prioridad));
+                else
+                    return View(service.mostrarCasos());
+            }
+            catch
+            {
+                return View(service.mostrarCasos());
+            }
+        }
 
         // GET: CasosController/Details/5
         public ActionResult Details(int id)

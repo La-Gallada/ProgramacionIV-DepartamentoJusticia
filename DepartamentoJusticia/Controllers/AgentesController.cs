@@ -17,6 +17,26 @@ namespace DepartamentoJusticia.Controllers
             var agentes = service.mostrarAgentes();
             return View(agentes);
         }
+        // POST: AgentesController (busqueda por criterios)
+        [HttpPost]
+        public ActionResult Index(string nombreCompleto, string especialidad, string rango)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(nombreCompleto))
+                    return View(service.buscarAgentesPorNombre(nombreCompleto));
+                else if (!string.IsNullOrEmpty(especialidad))
+                    return View(service.buscarAgentesPorEspecialidad(especialidad));
+                else if (!string.IsNullOrEmpty(rango))
+                    return View(service.buscarAgentesPorRango(rango));
+                else
+                    return View(service.mostrarAgentes());
+            }
+            catch
+            {
+                return View(service.mostrarAgentes());
+            }
+        }
 
         // GET: AgenteController/Details/5
         public ActionResult Details(int id)

@@ -23,10 +23,10 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Inicio" asp-action="Index">Inicio</a>
                         </li>
                         <li class="nav-item">
-                       <a class="nav-link text-dark" asp-area="" asp-controller="Agentes" asp-action="Index">Agentes Federales</a>
-                       </li>
-                       <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Casos" asp-action="Index">Casos Judiciales</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Agentes" asp-action="Index">Agentes Federales</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Casos" asp-action="Index">Casos Judiciales</a>
                         </li>
                         <li class="nav-item">
                             <span class="nav-link text-muted">Sospechosos</span>
@@ -35,7 +35,7 @@
                             <span class="nav-link text-muted">Evidencias</span>
                         </li>
                         <li class="nav-item">
-                            <span class="nav-link text-muted">Operativos</span>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Operativos" asp-action="Index">Operativos</a>
                         </li>
                         <li class="nav-item">
                             <span class="nav-link text-muted">Tribunales</span>
@@ -65,7 +65,6 @@
             @RenderBody()
         </main>
     </div>
-
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2026 - Departamento de Justicia

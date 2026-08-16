@@ -1,28 +1,45 @@
 ﻿using DepartamentoJusticia.Models;
 using DepartamentoJusticia.Services;
 using Microsoft.AspNetCore.Mvc;
-
 namespace DepartamentoJusticia.Controllers
 {
     public class OperativosController : Controller
     {
         Service service;
-
         public OperativosController() { service = new Service(); }
-
         // GET: OperativosController
         public ActionResult Index()
         {
             var operativos = service.mostrarOperativos();
             return View(operativos);
         }
-
+        // POST: OperativosController (busqueda por criterios)
+        [HttpPost]
+        public ActionResult Index(string ciudad, DateTime? fecha, string tipoOperativo, string resultado)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(ciudad))
+                    return View(service.buscarOperativosPorCiudad(ciudad));
+                else if (fecha != null)
+                    return View(service.buscarOperativosPorFecha(fecha.Value));
+                else if (!string.IsNullOrEmpty(tipoOperativo))
+                    return View(service.buscarOperativosPorTipo(tipoOperativo));
+                else if (!string.IsNullOrEmpty(resultado))
+                    return View(service.buscarOperativosPorResultado(resultado));
+                else
+                    return View(service.mostrarOperativos());
+            }
+            catch
+            {
+                return View(service.mostrarOperativos());
+            }
+        }
         // GET: OperativosController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
-
         // GET: OperativosController/Create
         public ActionResult Create()
         {
@@ -30,7 +47,6 @@ namespace DepartamentoJusticia.Controllers
             ViewBag.Casos = service.mostrarCasos();
             return View(new Operativo());
         }
-
         // POST: OperativosController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -40,6 +56,14 @@ namespace DepartamentoJusticia.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    // Se buscan los tres agentes para obtener sus salarios
+                    var agente1 = service.buscarAgentePorNombre(operativito.NombreAgente1);
+                    var agente2 = service.buscarAgentePorNombre(operativito.NombreAgente2);
+                    var agente3 = service.buscarAgentePorNombre(operativito.NombreAgente3);
+
+                    operativito.CostoOperativo = operativito.CalcularCostoOperativo(
+                        agente1.SalarioTotal, agente2.SalarioTotal, agente3.SalarioTotal);
+
                     service.agregarOperativo(operativito);
                     return RedirectToAction("Index");
                 }
@@ -57,7 +81,6 @@ namespace DepartamentoJusticia.Controllers
                 return View();
             }
         }
-
         // GET: OperativosController/Edit/5
         public ActionResult Edit(int id)
         {
@@ -73,7 +96,6 @@ namespace DepartamentoJusticia.Controllers
                 return RedirectToAction("Index");
             }
         }
-
         // POST: OperativosController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -83,6 +105,14 @@ namespace DepartamentoJusticia.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    // Se buscan los tres agentes para obtener sus salarios
+                    var agente1 = service.buscarAgentePorNombre(operativito.NombreAgente1);
+                    var agente2 = service.buscarAgentePorNombre(operativito.NombreAgente2);
+                    var agente3 = service.buscarAgentePorNombre(operativito.NombreAgente3);
+
+                    operativito.CostoOperativo = operativito.CalcularCostoOperativo(
+                        agente1.SalarioTotal, agente2.SalarioTotal, agente3.SalarioTotal);
+
                     service.actualizarOperativo(operativito);
                     return RedirectToAction("Index");
                 }
@@ -100,7 +130,6 @@ namespace DepartamentoJusticia.Controllers
                 return View();
             }
         }
-
         // GET: OperativosController/Delete/5
         public ActionResult Delete(int id)
         {
