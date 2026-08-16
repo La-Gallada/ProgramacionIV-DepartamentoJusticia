@@ -1,0 +1,30 @@
+@model Usuario
+
+@{
+    ViewData["Title"] = "Cambiar contrasena";
+}
+
+<h1>Cambiar contrasena</h1>
+
+<p>Usuario: @Model.NombreUsuario</p>
+
+<form asp-action="CambiarContrasenia" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <input asp-for="Id" type="hidden" />
+
+    <div class="mb-3">
+        <label for="nuevaContrasenia" class="form-label">Nueva contrasena</label>
+        <input id="nuevaContrasenia" name="nuevaContrasenia" type="password" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label for="confirmarNuevaContrasenia" class="form-label">Confirmar nueva contrasena</label>
+        <input id="confirmarNuevaContrasenia" name="confirmarNuevaContrasenia" type="password" class="form-control" required />
+        <span class="text-danger">@Html.ValidationMessage("confirmarNuevaContrasenia")</span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <button type="reset" class="btn btn-secondary">Limpiar</button>
+    <a asp-action="Index" class="btn btn-link">Volver al listado</a>
+</form>

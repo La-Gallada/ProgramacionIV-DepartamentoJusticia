@@ -1,0 +1,37 @@
+@model Usuario
+
+@{
+    ViewData["Title"] = "Eliminar usuario";
+}
+
+<h1>Eliminar usuario</h1>
+
+<p>Confirme si desea eliminar el siguiente usuario.</p>
+
+<dl class="row">
+    <dt class="col-sm-3">Nombre completo</dt>
+    <dd class="col-sm-9">@Model.NombreCompleto</dd>
+
+    <dt class="col-sm-3">Identificacion</dt>
+    <dd class="col-sm-9">@Model.Identificacion</dd>
+
+    <dt class="col-sm-3">Cargo</dt>
+    <dd class="col-sm-9">@Model.Cargo</dd>
+
+    <dt class="col-sm-3">Fecha de registro</dt>
+    <dd class="col-sm-9">@Model.FechaRegistro.ToString("dd/MM/yyyy")</dd>
+
+    <dt class="col-sm-3">Estado</dt>
+    <dd class="col-sm-9">@Model.Estado</dd>
+
+    <dt class="col-sm-3">Nombre de usuario</dt>
+    <dd class="col-sm-9">@Model.NombreUsuario</dd>
+</dl>
+
+<form asp-action="Delete" method="post">
+    <input asp-for="Id" type="hidden" />
+    <input name="confirmar" type="hidden" value="si" />
+
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
