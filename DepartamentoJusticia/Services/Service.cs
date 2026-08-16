@@ -56,6 +56,11 @@ public class Service : DbContext
         else throw new Exception("Este agente no se encuentra registrado");
     }
 
+    public bool existeAgentePorNombre(string nombreCompleto)
+    {
+        return Agentes.Any(a => a.NombreCompleto == nombreCompleto && a.Estado == "Activo");
+    }
+
     public void eliminarAgente(Agente agentito)
     {
         Agentes.Remove(agentito);
@@ -110,6 +115,11 @@ public class Service : DbContext
     public List<CasoJudicial> mostrarCasos()
     {
         return casosJudiciales.ToList();
+    }
+
+    public List<CasoJudicial> mostrarCasoJudicial()
+    {
+        return mostrarCasos();
     }
 
 

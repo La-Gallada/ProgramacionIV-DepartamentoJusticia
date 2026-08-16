@@ -3,10 +3,16 @@ using DepartamentoJusticia.Services;
 using Microsoft.AspNetCore.Mvc;
 namespace DepartamentoJusticia.Controllers
 {
-    public class OperativosController : Controller
+    public class OperativosController : ControladorBase
     {
         Service service;
         public OperativosController() { service = new Service(); }
+
+        private void CargarListas()
+        {
+            ViewBag.Agentes = service.mostrarAgentesActivos();
+            ViewBag.Casos = service.mostrarCasos();
+        }
         // GET: OperativosController
         public ActionResult Index()
         {
@@ -43,8 +49,7 @@ namespace DepartamentoJusticia.Controllers
         // GET: OperativosController/Create
         public ActionResult Create()
         {
-            ViewBag.Agentes = service.mostrarAgentesActivos();
-            ViewBag.Casos = service.mostrarCasos();
+            CargarListas();
             return View(new Operativo());
         }
         // POST: OperativosController/Create
@@ -56,6 +61,15 @@ namespace DepartamentoJusticia.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    if (!service.existeAgentePorNombre(operativito.NombreAgente1) ||
+                        !service.existeAgentePorNombre(operativito.NombreAgente2) ||
+                        !service.existeAgentePorNombre(operativito.NombreAgente3))
+                    {
+                        ModelState.AddModelError("", "Debe seleccionar agentes activos registrados.");
+                        CargarListas();
+                        return View(operativito);
+                    }
+
                     // Se buscan los tres agentes para obtener sus salarios
                     var agente1 = service.buscarAgentePorNombre(operativito.NombreAgente1);
                     var agente2 = service.buscarAgentePorNombre(operativito.NombreAgente2);
@@ -69,16 +83,14 @@ namespace DepartamentoJusticia.Controllers
                 }
                 else
                 {
-                    ViewBag.Agentes = service.mostrarAgentesActivos();
-                    ViewBag.Casos = service.mostrarCasos();
-                    return View();
+                    CargarListas();
+                    return View(operativito);
                 }
             }
             catch
             {
-                ViewBag.Agentes = service.mostrarAgentesActivos();
-                ViewBag.Casos = service.mostrarCasos();
-                return View();
+                CargarListas();
+                return View(operativito);
             }
         }
         // GET: OperativosController/Edit/5
@@ -86,8 +98,7 @@ namespace DepartamentoJusticia.Controllers
         {
             try
             {
-                ViewBag.Agentes = service.mostrarAgentesActivos();
-                ViewBag.Casos = service.mostrarCasos();
+                CargarListas();
                 var operativoBuscado = service.buscarOperativo(id);
                 return View(operativoBuscado);
             }
@@ -105,6 +116,15 @@ namespace DepartamentoJusticia.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    if (!service.existeAgentePorNombre(operativito.NombreAgente1) ||
+                        !service.existeAgentePorNombre(operativito.NombreAgente2) ||
+                        !service.existeAgentePorNombre(operativito.NombreAgente3))
+                    {
+                        ModelState.AddModelError("", "Debe seleccionar agentes activos registrados.");
+                        CargarListas();
+                        return View(operativito);
+                    }
+
                     // Se buscan los tres agentes para obtener sus salarios
                     var agente1 = service.buscarAgentePorNombre(operativito.NombreAgente1);
                     var agente2 = service.buscarAgentePorNombre(operativito.NombreAgente2);
@@ -118,16 +138,14 @@ namespace DepartamentoJusticia.Controllers
                 }
                 else
                 {
-                    ViewBag.Agentes = service.mostrarAgentesActivos();
-                    ViewBag.Casos = service.mostrarCasos();
-                    return View();
+                    CargarListas();
+                    return View(operativito);
                 }
             }
             catch
             {
-                ViewBag.Agentes = service.mostrarAgentesActivos();
-                ViewBag.Casos = service.mostrarCasos();
-                return View();
+                CargarListas();
+                return View(operativito);
             }
         }
         // GET: OperativosController/Delete/5

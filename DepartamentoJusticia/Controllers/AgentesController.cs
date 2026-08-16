@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DepartamentoJusticia.Controllers
 {
-    public class AgentesController : Controller
+    public class AgentesController : ControladorBase
     {
         // GET: AgenteController
         Service service;
