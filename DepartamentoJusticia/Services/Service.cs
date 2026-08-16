@@ -26,6 +26,10 @@ public class Service : DbContext
     #endregion
 
     #region Casos Judiciales
+    public List<CasoJudicial> mostrarCasoJudicial()
+    {
+        return casosJudiciales.ToList();
+    }
 
     #endregion
 
@@ -109,14 +113,14 @@ public class Service : DbContext
 
     public void actualizarTribunal(Tribunal tribunalito)
     {
-        var tribunalAntiguo = tribunalito.FirstOrDefault(v => v.Id == tribunalito.Id);
+        var tribunalAntiguo = tribunales.FirstOrDefault(v => v.Id == tribunalito.Id);
         if (tribunalAntiguo != null)
         {
             tribunalAntiguo.Nombre = tribunalito.Nombre;
             tribunalAntiguo.Estado = tribunalito.Estado;
             tribunalAntiguo.Ciudad = tribunalito.Ciudad;
             tribunalAntiguo.JuezAsignado = tribunalito.JuezAsignado;
-            tribunalAntiguo.CantidadSalas = tribunalito.CantidadSalas;s
+            tribunalAntiguo.CantidadSalas = tribunalito.CantidadSalas;
             SaveChanges();
         }
         else throw new Exception("No se pudo actualizar el tribunal");
