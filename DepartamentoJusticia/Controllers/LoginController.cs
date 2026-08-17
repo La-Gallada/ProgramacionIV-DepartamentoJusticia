@@ -19,22 +19,7 @@ public class LoginController : Controller
         HttpContext.Session.Clear();
         return View();
     }
-<<<<<<< HEAD
 
-    [HttpPost]
-    public IActionResult Index(string nombreUsuario, string contrasena)
-    {
-        TempData["Error"] = "La validacion de credenciales todavia no esta implementada.";
-        return RedirectToAction(nameof(Index));
-    }
-
-    [HttpGet]
-    public IActionResult CerrarSesion()
-    {
-        HttpContext.Session.Clear();
-        return RedirectToAction(nameof(Index));
-=======
-    
     [HttpPost]
     public IActionResult Index(string nombreUsuario, string contrasenia)
     {
@@ -48,14 +33,18 @@ public class LoginController : Controller
         }
 
         service.RegistrarBitacora(nombreUsuario, "Exitoso");
+
         HttpContext.Session.SetString("Username", usuario.NombreUsuario);
+        HttpContext.Session.SetString("NombreCompleto", usuario.NombreCompleto);
+        HttpContext.Session.SetString("Cargo", usuario.Cargo);
+
         return RedirectToAction("Index", "Inicio");
     }
 
-    public IActionResult Logout()
+    [HttpGet]
+    public IActionResult CerrarSesion()
     {
         HttpContext.Session.Clear();
         return RedirectToAction("Index", "Login");
->>>>>>> origin/dev
     }
 }

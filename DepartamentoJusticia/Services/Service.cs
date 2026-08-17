@@ -575,7 +575,6 @@ public class Service : DbContext
 
     #region Tribunales
 
-<<<<<<< HEAD
     /// Nombres de tribunales para los combos de las audiencias
     public List<string> ObtenerNombresDeTribunal()
     {
@@ -583,16 +582,12 @@ public class Service : DbContext
                    .OrderBy(t => t.Nombre)
                    .Select(t => t.Nombre)
                    .ToList();
-=======
+    }
+
     public void agregarTribunal(Tribunal tribunalito)
     {
         tribunales.Add(tribunalito);
         SaveChanges();
-    }
-
-    public List<Tribunal> mostrarTribunales()
-    {
-        return tribunales.ToList();
     }
 
     public List<Tribunal> buscarTribunales(
@@ -679,7 +674,7 @@ public class Service : DbContext
             throw new Exception(
                 "No se pudo actualizar el tribunal");
         }
->>>>>>> origin/dev
+
     }
 
     #endregion
