@@ -1,28 +1,22 @@
 @{
-    ViewData["Title"] = "Inicio";
+    ViewData["Title"] = "Panel principal";
 }
 
-<div class="dj-portada">
-    @* Imagen institucional (requisito del enunciado).
-       Se puede sustituir portada.svg por una fotografia real en wwwroot/img/. *@
-    <img src="~/img/portada.svg" alt="Departamento de Justicia" />
-    <div class="dj-portada-texto">
-        <h1>Departamento de Justicia</h1>
-        <p>
-            Sistema institucional para la administracion de investigaciones criminales,
-            operativos, evidencias y procesos judiciales.
-        </p>
+<div class="page-heading">
+    <div class="page-heading-copy">
+        <span class="page-icon"><i class="bi bi-shield-check" aria-hidden="true"></i></span>
+        <div><p class="eyebrow mb-1">Departamento de Justicia</p><h1 class="h3 mb-1">Panel principal</h1><p class="text-muted mb-0">Acceda a los módulos para administrar investigaciones, procesos y registros institucionales.</p></div>
     </div>
 </div>
 
-<div class="dj-atajos">
-    <a class="dj-atajo" asp-controller="Sospechosos" asp-action="Index">
-        <strong>Sospechosos</strong>
-        <span>Personas vinculadas a los casos judiciales.</span>
-    </a>
+<section class="row g-3 mt-1" aria-label="Accesos rápidos">
+    <div class="col-12 col-sm-6 col-xl-3"><a class="metric-card metric-primary dj-acceso-panel" asp-controller="Casos" asp-action="Index"><div class="metric-top"><span class="metric-label">Investigaciones</span><span class="metric-icon"><i class="bi bi-folder2-open"></i></span></div><div class="metric-value">Casos</div><div class="metric-meta"><span>Administrar expedientes judiciales</span></div></a></div>
+    <div class="col-12 col-sm-6 col-xl-3"><a class="metric-card metric-success dj-acceso-panel" asp-controller="Sospechosos" asp-action="Index"><div class="metric-top"><span class="metric-label">Personas vinculadas</span><span class="metric-icon"><i class="bi bi-person-exclamation"></i></span></div><div class="metric-value">Sospechosos</div><div class="metric-meta"><span>Consultar y registrar información</span></div></a></div>
+    <div class="col-12 col-sm-6 col-xl-3"><a class="metric-card metric-warning dj-acceso-panel" asp-controller="Audiencias" asp-action="Index"><div class="metric-top"><span class="metric-label">Agenda judicial</span><span class="metric-icon"><i class="bi bi-calendar2-week"></i></span></div><div class="metric-value">Audiencias</div><div class="metric-meta"><span>Programación y seguimiento</span></div></a></div>
+    <div class="col-12 col-sm-6 col-xl-3"><a class="metric-card metric-danger dj-acceso-panel" asp-controller="Operativos" asp-action="Index"><div class="metric-top"><span class="metric-label">Acciones de campo</span><span class="metric-icon"><i class="bi bi-crosshair"></i></span></div><div class="metric-value">Operativos</div><div class="metric-meta"><span>Planificación y resultados</span></div></a></div>
+</section>
 
-    <a class="dj-atajo" asp-controller="Audiencias" asp-action="Index">
-        <strong>Audiencias</strong>
-        <span>Programacion y seguimiento de las audiencias judiciales.</span>
-    </a>
-</div>
+<section class="panel mt-3">
+    <div class="panel-header"><div><h2 class="h5 mb-1 section-title"><i class="bi bi-lightning-charge" aria-hidden="true"></i><span>Gestión rápida</span></h2><p class="text-muted mb-0">Accesos a los registros más utilizados del sistema.</p></div></div>
+    <div class="row g-3 p-3 pt-0"><div class="col-md-4"><a class="btn btn-outline-secondary w-100 py-3" asp-controller="Agentes" asp-action="Index"><i class="bi bi-person-badge me-2"></i>Agentes federales</a></div><div class="col-md-4"><a class="btn btn-outline-secondary w-100 py-3" asp-controller="Evidencia" asp-action="Index"><i class="bi bi-box-seam me-2"></i>Evidencias</a></div><div class="col-md-4"><a class="btn btn-outline-secondary w-100 py-3" asp-controller="Tribunal" asp-action="Index"><i class="bi bi-bank me-2"></i>Tribunales</a></div></div>
+</section>

@@ -6,18 +6,18 @@ public class AcercaDeController : ControladorBase
 {
     public IActionResult Index()
     {
-        // EQUIPO: completar estos datos antes de la entrega.
-        ViewBag.Universidad = "[Nombre de la universidad]";
+        
+        ViewBag.Universidad = "Universidad Latina de Costa Rica";
         ViewBag.Curso = "Programacion IV";
-        ViewBag.Profesora = "[Nombre de la profesora]";
+        ViewBag.Profesora = "Adriana Stephanie Rubio Escobar";
         ViewBag.Version = "1.0";
 
         ViewBag.Integrantes = new List<string[]>
         {
-            new[] { "[Nombre de Val]", "Frontend, diseno del sistema, Sospechosos y Audiencias" },
-            new[] { "[Nombre de Juancho]", "Agentes Federales y Casos Judiciales" },
-            new[] { "[Nombre de Mar]", "Evidencias, Operativos y Tribunales" },
-            new[] { "[Nombre de Chris]", "Seguridad, Usuarios y Bitacora" }
+            new[] { "Val Sancho Vega", "Frontend, diseno del sistema, Sospechosos y Audiencias" },
+            new[] { "Juan Gabriel Sandí", "Agentes Federales y Casos Judiciales" },
+            new[] { "Maryeri Gomez Hernandez", "Evidencias, Operativos y Tribunales" },
+            new[] { "Christopher Phillips Arroyo", "Seguridad, Usuarios y Bitacora" }
         };
 
         return View();

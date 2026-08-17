@@ -5,10 +5,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Departamento de Justicia</title>
+    <link rel="icon" type="image/png" href="~/img/justicia/favicon_dj.png" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/departamento.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/login-form-15/css/style.css" asp-append-version="true" />
 </head>
 <body>
-    <div class="dj-login-pantalla">
+    <div class="login15-pantalla">
         @RenderBody()
     </div>
     @await RenderSectionAsync("Scripts", required: false)

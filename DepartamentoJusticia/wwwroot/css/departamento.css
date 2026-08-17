@@ -1,8 +1,7 @@
 /* ============================================================
    Departamento de Justicia - Hoja de estilos institucional
    Autor: Val (rama feature/val-frontend)
-   NO usar el CSS de ejemplo del curso. Todo el sistema debe
-   usar unicamente las clases definidas en este archivo.
+   
    ============================================================ */
 
 :root {
@@ -509,6 +508,254 @@ textarea.dj-control { min-height: 92px; resize: vertical; }
 .dj-atajo:hover { border-color: var(--dj-azul-claro); border-top-color: var(--dj-dorado); color: var(--dj-texto); text-decoration: none; }
 .dj-atajo strong { display: block; margin-bottom: 4px; color: var(--dj-azul-profundo); font-size: 16px; }
 .dj-atajo span { color: var(--dj-texto-tenue); font-size: 13px; }
+
+/* ---------- Accesos del panel principal ---------- */
+
+/* Las tarjetas de AdminHMD son articulos; en el panel se usan como enlaces. */
+.dj-acceso-panel {
+    display: block;
+    width: 100%;
+    min-height: 132px;
+    color: var(--admin-text);
+}
+
+.dj-acceso-panel:hover,
+.dj-acceso-panel:focus {
+    color: var(--admin-text);
+}
+
+.dj-acceso-panel .metric-value {
+    margin-top: .7rem;
+    font-size: 1.5rem;
+    line-height: 1.15;
+}
+
+.dj-acceso-panel .metric-meta {
+    margin-top: .55rem;
+    font-size: .83rem;
+}
+
+/* ---------- Tablas de módulos heredados ---------- */
+
+/* Igualar las tablas Bootstrap de los módulos al acabado institucional. */
+.dashboard-content .table:not(.dj-tabla) {
+    display: table;
+    width: 100%;
+    table-layout: auto;
+    margin-top: 1.25rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--dj-borde);
+    border-radius: var(--dj-radio);
+    border-spacing: 0;
+    background: var(--dj-superficie);
+    box-shadow: var(--dj-sombra);
+    color: var(--dj-texto);
+}
+
+.dashboard-content .table:not(.dj-tabla) thead th {
+    padding: 11px 14px;
+    border: 0;
+    background: var(--dj-azul);
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .35px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.dashboard-content .table:not(.dj-tabla) tbody td {
+    padding: 11px 14px;
+    border-color: var(--dj-borde);
+    vertical-align: middle;
+}
+
+.dashboard-content .table:not(.dj-tabla) tbody tr:nth-child(even) > * {
+    background: #fafbfd;
+}
+
+.dashboard-content .table:not(.dj-tabla) tbody tr:hover > * {
+    background: #eef3f9;
+}
+
+.dashboard-content .table:not(.dj-tabla) tbody a {
+    color: var(--dj-azul-claro);
+    font-weight: 600;
+}
+
+/* ---------- Acceso (Login Form 15) ---------- */
+
+.login15-pantalla {
+    display: flex;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #08192e 0%, #163d67 100%);
+}
+
+.login15-pantalla .login15-seccion {
+    width: 100%;
+    padding: 3rem 1rem;
+}
+
+.login15-pantalla .wrap {
+    border-radius: 12px;
+    box-shadow: 0 20px 55px rgba(0, 0, 0, .3);
+}
+
+.login15-imagen {
+    position: relative;
+    height: 170px !important;
+    background-image: linear-gradient(rgba(8, 25, 46, .42), rgba(8, 25, 46, .42)), url("../login-form-15/images/tribunales-justicia.png");
+    background-position: center 58%;
+}
+
+.login15-marca {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+}
+
+.login15-escudo {
+    display: block;
+    width: 48px;
+    height: 48px;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 2px 8px rgba(13, 31, 56, .18);
+}
+
+.brand-logo-image {
+    width: 42px;
+    height: 42px;
+    flex: 0 0 auto;
+    border-radius: 9px;
+    object-fit: cover;
+}
+
+.login15-marca h1 {
+    margin: 0;
+    color: var(--dj-azul-profundo);
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.login15-marca p {
+    margin: 3px 0 0;
+    color: var(--dj-texto-tenue);
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.login15-pantalla .btn.btn-primary,
+.login15-pantalla .btn.btn-primary:hover {
+    border-color: var(--dj-azul-claro) !important;
+    background: var(--dj-azul-claro) !important;
+    color: #ffffff !important;
+}
+
+.login15-pantalla .form-control:focus,
+.login15-pantalla .form-control:active {
+    border-color: var(--dj-azul-claro);
+}
+
+.login15-pantalla .form-control:focus + .form-control-placeholder,
+.login15-pantalla .form-control:valid + .form-control-placeholder {
+    color: var(--dj-azul-claro);
+}
+
+.login15-pantalla .dj-mensaje {
+    margin-bottom: 16px;
+}
+
+/* El tag helper crea este resumen aun cuando no hay errores. */
+.login15-pantalla .validation-summary-valid {
+    display: none;
+}
+
+.login15-pantalla .signin-form .form-group {
+    margin-bottom: 24px !important;
+}
+
+.login15-pantalla .signin-form .form-control-placeholder {
+    position: static;
+    display: block;
+    margin: 0 0 7px;
+    padding: 0;
+    color: var(--dj-azul);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .7px;
+    line-height: 1.2;
+    opacity: 1;
+    text-transform: uppercase;
+    transform: none !important;
+}
+
+.login15-pantalla .signin-form .form-control {
+    margin: 0;
+}
+
+/* ---------- Tema oscuro ---------- */
+
+html[data-theme="dark"] {
+    --dj-fondo: #0f172a;
+    --dj-superficie: #182235;
+    --dj-borde: #2f3b52;
+    --dj-texto: #e5edf7;
+    --dj-texto-tenue: #b6c3d5;
+    --dj-azul: #294a70;
+    --dj-azul-claro: #74b4ff;
+}
+
+html[data-theme="dark"] .dashboard-content,
+html[data-theme="dark"] .dashboard-content h1,
+html[data-theme="dark"] .dashboard-content h2,
+html[data-theme="dark"] .dashboard-content h3,
+html[data-theme="dark"] .dashboard-content h4,
+html[data-theme="dark"] .dashboard-content h5,
+html[data-theme="dark"] .dashboard-content h6,
+html[data-theme="dark"] .dashboard-content .text-muted {
+    color: var(--dj-texto) !important;
+}
+
+html[data-theme="dark"] .dashboard-content .dj-encabezado p,
+html[data-theme="dark"] .dashboard-content .dj-ayuda,
+html[data-theme="dark"] .dashboard-content .dj-contador,
+html[data-theme="dark"] .dashboard-content .dj-tabla-vacia,
+html[data-theme="dark"] .dashboard-content .text-muted {
+    color: var(--dj-texto-tenue) !important;
+}
+
+html[data-theme="dark"] .dashboard-content .dj-panel-titulo,
+html[data-theme="dark"] .dashboard-content .dj-tabla tbody tr:nth-child(even),
+html[data-theme="dark"] .dashboard-content .table:not(.dj-tabla) tbody tr:nth-child(even) > * {
+    background: #111827;
+}
+
+html[data-theme="dark"] .dashboard-content .dj-tabla tbody tr:hover,
+html[data-theme="dark"] .dashboard-content .table:not(.dj-tabla) tbody tr:hover > * {
+    background: #243149;
+}
+
+html[data-theme="dark"] .dashboard-content .dj-control,
+html[data-theme="dark"] .dashboard-content .form-control,
+html[data-theme="dark"] .dashboard-content .form-select {
+    background: #111827;
+    color: var(--dj-texto);
+}
+
+html[data-theme="dark"] .dashboard-content .dj-boton-secundario {
+    background: #243149;
+    color: var(--dj-texto);
+}
+
+@media (max-width: 575px) {
+    .login15-pantalla .login15-seccion { padding: 1.5rem .75rem; }
+    .login15-imagen { height: 130px !important; }
+}
 
 /* ---------- Responsivo ---------- */
 

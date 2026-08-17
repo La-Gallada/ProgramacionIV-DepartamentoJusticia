@@ -36,7 +36,7 @@ public class Audiencia
         this.Estado = "";
     }
 
-    [Key]
+    [Required]
     public int Id { get => id; set => id = value; }
 
     [Required(ErrorMessage = "La fecha es obligatoria.")]

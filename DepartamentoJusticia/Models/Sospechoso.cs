@@ -38,7 +38,7 @@ public class Sospechoso
         this.NumeroCaso = "";
     }
 
-    [Key]
+    [Required]
     public int Id { get => id; set => id = value; }
 
     [Required(ErrorMessage = "La identificacion es obligatoria.")]
