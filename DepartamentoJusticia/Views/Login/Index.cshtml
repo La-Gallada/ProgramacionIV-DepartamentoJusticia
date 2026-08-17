@@ -1,5 +1,6 @@
 @{
     ViewData["Title"] = "Inicio de sesion";
+<<<<<<< HEAD
     Layout = "_LayoutAcceso";
 }
 
@@ -29,3 +30,25 @@
         <button type="submit" class="dj-boton dj-boton-primario">Ingresar</button>
     </form>
 </div>
+=======
+}
+
+<h1>Iniciar sesion</h1>
+
+<form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label for="nombreUsuario" class="form-label">Nombre de usuario</label>
+        <input id="nombreUsuario" name="nombreUsuario" type="text" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label for="contrasenia" class="form-label">Contrasena</label>
+        <input id="contrasenia" name="contrasenia" type="password" class="form-control" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Iniciar sesion</button>
+    <button type="reset" class="btn btn-secondary">Limpiar</button>
+</form>
+>>>>>>> origin/dev

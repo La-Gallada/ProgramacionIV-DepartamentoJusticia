@@ -1,0 +1,83 @@
+﻿@model DepartamentoJusticia.Models.Agente
+
+<h1>Agregar Agente Federal</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="NumeroPlaca" class="control-label"></label>
+                <input asp-for="NumeroPlaca" class="form-control" />
+                <span asp-validation-for="NumeroPlaca" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="NombreCompleto" class="control-label"></label>
+                <input asp-for="NombreCompleto" class="form-control" />
+                <span asp-validation-for="NombreCompleto" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Especialidad" class="control-label"></label>
+                <select asp-for="Especialidad" class="form-control">
+                    <option value="">Seleccione una especialidad</option>
+                    <option value="Investigación Criminal y Narcóticos">Investigación Criminal y Narcóticos</option>
+                    <option value="Manejo de Explosivos">Manejo de Explosivos</option>
+                    <option value="Ciberseguridad y Delitos Tecnológicos">Ciberseguridad y Delitos Tecnológicos</option>
+                    <option value="Tácticas Especiales y Rescate">Tácticas Especiales y Rescate</option>
+                    <option value="Forense">Forense</option>
+                </select>
+                <span asp-validation-for="Especialidad" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Rango" class="control-label"></label>
+                <select asp-for="Rango" class="form-control">
+                    <option value="">Seleccione un rango</option>
+                    <option value="Especial">Especial</option>
+                    <option value="Supervisor">Supervisor</option>
+                    <option value="Adjunto a Cargo">Adjunto a Cargo</option>
+                    <option value="Directivos Superiores">Directivos Superiores</option>
+                </select>
+                <span asp-validation-for="Rango" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="FechaIngreso" class="control-label"></label>
+                <input asp-for="FechaIngreso" type="date" class="form-control" />
+                <span asp-validation-for="FechaIngreso" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="AniosExperiencia" class="control-label"></label>
+                <input asp-for="AniosExperiencia" class="form-control" />
+                <span asp-validation-for="AniosExperiencia" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SalarioBase" class="control-label"></label>
+                <input asp-for="SalarioBase" class="form-control" />
+                <span asp-validation-for="SalarioBase" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Estado" class="control-label"></label>
+                <select asp-for="Estado" class="form-control">
+                    <option value="">Seleccione un estado</option>
+                    <option value="Activo">Activo</option>
+                    <option value="Suspendido">Suspendido</option>
+                    <option value="Vacaciones">Vacaciones</option>
+                </select>
+                <span asp-validation-for="Estado" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mt-3">
+                <input type="submit" value="Agregar" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>

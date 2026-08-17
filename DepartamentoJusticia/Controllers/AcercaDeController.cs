@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DepartamentoJusticia.Controllers;
 
-public class AcercaDeController : Controller
+public class AcercaDeController : ControladorBase
 {
     public IActionResult Index()
     {

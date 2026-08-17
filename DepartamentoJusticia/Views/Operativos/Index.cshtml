@@ -1,0 +1,80 @@
+﻿@model List<DepartamentoJusticia.Models.Operativo>
+
+<h1>Lista de Operativos</h1>
+
+<p>
+    <a asp-action="Create">Agregar Operativo</a>
+</p>
+
+<form asp-action="Index" method="post" class="mb-3">
+    <div class="form-group d-flex align-items-end" style="gap: 10px;">
+        <div>
+            <label for="ciudad" class="control-label">Ciudad</label>
+            <input type="text" name="ciudad" id="ciudad" class="form-control" />
+        </div>
+        <div>
+            <label for="fecha" class="control-label">Fecha</label>
+            <input type="date" name="fecha" id="fecha" class="form-control" />
+        </div>
+        <div>
+            <label for="tipoOperativo" class="control-label">Tipo</label>
+            <select name="tipoOperativo" id="tipoOperativo" class="form-control">
+                <option value="">Todos</option>
+                <option value="Intervención y Captura">Intervención y Captura</option>
+                <option value="Inteligencia y Vigilancia">Inteligencia y Vigilancia</option>
+                <option value="Contención y Disuasión">Contención y Disuasión</option>
+                <option value="Especiales y de Emergencia">Especiales y de Emergencia</option>
+            </select>
+        </div>
+        <div>
+            <label for="resultado" class="control-label">Resultado</label>
+            <select name="resultado" id="resultado" class="form-control">
+                <option value="">Todos</option>
+                <option value="Efectivo">Efectivo</option>
+                <option value="No efectivo">No efectivo</option>
+            </select>
+        </div>
+        <input type="submit" value="Buscar" class="btn btn-primary" />
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nombre del Operativo</th>
+            <th>Fecha de Ejecución</th>
+            <th>Ciudad</th>
+            <th>Tipo de Operativo</th>
+            <th>Agente 1</th>
+            <th>Agente 2</th>
+            <th>Agente 3</th>
+            <th>Resultado</th>
+            <th>Caso Judicial</th>
+            <th>Costo del Operativo</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var operativo in Model)
+        {
+            <tr>
+                <td>@operativo.Id</td>
+                <td>@operativo.NombreOperativo</td>
+                <td>@operativo.FechaEjecucion.ToString("dd/MM/yyyy")</td>
+                <td>@operativo.Ciudad</td>
+                <td>@operativo.TipoOperativo</td>
+                <td>@operativo.NombreAgente1</td>
+                <td>@operativo.NombreAgente2</td>
+                <td>@operativo.NombreAgente3</td>
+                <td>@operativo.Resultado</td>
+                <td>@operativo.NumeroCaso</td>
+                <td>@operativo.CostoOperativo</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@operativo.Id">Editar</a> |
+                    <a asp-action="Delete" asp-route-id="@operativo.Id">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
