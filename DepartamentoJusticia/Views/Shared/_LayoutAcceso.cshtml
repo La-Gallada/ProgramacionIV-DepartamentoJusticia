@@ -1,0 +1,16 @@
+@* Layout sin menu, usado unicamente por la pantalla de Login. *@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Departamento de Justicia</title>
+    <link rel="stylesheet" href="~/css/departamento.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="dj-login-pantalla">
+        @RenderBody()
+    </div>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

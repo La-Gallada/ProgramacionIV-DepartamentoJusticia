@@ -36,13 +36,28 @@ public class Audiencia
         this.Estado = "";
     }
 
-    [Required]
     public int Id { get => id; set => id = value; }
+
+    [DataType(DataType.Date)]
+    [Display(Name = "Fecha")]
     public DateTime Fecha { get => fecha; set => fecha = value; }
+
+    [DataType(DataType.Time)]
+    [Display(Name = "Hora")]
     public TimeSpan Hora { get => hora; set => hora = value; }
+
+    [Display(Name = "Tipo de audiencia")]
     public string TipoAudiencia { get => tipoAudiencia; set => tipoAudiencia = value; }
+
+    [Display(Name = "Tribunal asignado")]
     public string NombreTribunal { get => nombreTribunal; set => nombreTribunal = value; }
+
+    [Display(Name = "Caso judicial vinculado")]
     public string NumeroCaso { get => numeroCaso; set => numeroCaso = value; }
+
+    [Display(Name = "Observaciones")]
     public string Observaciones { get => observaciones; set => observaciones = value; }
+
+    [Display(Name = "Estado")]
     public string Estado { get => estado; set => estado = value; }
 }

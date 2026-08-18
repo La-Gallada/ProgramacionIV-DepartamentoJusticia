@@ -214,6 +214,145 @@ public class Service : DbContext
 
     #region Sospechosos
 
+    public List<Sospechoso> ObtenerSospechosos()
+    {
+        return sospechosos
+            .OrderBy(s => s.NombreCompleto)
+            .ToList();
+    }
+
+    public Sospechoso? ObtenerSospechoso(int id)
+    {
+        return sospechosos.FirstOrDefault(s => s.Id == id);
+    }
+
+    public List<Sospechoso> BuscarSospechosos(
+        string? nombre,
+        string? estadoLegal,
+        int? peligrosidadMinima,
+        int? peligrosidadMaxima)
+    {
+        IQueryable<Sospechoso> consulta = sospechosos;
+
+        if (!string.IsNullOrWhiteSpace(nombre))
+        {
+            string texto = nombre.Trim();
+            consulta = consulta.Where(s => s.NombreCompleto.Contains(texto));
+        }
+
+        if (!string.IsNullOrWhiteSpace(estadoLegal))
+        {
+            string estado = estadoLegal.Trim();
+            consulta = consulta.Where(s => s.EstadoLegal == estado);
+        }
+
+        if (peligrosidadMinima.HasValue)
+        {
+            consulta = consulta.Where(
+                s => s.NivelPeligrosidad >= peligrosidadMinima.Value);
+        }
+
+        if (peligrosidadMaxima.HasValue)
+        {
+            consulta = consulta.Where(
+                s => s.NivelPeligrosidad <= peligrosidadMaxima.Value);
+        }
+
+        return consulta
+            .OrderByDescending(s => s.NivelPeligrosidad)
+            .ThenBy(s => s.NombreCompleto)
+            .ToList();
+    }
+
+    public bool ExisteIdentificacionSospechoso(
+        string identificacion,
+        int idExcluir = 0)
+    {
+        if (string.IsNullOrWhiteSpace(identificacion))
+        {
+            return false;
+        }
+
+        string valor = identificacion.Trim();
+
+        return sospechosos.Any(
+            s => s.Identificacion == valor &&
+                 s.Id != idExcluir);
+    }
+
+    public bool AgregarSospechoso(Sospechoso sospechoso)
+    {
+        try
+        {
+            sospechosos.Add(sospechoso);
+            SaveChanges();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public bool ActualizarSospechoso(Sospechoso sospechoso)
+    {
+        try
+        {
+            Sospechoso? registrado = sospechosos
+                .FirstOrDefault(s => s.Id == sospechoso.Id);
+
+            if (registrado == null)
+            {
+                return false;
+            }
+
+            registrado.Identificacion = sospechoso.Identificacion;
+            registrado.NombreCompleto = sospechoso.NombreCompleto;
+            registrado.Nacionalidad = sospechoso.Nacionalidad;
+            registrado.FechaNacimiento = sospechoso.FechaNacimiento;
+            registrado.NivelPeligrosidad = sospechoso.NivelPeligrosidad;
+            registrado.EstadoLegal = sospechoso.EstadoLegal;
+            registrado.NumeroCaso = sospechoso.NumeroCaso;
+
+            SaveChanges();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public bool EliminarSospechoso(int id)
+    {
+        try
+        {
+            Sospechoso? registrado = sospechosos
+                .FirstOrDefault(s => s.Id == id);
+
+            if (registrado == null)
+            {
+                return false;
+            }
+
+            sospechosos.Remove(registrado);
+            SaveChanges();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public List<string> ObtenerNumerosDeCaso()
+    {
+        return casosJudiciales
+            .OrderBy(c => c.NumeroCaso)
+            .Select(c => c.NumeroCaso)
+            .ToList();
+    }
+
     #endregion
 
     #region Evidencias
@@ -432,6 +571,14 @@ public class Service : DbContext
 
     #region Tribunales
 
+    public List<string> ObtenerNombresDeTribunal()
+    {
+        return tribunales
+            .OrderBy(t => t.Nombre)
+            .Select(t => t.Nombre)
+            .ToList();
+    }
+
     public void agregarTribunal(Tribunal tribunalito)
     {
         tribunales.Add(tribunalito);
@@ -532,6 +679,115 @@ public class Service : DbContext
     #endregion
 
     #region Audiencias
+
+    public List<Audiencia> ObtenerAudiencias()
+    {
+        return audiencias
+            .OrderByDescending(a => a.Fecha)
+            .ThenByDescending(a => a.Hora)
+            .ToList();
+    }
+
+    public Audiencia? ObtenerAudiencia(int id)
+    {
+        return audiencias.FirstOrDefault(a => a.Id == id);
+    }
+
+    public List<Audiencia> BuscarAudiencias(
+        string? nombreTribunal,
+        string? tipoAudiencia,
+        string? estado)
+    {
+        IQueryable<Audiencia> consulta = audiencias;
+
+        if (!string.IsNullOrWhiteSpace(nombreTribunal))
+        {
+            consulta = consulta.Where(
+                a => a.NombreTribunal == nombreTribunal.Trim());
+        }
+
+        if (!string.IsNullOrWhiteSpace(tipoAudiencia))
+        {
+            consulta = consulta.Where(
+                a => a.TipoAudiencia == tipoAudiencia.Trim());
+        }
+
+        if (!string.IsNullOrWhiteSpace(estado))
+        {
+            consulta = consulta.Where(
+                a => a.Estado == estado.Trim());
+        }
+
+        return consulta
+            .OrderByDescending(a => a.Fecha)
+            .ThenByDescending(a => a.Hora)
+            .ToList();
+    }
+
+    public bool AgregarAudiencia(Audiencia audiencia)
+    {
+        try
+        {
+            audiencias.Add(audiencia);
+            SaveChanges();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public bool ActualizarAudiencia(Audiencia audiencia)
+    {
+        try
+        {
+            Audiencia? registrada = audiencias
+                .FirstOrDefault(a => a.Id == audiencia.Id);
+
+            if (registrada == null)
+            {
+                return false;
+            }
+
+            registrada.Fecha = audiencia.Fecha;
+            registrada.Hora = audiencia.Hora;
+            registrada.TipoAudiencia = audiencia.TipoAudiencia;
+            registrada.NombreTribunal = audiencia.NombreTribunal;
+            registrada.NumeroCaso = audiencia.NumeroCaso;
+            registrada.Observaciones = audiencia.Observaciones;
+            registrada.Estado = audiencia.Estado;
+
+            SaveChanges();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public bool EliminarAudiencia(int id)
+    {
+        try
+        {
+            Audiencia? registrada = audiencias
+                .FirstOrDefault(a => a.Id == id);
+
+            if (registrada == null)
+            {
+                return false;
+            }
+
+            audiencias.Remove(registrada);
+            SaveChanges();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
 
     #endregion
 

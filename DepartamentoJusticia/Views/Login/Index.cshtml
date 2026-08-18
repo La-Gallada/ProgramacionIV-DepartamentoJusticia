@@ -1,22 +1,28 @@
 @{
     ViewData["Title"] = "Inicio de sesion";
+    Layout = "_LayoutAcceso";
 }
 
-<h1>Iniciar sesion</h1>
-
-<form method="post">
-    <div asp-validation-summary="All" class="text-danger"></div>
-
-    <div class="mb-3">
-        <label for="nombreUsuario" class="form-label">Nombre de usuario</label>
-        <input id="nombreUsuario" name="nombreUsuario" type="text" class="form-control" required />
+<div class="dj-login-caja">
+    <div class="dj-login-encabezado">
+        <span class="dj-login-escudo">DJ</span>
+        <h1>Departamento de Justicia</h1>
+        <p>Acceso exclusivo para personal autorizado</p>
     </div>
 
-    <div class="mb-3">
-        <label for="contrasenia" class="form-label">Contrasena</label>
-        <input id="contrasenia" name="contrasenia" type="password" class="form-control" required />
-    </div>
+    <div asp-validation-summary="All" class="dj-mensaje dj-mensaje-error"></div>
 
-    <button type="submit" class="btn btn-primary">Iniciar sesion</button>
-    <button type="reset" class="btn btn-secondary">Limpiar</button>
-</form>
+    <form method="post" asp-action="Index">
+        <div class="dj-campo">
+            <label class="dj-etiqueta" for="nombreUsuario">Nombre de usuario</label>
+            <input class="dj-control" id="nombreUsuario" name="nombreUsuario" autocomplete="username" required />
+        </div>
+
+        <div class="dj-campo">
+            <label class="dj-etiqueta" for="contrasenia">Contrasena</label>
+            <input class="dj-control" id="contrasenia" name="contrasenia" type="password" autocomplete="current-password" required />
+        </div>
+
+        <button type="submit" class="dj-boton dj-boton-primario">Ingresar</button>
+    </form>
+</div>
