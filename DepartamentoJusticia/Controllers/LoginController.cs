@@ -16,9 +16,10 @@ public class LoginController : Controller
     [HttpGet]
     public IActionResult Index()
     {
+        HttpContext.Session.Clear();
         return View();
     }
-    
+
     [HttpPost]
     public IActionResult Index(string nombreUsuario, string contrasenia)
     {
@@ -32,13 +33,24 @@ public class LoginController : Controller
         }
 
         service.RegistrarBitacora(nombreUsuario, "Exitoso");
+
         HttpContext.Session.SetString("Username", usuario.NombreUsuario);
+        HttpContext.Session.SetString("NombreCompleto", usuario.NombreCompleto);
+        HttpContext.Session.SetString("Cargo", usuario.Cargo);
+
         return RedirectToAction("Index", "Inicio");
     }
 
-    public IActionResult Logout()
+    [HttpGet]
+    public IActionResult CerrarSesion()
     {
         HttpContext.Session.Clear();
-        return RedirectToAction("Index", "Login");
+        return Redirect("/Login");
+    }
+
+    [HttpGet]
+    public IActionResult Logout()
+    {
+        return CerrarSesion();
     }
 }

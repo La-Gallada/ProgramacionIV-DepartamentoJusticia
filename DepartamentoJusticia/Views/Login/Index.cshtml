@@ -1,22 +1,44 @@
 @{
     ViewData["Title"] = "Inicio de sesion";
+    Layout = "_LayoutAcceso";
 }
+<section class="ftco-section login15-seccion">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-7 col-lg-5">
+                <div class="wrap">
+                    <div class="img login15-imagen" aria-hidden="true"></div>
+                    <div class="login-wrap p-4 p-md-5">
+                        <div class="login15-marca">
+                            <img class="login15-escudo" src="~/img/justicia/favicon_dj.png" alt="Emblema del Departamento de Justicia" />
+                            <div>
+                                <h1>Departamento de Justicia</h1>
+                                <p>Acceso exclusivo para personal autorizado</p>
+                            </div>
+                        </div>
 
-<h1>Iniciar sesion</h1>
+                        <div asp-validation-summary="All" class="dj-mensaje dj-mensaje-error"></div>
+                        @if (TempData["Error"] != null)
+                        {
+                            <div class="dj-mensaje dj-mensaje-error">@TempData["Error"]</div>
+                        }
 
-<form method="post">
-    <div asp-validation-summary="All" class="text-danger"></div>
-
-    <div class="mb-3">
-        <label for="nombreUsuario" class="form-label">Nombre de usuario</label>
-        <input id="nombreUsuario" name="nombreUsuario" type="text" class="form-control" required />
+                        <form method="post" asp-action="Index" class="signin-form">
+                            <div class="form-group mt-3">
+                                <label class="form-control-placeholder" for="nombreUsuario">Nombre de usuario</label>
+                                <input class="form-control" id="nombreUsuario" name="nombreUsuario" autocomplete="username" required />
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-placeholder" for="contrasenia">Contraseña</label>
+                                <input class="form-control" id="contrasenia" name="contrasenia" type="password" autocomplete="current-password" required />
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="form-control btn btn-primary rounded submit px-3">Ingresar al sistema</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <div class="mb-3">
-        <label for="contrasenia" class="form-label">Contrasena</label>
-        <input id="contrasenia" name="contrasenia" type="password" class="form-control" required />
-    </div>
-
-    <button type="submit" class="btn btn-primary">Iniciar sesion</button>
-    <button type="reset" class="btn btn-secondary">Limpiar</button>
-</form>
+</section>

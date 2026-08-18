@@ -1,78 +1,76 @@
+@{
+    var controladorActual = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+    string Activo(string nombre) => controladorActual.Equals(nombre, StringComparison.OrdinalIgnoreCase) ? "active" : "";
+    var usuarioSesion = Context.Session.GetString("NombreCompleto") ?? "Personal autorizado";
+    var cargoSesion = Context.Session.GetString("Cargo") ?? "Departamento de Justicia";
+}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Sistema de gestión del Departamento de Justicia" />
     <title>@ViewData["Title"] - Departamento de Justicia</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/DepartamentoJusticia.styles.css" asp-append-version="true" />
+    <link rel="icon" type="image/png" href="~/img/justicia/favicon_dj.png" asp-append-version="true" />
+    <link rel="stylesheet" href="~/adminhmd/css/bootstrap.min.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/adminhmd/vendors/bootstrap-icons/bootstrap-icons.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/adminhmd/css/style.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/departamento.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Inicio" asp-action="Index">Departamento de Justicia</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Abrir navegación">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Inicio" asp-action="Index">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Agentes" asp-action="Index">Agentes Federales</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Casos" asp-action="Index">Casos Judiciales</a>
-                        </li>
-                        <li class="nav-item">
-                            <span class="nav-link text-muted">Sospechosos</span>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Evidencia" asp-action="Index">Evidencias</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Operativos" asp-action="Index">Operativos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Tribunal" asp-action="Index">Tribunales</a>
-                        </li>
-                        <li class="nav-item">
-                            <span class="nav-link text-muted">Audiencias</span>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Index">Usuarios</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Bitacora" asp-action="Index">Bitácora</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="AcercaDe" asp-action="Index">Acerca de</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Logout">Cerrar Sesión</a>
-                        </li>
-                    </ul>
-                </div>
+    <div class="admin-shell">
+        <div class="sidebar-backdrop" data-sidebar-close></div>
+
+        <aside class="admin-sidebar" id="adminSidebar" aria-label="Navegación principal">
+            <div class="sidebar-header">
+                <a class="brand-mark" asp-controller="Inicio" asp-action="Index" aria-label="Inicio del Departamento de Justicia">
+                    <img class="brand-logo-image" src="~/img/justicia/favicon_dj.png" alt="Emblema del Departamento de Justicia" />
+                    <span class="brand-copy"><span class="brand-title">Justicia</span><span class="brand-subtitle">Sistema de gestión</span></span>
+                </a>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - Departamento de Justicia
+
+            <nav class="sidebar-nav" aria-label="Módulos del sistema">
+                <a class="nav-link @Activo("Inicio")" asp-controller="Inicio" asp-action="Index"><span class="nav-icon"><i class="bi bi-speedometer2"></i></span><span class="nav-text">Inicio</span></a>
+                <a class="nav-link @Activo("Agentes")" asp-controller="Agentes" asp-action="Index"><span class="nav-icon"><i class="bi bi-person-badge"></i></span><span class="nav-text">Agentes federales</span></a>
+                <a class="nav-link @Activo("Casos")" asp-controller="Casos" asp-action="Index"><span class="nav-icon"><i class="bi bi-folder2-open"></i></span><span class="nav-text">Casos judiciales</span></a>
+                <a class="nav-link @Activo("Sospechosos")" asp-controller="Sospechosos" asp-action="Index"><span class="nav-icon"><i class="bi bi-person-exclamation"></i></span><span class="nav-text">Sospechosos</span></a>
+                <a class="nav-link @Activo("Evidencia")" asp-controller="Evidencia" asp-action="Index"><span class="nav-icon"><i class="bi bi-box-seam"></i></span><span class="nav-text">Evidencias</span></a>
+                <a class="nav-link @Activo("Operativos")" asp-controller="Operativos" asp-action="Index"><span class="nav-icon"><i class="bi bi-crosshair"></i></span><span class="nav-text">Operativos</span></a>
+                <a class="nav-link @Activo("Tribunal")" asp-controller="Tribunal" asp-action="Index"><span class="nav-icon"><i class="bi bi-bank"></i></span><span class="nav-text">Tribunales</span></a>
+                <a class="nav-link @Activo("Audiencias")" asp-controller="Audiencias" asp-action="Index"><span class="nav-icon"><i class="bi bi-calendar2-week"></i></span><span class="nav-text">Audiencias</span></a>
+                <a class="nav-link @Activo("Usuarios")" asp-controller="Usuarios" asp-action="Index"><span class="nav-icon"><i class="bi bi-people"></i></span><span class="nav-text">Usuarios</span></a>
+                <a class="nav-link @Activo("Bitacora")" asp-controller="Bitacora" asp-action="Index"><span class="nav-icon"><i class="bi bi-journal-text"></i></span><span class="nav-text">Bitácora</span></a>
+                <a class="nav-link @Activo("AcercaDe")" asp-controller="AcercaDe" asp-action="Index"><span class="nav-icon"><i class="bi bi-info-circle"></i></span><span class="nav-text">Acerca de</span></a>
+            </nav>
+
+            <div class="sidebar-user"><span class="brand-icon"><i class="bi bi-person-fill" aria-hidden="true"></i></span><strong>@usuarioSesion</strong><small>@cargoSesion</small></div>
+            <div class="sidebar-footer"><span class="status-dot"></span><span class="sidebar-footer-text">Sistema en funcionamiento</span></div>
+        </aside>
+
+        <div class="admin-main">
+            <nav class="navbar admin-navbar navbar-expand bg-white">
+                <div class="container-fluid px-3 px-lg-4">
+                    <button class="sidebar-toggle" type="button" data-sidebar-toggle aria-controls="adminSidebar" aria-expanded="true" aria-label="Mostrar u ocultar menú"><span></span><span></span><span></span></button>
+                    <div class="ms-3 page-navbar-title">@ViewData["Title"]</div>
+                    <div class="navbar-actions ms-auto">
+                        <button class="icon-button theme-toggle" type="button" data-theme-toggle aria-label="Cambiar tema" title="Cambiar tema"><i class="bi bi-moon-stars" data-theme-icon aria-hidden="true"></i></button>
+                        <div class="dropdown">
+                            <button class="profile-button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><span class="brand-icon profile-icon"><i class="bi bi-person-fill"></i></span><span class="profile-name d-none d-sm-inline">Sesión activa</span></button>
+                            <ul class="dropdown-menu dropdown-menu-end"><li><span class="dropdown-item-text small text-muted">@cargoSesion</span></li><li><hr class="dropdown-divider"></li><li><a class="dropdown-item" asp-controller="Login" asp-action="CerrarSesion"><i class="bi bi-box-arrow-right me-2"></i>Cerrar sesión</a></li></ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <main class="dashboard-content" role="main"><div class="container-fluid px-3 px-lg-4 py-4"><partial name="_MensajeAlerta" />@RenderBody()</div></main>
+            <footer class="admin-footer"><div class="container-fluid px-3 px-lg-4"><span>&copy; 2026 Departamento de Justicia · Proyecto Final Programación IV</span></div></footer>
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    </div>
+    <script>
+        window.adminHMDUser = { name: "Sesión activa", workspace: "@cargoSesion" };
+    </script>
+    <script src="~/adminhmd/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
+    <script src="~/adminhmd/js/main.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

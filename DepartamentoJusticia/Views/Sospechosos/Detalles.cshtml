@@ -1,0 +1,57 @@
+@model Sospechoso
+@{
+    ViewData["Title"] = "Detalle del sospechoso";
+}
+
+<partial name="_EncabezadoModulo" model='new EncabezadoModulo {
+    Titulo = Model.NombreCompleto,
+    Descripcion = "Ficha completa del sospechoso." }' />
+
+<div class="dj-panel">
+    <div class="dj-panel-titulo">Informacion registrada</div>
+    <div class="dj-panel-cuerpo">
+        <dl class="dj-detalle">
+            <div class="dj-detalle-item">
+                <dt>Identificacion</dt>
+                <dd>@Model.Identificacion</dd>
+            </div>
+            <div class="dj-detalle-item">
+                <dt>Nombre completo</dt>
+                <dd>@Model.NombreCompleto</dd>
+            </div>
+            <div class="dj-detalle-item">
+                <dt>Nacionalidad</dt>
+                <dd>@Model.Nacionalidad</dd>
+            </div>
+            <div class="dj-detalle-item">
+                <dt>Fecha de nacimiento</dt>
+                <dd>@Model.FechaNacimiento.ToString("dd/MM/yyyy") (@Model.Edad anios)</dd>
+            </div>
+            <div class="dj-detalle-item">
+                <dt>Nivel de peligrosidad</dt>
+                <dd>@Model.NivelPeligrosidad / 100</dd>
+            </div>
+            <div class="dj-detalle-item">
+                <dt>Nivel de riesgo (calculado)</dt>
+                <dd>
+                    <span class="dj-etiqueta-estado @Etiquetas.ClaseRiesgo(Model.NivelRiesgo)">@Model.NivelRiesgo</span>
+                </dd>
+            </div>
+            <div class="dj-detalle-item">
+                <dt>Estado legal</dt>
+                <dd>
+                    <span class="dj-etiqueta-estado @Etiquetas.ClaseEstado(Model.EstadoLegal)">@Model.EstadoLegal</span>
+                </dd>
+            </div>
+            <div class="dj-detalle-item">
+                <dt>Caso judicial vinculado</dt>
+                <dd>@Model.NumeroCaso</dd>
+            </div>
+        </dl>
+
+        <div class="dj-acciones">
+            <a asp-action="Editar" asp-route-id="@Model.Id" class="dj-boton dj-boton-primario">Actualizar</a>
+            <a asp-action="Index" class="dj-boton dj-boton-secundario">Volver al listado</a>
+        </div>
+    </div>
+</div>

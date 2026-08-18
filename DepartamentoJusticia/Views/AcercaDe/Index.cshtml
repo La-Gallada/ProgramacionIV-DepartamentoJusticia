@@ -1,37 +1,62 @@
+@using DepartamentoJusticia.ViewModels
 @{
     ViewData["Title"] = "Acerca de";
 }
-
-<h1>Acerca de</h1>
-
-<div class="row align-items-center">
-    <div class="col-md-5 mb-3">
-        <img src="~/img/acerca-de-justicia.svg" class="img-fluid rounded border" alt="Imagen relacionada con el Departamento de Justicia" />
-    </div>
-    <div class="col-md-7">
-        <dl class="row">
-            <dt class="col-sm-4">Nombre de la aplicacion</dt>
-            <dd class="col-sm-8">Departamento de Justicia</dd>
-
-            <dt class="col-sm-4">Universidad</dt>
-            <dd class="col-sm-8">Universidad Latina de Costa Rica</dd>
-
-            <dt class="col-sm-4">Curso</dt>
-            <dd class="col-sm-8">Programacion IV (BIS10)</dd>
-
-            <dt class="col-sm-4">Profesora</dt>
-            <dd class="col-sm-8">Adriana Stephanie Rubio Escobar</dd>
-
-            <dt class="col-sm-4">Integrantes del grupo</dt>
-            <dd class="col-sm-8">
-                Christopher Phillips Arroyo<br />
-                Allison Valeria Sancho Vega<br />
-                Juan Gabriel Sandi Lopez<br />
-                Maryeri Gómez Hernández
-            </dd>
-
-            <dt class="col-sm-4">Version del sistema</dt>
-            <dd class="col-sm-8">1.0</dd>
+<partial name="_EncabezadoModulo" model='new EncabezadoModulo {
+    Titulo = "Acerca del sistema",
+    Descripcion = "Información general del proyecto y del equipo de desarrollo." }' />
+<div class="dj-panel">
+    <div class="dj-panel-titulo">Identificación del proyecto</div>
+    <div class="dj-panel-cuerpo">
+        <dl class="dj-detalle">
+            <div class="dj-detalle-item">
+                <dt>Nombre de la aplicación</dt>
+                <dd>Sistema del Departamento de Justicia</dd>
+            </div>
+            <div class="dj-detalle-item">
+                <dt>Universidad</dt>
+                <dd>@ViewBag.Universidad</dd>
+            </div>
+            <div class="dj-detalle-item">
+                <dt>Curso</dt>
+                <dd>@ViewBag.Curso</dd>
+            </div>
+            <div class="dj-detalle-item">
+                <dt>Profesora</dt>
+                <dd>@ViewBag.Profesora</dd>
+            </div>
+            <div class="dj-detalle-item">
+                <dt>Versión</dt>
+                <dd>@ViewBag.Version</dd>
+            </div>
         </dl>
+    </div>
+</div>
+<div class="dj-panel">
+    <div class="dj-panel-titulo">Integrantes del grupo</div>
+    <div class="dj-panel-cuerpo">
+        <div class="dj-tabla-envoltura">
+            <table class="dj-tabla">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var integrante in (List<string[]>)ViewBag.Integrantes)
+                    {
+                        <tr>
+                            <td>@integrante[0]</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="dj-panel">
+    <div class="dj-panel-titulo">Imagen institucional</div>
+    <div class="dj-panel-cuerpo">
+        <img src="~/img/justicia/footer_horizontal.png" alt="Departamento de Justicia" style="width:100%;border-radius:6px;" />
     </div>
 </div>
