@@ -1,0 +1,120 @@
+@*
+    PLANTILLA DE REFERENCIA PARA TODO EL EQUIPO.
+    Copien este archivo a la carpeta de su modulo y cambien el modelo,
+    las columnas y los criterios de busqueda. No inventen clases CSS:
+    todas las que se usan aqui estan en wwwroot/css/departamento.css.
+*@
+@model BusquedaSospechosoViewModel
+@{
+    ViewData["Title"] = "Sospechosos";
+}
+
+<partial name="_EncabezadoModulo" model='new EncabezadoModulo {
+    Titulo = "Sospechosos",
+    Descripcion = "Personas vinculadas a los casos judiciales en investigacion.",
+    TextoBoton = "Agregar sospechoso",
+    Controlador = "Sospechosos",
+    Accion = "Create" }' />
+
+<form method="get" asp-action="Index">
+    <div class="dj-panel">
+        <div class="dj-panel-titulo">Busqueda por multiples criterios</div>
+        <div class="dj-panel-cuerpo">
+            <div class="dj-formulario-rejilla">
+
+                <div class="dj-campo">
+                    <label class="dj-etiqueta" for="Nombre">Nombre</label>
+                    <input class="dj-control" id="Nombre" asp-for="Nombre" placeholder="Nombre completo o parte de el" />
+                </div>
+
+                <div class="dj-campo">
+                    <label class="dj-etiqueta" for="EstadoLegal">Estado legal</label>
+                    <select class="dj-control" id="EstadoLegal" asp-for="EstadoLegal">
+                        <option value="">Todos</option>
+                        @foreach (var estado in SospechosoViewModel.EstadosLegales)
+                        {
+                            <option value="@estado">@estado</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="dj-campo">
+                    <label class="dj-etiqueta" for="PeligrosidadMinima">Peligrosidad desde</label>
+                    <input class="dj-control" id="PeligrosidadMinima" asp-for="PeligrosidadMinima" type="number" min="1" max="100" placeholder="1" />
+                </div>
+
+                <div class="dj-campo">
+                    <label class="dj-etiqueta" for="PeligrosidadMaxima">Peligrosidad hasta</label>
+                    <input class="dj-control" id="PeligrosidadMaxima" asp-for="PeligrosidadMaxima" type="number" min="1" max="100" placeholder="100" />
+                </div>
+
+            </div>
+
+            <div class="dj-acciones">
+                <button type="submit" class="dj-boton dj-boton-primario">Buscar</button>
+                <a asp-action="Index" class="dj-boton dj-boton-secundario">Limpiar filtros</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div class="dj-panel">
+    <div class="dj-panel-titulo">Listado de sospechosos</div>
+
+    @if (Model.Resultados.Count == 0)
+    {
+        <p class="dj-tabla-vacia">No hay sospechosos registrados con los criterios indicados.</p>
+    }
+    else
+    {
+        <div class="dj-tabla-envoltura">
+            <table class="dj-tabla">
+                <thead>
+                    <tr>
+                        <th>Identificacion</th>
+                        <th>Nombre completo</th>
+                        <th>Nacionalidad</th>
+                        <th class="dj-tabla-numero">Edad</th>
+                        <th class="dj-tabla-numero">Peligrosidad</th>
+                        <th>Nivel de riesgo</th>
+                        <th>Estado legal</th>
+                        <th>Caso</th>
+                        <th class="dj-tabla-acciones">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var sospechoso in Model.Resultados)
+                    {
+                        <tr>
+                            <td>@sospechoso.Identificacion</td>
+                            <td>@sospechoso.NombreCompleto</td>
+                            <td>@sospechoso.Nacionalidad</td>
+                            <td class="dj-tabla-numero">@sospechoso.Edad</td>
+                            <td class="dj-tabla-numero">@sospechoso.NivelPeligrosidad</td>
+                            <td>
+                                <span class="dj-etiqueta-estado @Etiquetas.ClaseRiesgo(sospechoso.NivelRiesgo)">
+                                    @sospechoso.NivelRiesgo
+                                </span>
+                            </td>
+                            <td>
+                                <span class="dj-etiqueta-estado @Etiquetas.ClaseEstado(sospechoso.EstadoLegal)">
+                                    @sospechoso.EstadoLegal
+                                </span>
+                            </td>
+                            <td>@sospechoso.NumeroCaso</td>
+                            <td class="dj-tabla-acciones">
+                                <a class="dj-boton dj-boton-secundario dj-boton-pequeno" asp-action="Details" asp-route-id="@sospechoso.Id">Ver</a>
+                                <a class="dj-boton dj-boton-secundario dj-boton-pequeno" asp-action="Edit" asp-route-id="@sospechoso.Id">Editar</a>
+                                <a class="dj-boton dj-boton-peligro dj-boton-pequeno" asp-action="Delete" asp-route-id="@sospechoso.Id">Eliminar</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="dj-panel-cuerpo">
+            <span class="dj-contador">@Model.Resultados.Count sospechoso(s) encontrado(s).</span>
+        </div>
+    }
+</div>

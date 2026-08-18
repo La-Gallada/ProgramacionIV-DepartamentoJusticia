@@ -1,0 +1,46 @@
+@model Tribunal
+
+@{
+    ViewData["Title"] = "Editar tribunal";
+}
+
+<h1>Editar tribunal</h1>
+
+<form asp-action="Edit" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <input asp-for="Id" type="hidden" />
+
+    <div class="mb-3">
+        <label asp-for="Nombre" class="form-label">Nombre</label>
+        <input asp-for="Nombre" type="text" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Estado" class="form-label">Estado</label>
+        <select asp-for="Estado" class="form-select" required>
+            <option value="">Seleccione</option>
+            <option value="Activo">Activo</option>
+            <option value="Inactivo">Inactivo</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Ciudad" class="form-label">Ciudad</label>
+        <input asp-for="Ciudad" type="text" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="JuezAsignado" class="form-label">Juez asignado</label>
+        <input asp-for="JuezAsignado" type="text" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CantidadSalas" class="form-label">Cantidad de salas</label>
+        <input asp-for="CantidadSalas" type="number" class="form-control" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <button type="reset" class="btn btn-secondary">Limpiar</button>
+    <a asp-action="Index" class="btn btn-link">Volver al listado</a>
+</form>

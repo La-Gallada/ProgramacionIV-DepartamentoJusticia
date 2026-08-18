@@ -4,23 +4,40 @@ namespace DepartamentoJusticia.Models;
 
 public class Tribunal
 {
-    public int Id { get; set; }
+    private int id;
+    private string nombre;
+    private string estado;
+    private string ciudad;
+    private string juezAsignado;
+    private int cantidadSalas;
+
+
+    public Tribunal(int id, string nombre, string estado, string ciudad, string juezAsignado, int cantidadSalas)
+    {
+        this.Id = id;
+        this.Nombre = nombre;
+        this.Estado = estado;
+        this.Ciudad = ciudad;
+        this.JuezAsignado = juezAsignado;
+        this.CantidadSalas = cantidadSalas;
+    }
+
+    public Tribunal()
+    {
+        this.Id = 0;
+        this.Nombre = "";
+        this.Estado = "";
+        this.Ciudad = "";
+        this.JuezAsignado = "";
+        this.CantidadSalas = 0;
+    }
+
 
     [Required]
-    public string Nombre { get; set; } = string.Empty;
-
-    [Required]
-    public string Estado { get; set; } = string.Empty;
-
-    [Required]
-    public string Ciudad { get; set; } = string.Empty;
-
-    [Required]
-    [Display(Name = "Juez asignado")]
-    public string JuezAsignado { get; set; } = string.Empty;
-
-    [Display(Name = "Cantidad de salas")]
-    public int CantidadSalas { get; set; }
-
-    public ICollection<Audiencia> Audiencias { get; set; } = new List<Audiencia>();
+    public int Id { get => id; set => id = value; }
+    public string Nombre { get => nombre; set => nombre = value; }
+    public string Estado { get => estado; set => estado = value; }
+    public string Ciudad { get => ciudad; set => ciudad = value; }
+    public string JuezAsignado { get => juezAsignado; set => juezAsignado = value; }
+    public int CantidadSalas { get => cantidadSalas; set => cantidadSalas = value; }
 }

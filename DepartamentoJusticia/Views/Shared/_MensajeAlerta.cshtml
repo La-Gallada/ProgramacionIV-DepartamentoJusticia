@@ -1,0 +1,21 @@
+@*
+    Muestra los mensajes de confirmacion o error del sistema.
+    Ya viene incluido en el _Layout: NO hay que invocarlo en cada vista.
+
+    Desde el controlador se usa asi:
+        TempData["Exito"] = "El sospechoso se registro correctamente.";
+        TempData["Error"] = "No fue posible eliminar el registro.";
+        TempData["Aviso"] = "No se encontraron resultados.";
+*@
+@if (TempData["Exito"] != null)
+{
+    <div class="dj-mensaje dj-mensaje-exito">@TempData["Exito"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="dj-mensaje dj-mensaje-error">@TempData["Error"]</div>
+}
+@if (TempData["Aviso"] != null)
+{
+    <div class="dj-mensaje dj-mensaje-aviso">@TempData["Aviso"]</div>
+}

@@ -4,14 +4,32 @@ namespace DepartamentoJusticia.Models;
 
 public class Bitacora
 {
-    public int Id { get; set; }
-
-    [Display(Name = "Fecha y hora")]
-    public DateTime FechaHora { get; set; }
+    private int id;
+    private DateTime fecha;
+    private TimeSpan hora;
+    private string nombreUsuario;
+    private string resultado;
+    public Bitacora(int id, DateTime fecha, TimeSpan hora, string nombreUsuario, string resultado)
+    {
+        this.Id = id;
+        this.Fecha = fecha;
+        this.Hora = hora;
+        this.NombreUsuario = nombreUsuario;
+        this.Resultado = resultado;
+    }
+    public Bitacora()
+    {
+        this.Id = 0;
+        this.Fecha = DateTime.MinValue;
+        this.Hora = TimeSpan.Zero;
+        this.NombreUsuario = "";
+        this.Resultado = "";
+    }
 
     [Required]
-    public string Usuario { get; set; } = string.Empty;
-
-    [Required]
-    public string Resultado { get; set; } = string.Empty;
+    public int Id { get => id; set => id = value; }
+    public DateTime Fecha { get => fecha; set => fecha = value; }
+    public TimeSpan Hora { get => hora; set => hora = value; }
+    public string NombreUsuario { get => nombreUsuario; set => nombreUsuario = value; }
+    public string Resultado { get => resultado; set => resultado = value; }
 }

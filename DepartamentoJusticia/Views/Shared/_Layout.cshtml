@@ -1,3 +1,8 @@
+@{
+    var controladorActual = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+    string Activo(string nombre) => controladorActual.Equals(nombre, StringComparison.OrdinalIgnoreCase) ? "activo" : "";
+    var usuarioSesion = Context.Session.GetString("Username");
+}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -5,72 +10,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Departamento de Justicia</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/departamento.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/DepartamentoJusticia.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Inicio" asp-action="Index">Departamento de Justicia</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Abrir navegación">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Inicio" asp-action="Index">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <span class="nav-link text-muted">Agentes Federales</span>
-                        </li>
-                        <li class="nav-item">
-                            <span class="nav-link text-muted">Casos Judiciales</span>
-                        </li>
-                        <li class="nav-item">
-                            <span class="nav-link text-muted">Sospechosos</span>
-                        </li>
-                        <li class="nav-item">
-                            <span class="nav-link text-muted">Evidencias</span>
-                        </li>
-                        <li class="nav-item">
-                            <span class="nav-link text-muted">Operativos</span>
-                        </li>
-                        <li class="nav-item">
-                            <span class="nav-link text-muted">Tribunales</span>
-                        </li>
-                        <li class="nav-item">
-                            <span class="nav-link text-muted">Audiencias</span>
-                        </li>
-                        <li class="nav-item">
-                            <span class="nav-link text-muted">Usuarios</span>
-                        </li>
-                        <li class="nav-item">
-                            <span class="nav-link text-muted">Bitácora</span>
-                        </li>
-                        <li class="nav-item">
-                            <span class="nav-link text-muted">Acerca de</span>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Index">Cerrar Sesión</a>
-                        </li>
-                    </ul>
-                </div>
+    <div class="dj-contenedor">
+        <nav class="dj-menu">
+            <div class="dj-menu-marca">
+                <span class="dj-menu-marca-escudo">DJ</span>
+                <a class="dj-menu-marca-titulo" asp-controller="Inicio" asp-action="Index">Departamento de Justicia</a>
+                <span class="dj-menu-marca-sub">Sistema de Gestion</span>
+            </div>
+
+            <ul class="dj-menu-lista">
+                <li><a class="dj-menu-enlace @Activo("Inicio")" asp-controller="Inicio" asp-action="Index">Inicio</a></li>
+                <li><a class="dj-menu-enlace @Activo("Agentes")" asp-controller="Agentes" asp-action="Index">Agentes Federales</a></li>
+                <li><a class="dj-menu-enlace @Activo("Casos")" asp-controller="Casos" asp-action="Index">Casos Judiciales</a></li>
+                <li><a class="dj-menu-enlace @Activo("Sospechosos")" asp-controller="Sospechosos" asp-action="Index">Sospechosos</a></li>
+                <li><a class="dj-menu-enlace @Activo("Evidencia")" asp-controller="Evidencia" asp-action="Index">Evidencias</a></li>
+                <li><a class="dj-menu-enlace @Activo("Operativos")" asp-controller="Operativos" asp-action="Index">Operativos</a></li>
+                <li><a class="dj-menu-enlace @Activo("Tribunal")" asp-controller="Tribunal" asp-action="Index">Tribunales</a></li>
+                <li><a class="dj-menu-enlace @Activo("Audiencias")" asp-controller="Audiencias" asp-action="Index">Audiencias</a></li>
+                <li><a class="dj-menu-enlace @Activo("Usuarios")" asp-controller="Usuarios" asp-action="Index">Usuarios</a></li>
+                <li><a class="dj-menu-enlace @Activo("Bitacora")" asp-controller="Bitacora" asp-action="Index">Bitacora</a></li>
+                <hr class="dj-menu-separador" />
+                <li><a class="dj-menu-enlace @Activo("AcercaDe")" asp-controller="AcercaDe" asp-action="Index">Acerca de</a></li>
+                <li><a class="dj-menu-enlace" asp-controller="Login" asp-action="Logout">Cerrar Sesion</a></li>
+            </ul>
+
+            <div class="dj-menu-pie">
+                Version 1.0 &middot; 2026
             </div>
         </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+
+        <div class="dj-principal">
+            <div class="dj-barra-superior">
+                <h2 class="dj-barra-titulo">@ViewData["Title"]</h2>
+                <div class="dj-barra-usuario">
+                    @if (!string.IsNullOrEmpty(usuarioSesion))
+                    {
+                        <span>Sesion iniciada por <strong>@usuarioSesion</strong></span>
+                    }
+                </div>
+            </div>
+
+            <main class="dj-cuerpo" role="main">
+                <partial name="_MensajeAlerta" />
+                @RenderBody()
+            </main>
+
+            <footer class="dj-pie">
+                &copy; 2026 Departamento de Justicia &middot; Proyecto Final Programacion IV
+            </footer>
+        </div>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - Departamento de Justicia
-        </div>
-    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

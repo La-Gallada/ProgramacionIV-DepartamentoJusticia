@@ -1,0 +1,70 @@
+@{
+    ViewData["Title"] = "Acerca de";
+}
+
+<partial name="_EncabezadoModulo" model='new EncabezadoModulo {
+    Titulo = "Acerca de",
+    Descripcion = "Informacion general del proyecto y del equipo de desarrollo." }' />
+
+<div class="dj-panel">
+    <div class="dj-panel-titulo">Identificacion del proyecto</div>
+    <div class="dj-panel-cuerpo">
+        <dl class="dj-detalle">
+            <div class="dj-detalle-item">
+                <dt>Nombre de la aplicacion</dt>
+                <dd>Departamento de Justicia</dd>
+            </div>
+
+            <div class="dj-detalle-item">
+                <dt>Universidad</dt>
+                <dd>Universidad Latina de Costa Rica</dd>
+            </div>
+
+            <div class="dj-detalle-item">
+                <dt>Curso</dt>
+                <dd>Programacion IV (BIS10)</dd>
+            </div>
+
+            <div class="dj-detalle-item">
+                <dt>Profesora</dt>
+                <dd>Adriana Stephanie Rubio Escobar</dd>
+            </div>
+
+            <div class="dj-detalle-item">
+                <dt>Version del sistema</dt>
+                <dd>1.0</dd>
+            </div>
+        </dl>
+    </div>
+</div>
+
+<div class="dj-panel">
+    <div class="dj-panel-titulo">Integrantes del grupo</div>
+    <div class="dj-panel-cuerpo">
+        <div class="dj-tabla-envoltura">
+            <table class="dj-tabla">
+                <tbody>
+                    <tr>
+                        <td>Christopher Phillips Arroyo</td>
+                    </tr>
+                    <tr>
+                        <td>Allison Valeria Sancho Vega</td>
+                    </tr>
+                    <tr>
+                        <td>Juan Gabriel Sandi Lopez</td>
+                    </tr>
+                    <tr>
+                        <td>Maryeri Gómez Hernández</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="dj-panel">
+    <div class="dj-panel-titulo">Imagen institucional</div>
+    <div class="dj-panel-cuerpo">
+        <img src="~/img/acerca-de-justicia.svg" alt="Imagen relacionada con el Departamento de Justicia" class="dj-imagen-institucional" />
+    </div>
+</div>
