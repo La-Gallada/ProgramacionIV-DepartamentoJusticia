@@ -77,7 +77,7 @@ public class AudienciasController : ControladorBase
             return View(modelo);
         }
 
-        TempData["Exito"] = "La audiencia se registro correctamente.";
+        TempData["Exito"] = "La audiencia se registró correctamente.";
         return RedirectToAction(nameof(Index));
     }
 
@@ -153,7 +153,7 @@ public class AudienciasController : ControladorBase
             return RedirectToAction(nameof(Index));
         }
 
-        TempData["Exito"] = "La audiencia se elimino correctamente.";
+        TempData["Exito"] = "La audiencia se eliminó correctamente.";
         return RedirectToAction(nameof(Index));
     }
 
@@ -209,7 +209,7 @@ public class AudienciasController : ControladorBase
         }
         else if (audiencia.NumeroCaso.Length > 30)
         {
-            ModelState.AddModelError("Audiencia.NumeroCaso", "El numero de caso no puede superar los 30 caracteres.");
+            ModelState.AddModelError("Audiencia.NumeroCaso", "El número de caso no puede superar los 30 caracteres.");
         }
 
         if (!string.IsNullOrWhiteSpace(audiencia.Observaciones) && audiencia.Observaciones.Length > 500)

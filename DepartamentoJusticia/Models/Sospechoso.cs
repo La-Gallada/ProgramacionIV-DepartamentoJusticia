@@ -41,7 +41,7 @@ public class Sospechoso
     [Required]
     public int Id { get => id; set => id = value; }
 
-    [Display(Name = "Identificacion")]
+    [Display(Name = "Identificación")]
     public string Identificacion { get => identificacion; set => identificacion = value; }
 
     [Display(Name = "Nombre completo")]
@@ -79,7 +79,7 @@ public class Sospechoso
 
     
     /// Nivel de riesgo calculado a partir del nivel de peligrosidad.
-    /// Riesgo Bajo: 1 a 25 | Moderado: 26 a 50 | Alto: 51 a 75 | Critico: 76 a 100.
+    /// Riesgo Bajo: 1 a 25 | Moderado: 26 a 50 | Alto: 51 a 75 | Crítico: 76 a 100.
     /// No se almacena en la base de datos, se calcula cada vez que se consulta.
     
     [NotMapped]
@@ -90,7 +90,7 @@ public class Sospechoso
         {
             if (this.NivelPeligrosidad >= 76)
             {
-                return "Riesgo Critico";
+                return "Riesgo Crítico";
             }
 
             if (this.NivelPeligrosidad >= 51)

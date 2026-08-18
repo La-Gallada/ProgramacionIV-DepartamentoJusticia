@@ -15,7 +15,7 @@
     </div>
 
     <div class="mb-3">
-        <label asp-for="Identificacion" class="form-label">Identificacion</label>
+        <label asp-for="Identificacion" class="form-label">Identificación</label>
         <input asp-for="Identificacion" type="text" class="form-control" required />
     </div>
 
@@ -49,12 +49,12 @@
     </div>
 
     <div class="mb-3">
-        <label asp-for="Contrasenia" class="form-label">Contrasena</label>
+        <label asp-for="Contrasenia" class="form-label">Contraseña</label>
         <input asp-for="Contrasenia" type="password" class="form-control" required />
     </div>
 
     <div class="mb-3">
-        <label for="confirmarContrasenia" class="form-label">Confirmar contrasena</label>
+        <label for="confirmarContrasenia" class="form-label">Confirmar contraseña</label>
         <input id="confirmarContrasenia" name="confirmarContrasenia" type="password" class="form-control" required />
         <span class="text-danger">@Html.ValidationMessage("confirmarContrasenia")</span>
     </div>

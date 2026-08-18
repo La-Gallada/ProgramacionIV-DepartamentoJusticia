@@ -28,7 +28,7 @@ public class LoginController : Controller
         if (usuario == null)
         {
             service.RegistrarBitacora(nombreUsuario, "Fallido");
-            ModelState.AddModelError("", "Las credenciales son invalidas o el usuario no esta activo.");
+            ModelState.AddModelError("", "Las credenciales son inválidas o el usuario no está activo.");
             return View();
         }
 

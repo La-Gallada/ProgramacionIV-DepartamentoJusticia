@@ -81,7 +81,7 @@ public class SospechososController : ControladorBase
 
         if (this.servicio.ExisteIdentificacionSospechoso(modelo.Sospechoso.Identificacion))
         {
-            ModelState.AddModelError("Sospechoso.Identificacion", "Ya existe un sospechoso registrado con esa identificacion.");
+            ModelState.AddModelError("Sospechoso.Identificacion", "Ya existe un sospechoso registrado con esa identificación.");
             modelo.CasosJudiciales = this.servicio.ObtenerNumerosDeCaso();
             return View(modelo);
         }
@@ -93,7 +93,7 @@ public class SospechososController : ControladorBase
             return View(modelo);
         }
 
-        TempData["Exito"] = $"El sospechoso {modelo.Sospechoso.NombreCompleto} se registro correctamente.";
+        TempData["Exito"] = $"El sospechoso {modelo.Sospechoso.NombreCompleto} se registró correctamente.";
         return RedirectToAction(nameof(Index));
     }
 
@@ -135,7 +135,7 @@ public class SospechososController : ControladorBase
 
         if (this.servicio.ExisteIdentificacionSospechoso(modelo.Sospechoso.Identificacion, modelo.Sospechoso.Id))
         {
-            ModelState.AddModelError("Sospechoso.Identificacion", "Ya existe otro sospechoso registrado con esa identificacion.");
+            ModelState.AddModelError("Sospechoso.Identificacion", "Ya existe otro sospechoso registrado con esa identificación.");
             modelo.CasosJudiciales = this.servicio.ObtenerNumerosDeCaso();
             return View(modelo);
         }
@@ -180,7 +180,7 @@ public class SospechososController : ControladorBase
             return RedirectToAction(nameof(Index));
         }
 
-        TempData["Exito"] = "El sospechoso se elimino correctamente.";
+        TempData["Exito"] = "El sospechoso se eliminó correctamente.";
         return RedirectToAction(nameof(Index));
     }
 
@@ -192,11 +192,11 @@ public class SospechososController : ControladorBase
     {
         if (string.IsNullOrWhiteSpace(sospechoso.Identificacion))
         {
-            ModelState.AddModelError("Sospechoso.Identificacion", "La identificacion es obligatoria.");
+            ModelState.AddModelError("Sospechoso.Identificacion", "La identificación es obligatoria.");
         }
         else if (sospechoso.Identificacion.Length > 30)
         {
-            ModelState.AddModelError("Sospechoso.Identificacion", "La identificacion no puede superar los 30 caracteres.");
+            ModelState.AddModelError("Sospechoso.Identificacion", "La identificación no puede superar los 30 caracteres.");
         }
 
         if (string.IsNullOrWhiteSpace(sospechoso.NombreCompleto))
@@ -242,7 +242,7 @@ public class SospechososController : ControladorBase
         }
         else if (sospechoso.NumeroCaso.Length > 30)
         {
-            ModelState.AddModelError("Sospechoso.NumeroCaso", "El numero de caso no puede superar los 30 caracteres.");
+            ModelState.AddModelError("Sospechoso.NumeroCaso", "El número de caso no puede superar los 30 caracteres.");
         }
     }
 

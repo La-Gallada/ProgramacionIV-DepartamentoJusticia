@@ -9,21 +9,21 @@
 <form asp-action="Index" method="get" class="mb-3">
     <div class="row">
         <div class="col-md-4 mb-3">
-            <label for="codigo" class="form-label">Codigo</label>
+            <label for="codigo" class="form-label">Código</label>
             <input id="codigo" name="codigo" type="text" class="form-control" value="@ViewBag.Codigo" />
         </div>
         <div class="col-md-4 mb-3">
             <label for="tipoEvidencia" class="form-label">Tipo de evidencia</label>
             <select id="tipoEvidencia" name="tipoEvidencia" class="form-select">
                 <option value="">Todos</option>
-                <option value="Biologica" selected="@(ViewBag.TipoEvidencia == "Biologica")">Biologica</option>
+                <option value="Biologica" selected="@(ViewBag.TipoEvidencia == "Biologica")">Biológica</option>
                 <option value="Digital" selected="@(ViewBag.TipoEvidencia == "Digital")">Digital</option>
-                <option value="Balistica" selected="@(ViewBag.TipoEvidencia == "Balistica")">Balistica</option>
+                <option value="Balistica" selected="@(ViewBag.TipoEvidencia == "Balistica")">Balística</option>
                 <option value="Documental" selected="@(ViewBag.TipoEvidencia == "Documental")">Documental</option>
             </select>
         </div>
         <div class="col-md-4 mb-3">
-            <label for="fechaRecoleccion" class="form-label">Fecha de recoleccion</label>
+            <label for="fechaRecoleccion" class="form-label">Fecha de recolección</label>
             <input id="fechaRecoleccion" name="fechaRecoleccion" type="date" class="form-control" value="@ViewBag.FechaRecoleccion" />
         </div>
     </div>
@@ -39,11 +39,11 @@
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th>Codigo</th>
+            <th>Código</th>
             <th>Tipo</th>
-            <th>Descripcion</th>
+            <th>Descripción</th>
             <th>Lugar del hallazgo</th>
-            <th>Fecha de recoleccion</th>
+            <th>Fecha de recolección</th>
             <th>Caso judicial</th>
             <th>Acciones</th>
         </tr>

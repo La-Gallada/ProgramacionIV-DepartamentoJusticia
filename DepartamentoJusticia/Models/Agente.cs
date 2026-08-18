@@ -39,7 +39,7 @@ namespace DepartamentoJusticia.Models
             this.Estado = "";
             this.SalarioTotal = 0;
         }
-        //Pacha con jet
+        // Calcula el salario total con los incentivos definidos para el proyecto.
         public double CalcularSalarioTotal()
         {
             // 1.8% del salario base por cada año de experiencia

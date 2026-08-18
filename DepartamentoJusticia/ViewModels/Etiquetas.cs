@@ -15,7 +15,7 @@ public static class Etiquetas
     {
         return (nivelRiesgo ?? "").Trim() switch
         {
-            "Riesgo Critico" => "dj-estado-critico",
+            "Riesgo Crítico" => "dj-estado-critico",
             "Riesgo Alto" => "dj-estado-peligro",
             "Riesgo Moderado" => "dj-estado-alerta",
             "Riesgo Bajo" => "dj-estado-exito",

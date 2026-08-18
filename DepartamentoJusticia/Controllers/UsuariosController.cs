@@ -41,7 +41,7 @@ public class UsuariosController : ControladorBase
 
         if (usuario.Contrasenia != confirmarContrasenia)
         {
-            ModelState.AddModelError("confirmarContrasenia", "La confirmacion de contrasena no coincide.");
+            ModelState.AddModelError("confirmarContrasenia", "La confirmación de contraseña no coincide.");
         }
 
         if (!ModelState.IsValid)
@@ -121,7 +121,7 @@ public class UsuariosController : ControladorBase
     {
         if (nuevaContrasenia != confirmarNuevaContrasenia)
         {
-            ModelState.AddModelError("confirmarNuevaContrasenia", "La confirmacion de contrasena no coincide.");
+            ModelState.AddModelError("confirmarNuevaContrasenia", "La confirmación de contraseña no coincide.");
         }
 
         if (!ModelState.IsValid)
