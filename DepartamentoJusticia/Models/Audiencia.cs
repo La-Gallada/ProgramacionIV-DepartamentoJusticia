@@ -39,37 +39,26 @@ public class Audiencia
     [Required]
     public int Id { get => id; set => id = value; }
 
-    [Required(ErrorMessage = "La fecha es obligatoria.")]
     [DataType(DataType.Date)]
     [Display(Name = "Fecha")]
     public DateTime Fecha { get => fecha; set => fecha = value; }
 
-    [Required(ErrorMessage = "La hora es obligatoria.")]
     [DataType(DataType.Time)]
     [Display(Name = "Hora")]
     public TimeSpan Hora { get => hora; set => hora = value; }
 
-    [Required(ErrorMessage = "Debe seleccionar el tipo de audiencia.")]
-    [StringLength(20)]
     [Display(Name = "Tipo de audiencia")]
     public string TipoAudiencia { get => tipoAudiencia; set => tipoAudiencia = value; }
 
-    [Required(ErrorMessage = "Debe seleccionar el tribunal asignado.")]
-    [StringLength(120)]
     [Display(Name = "Tribunal asignado")]
     public string NombreTribunal { get => nombreTribunal; set => nombreTribunal = value; }
 
-    [Required(ErrorMessage = "Debe seleccionar el caso judicial.")]
-    [StringLength(30)]
     [Display(Name = "Caso judicial vinculado")]
     public string NumeroCaso { get => numeroCaso; set => numeroCaso = value; }
 
-    [StringLength(500, ErrorMessage = "Las observaciones no pueden superar los 500 caracteres.")]
     [Display(Name = "Observaciones")]
     public string Observaciones { get => observaciones; set => observaciones = value; }
 
-    [Required(ErrorMessage = "Debe seleccionar el estado de la audiencia.")]
-    [StringLength(30)]
     [Display(Name = "Estado")]
     public string Estado { get => estado; set => estado = value; }
 }

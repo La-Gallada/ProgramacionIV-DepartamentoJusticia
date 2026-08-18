@@ -45,6 +45,12 @@ public class LoginController : Controller
     public IActionResult CerrarSesion()
     {
         HttpContext.Session.Clear();
-        return RedirectToAction("Index", "Login");
+        return Redirect("/Login");
+    }
+
+    [HttpGet]
+    public IActionResult Logout()
+    {
+        return CerrarSesion();
     }
 }

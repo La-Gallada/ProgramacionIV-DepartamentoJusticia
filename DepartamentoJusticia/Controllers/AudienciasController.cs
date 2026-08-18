@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DepartamentoJusticia.Controllers;
 
 /// <summary>Gestion de las audiencias relacionadas con casos judiciales y tribunales.</summary>
-public class AudienciasController : Controller
+public class AudienciasController : ControladorBase
 {
     private readonly Service servicio;
 
@@ -62,6 +62,8 @@ public class AudienciasController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult Crear(AudienciaViewModel modelo)
     {
+        ValidarAudiencia(modelo.Audiencia);
+
         if (!ModelState.IsValid)
         {
             CargarListasFormulario(modelo);
@@ -103,6 +105,8 @@ public class AudienciasController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult Editar(AudienciaViewModel modelo)
     {
+        ValidarAudiencia(modelo.Audiencia);
+
         if (!ModelState.IsValid)
         {
             CargarListasFormulario(modelo);
@@ -168,6 +172,59 @@ public class AudienciasController : Controller
     {
         modelo.Tribunales = this.servicio.ObtenerNombresDeTribunal();
         modelo.CasosJudiciales = this.servicio.ObtenerNumerosDeCaso();
+    }
+
+    #endregion
+
+    #region Validaciones
+
+    private void ValidarAudiencia(Audiencia audiencia)
+    {
+        if (audiencia.Fecha == DateTime.MinValue)
+        {
+            ModelState.AddModelError("Audiencia.Fecha", "La fecha es obligatoria.");
+        }
+
+        if (string.IsNullOrWhiteSpace(audiencia.TipoAudiencia))
+        {
+            ModelState.AddModelError("Audiencia.TipoAudiencia", "Debe seleccionar el tipo de audiencia.");
+        }
+        else if (audiencia.TipoAudiencia.Length > 20)
+        {
+            ModelState.AddModelError("Audiencia.TipoAudiencia", "El tipo de audiencia no puede superar los 20 caracteres.");
+        }
+
+        if (string.IsNullOrWhiteSpace(audiencia.NombreTribunal))
+        {
+            ModelState.AddModelError("Audiencia.NombreTribunal", "Debe seleccionar el tribunal asignado.");
+        }
+        else if (audiencia.NombreTribunal.Length > 120)
+        {
+            ModelState.AddModelError("Audiencia.NombreTribunal", "El tribunal asignado no puede superar los 120 caracteres.");
+        }
+
+        if (string.IsNullOrWhiteSpace(audiencia.NumeroCaso))
+        {
+            ModelState.AddModelError("Audiencia.NumeroCaso", "Debe seleccionar el caso judicial.");
+        }
+        else if (audiencia.NumeroCaso.Length > 30)
+        {
+            ModelState.AddModelError("Audiencia.NumeroCaso", "El numero de caso no puede superar los 30 caracteres.");
+        }
+
+        if (!string.IsNullOrWhiteSpace(audiencia.Observaciones) && audiencia.Observaciones.Length > 500)
+        {
+            ModelState.AddModelError("Audiencia.Observaciones", "Las observaciones no pueden superar los 500 caracteres.");
+        }
+
+        if (string.IsNullOrWhiteSpace(audiencia.Estado))
+        {
+            ModelState.AddModelError("Audiencia.Estado", "Debe seleccionar el estado de la audiencia.");
+        }
+        else if (audiencia.Estado.Length > 30)
+        {
+            ModelState.AddModelError("Audiencia.Estado", "El estado no puede superar los 30 caracteres.");
+        }
     }
 
     #endregion

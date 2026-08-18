@@ -9,7 +9,7 @@ public class ControladorBase : Controller
     {
         if (HttpContext.Session.GetString("Username") == null)
         {
-            context.Result = RedirectToAction("Index", "Login");
+            context.Result = Redirect("/Login");
         }
 
         base.OnActionExecuting(context);

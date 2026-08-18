@@ -41,39 +41,27 @@ public class Sospechoso
     [Required]
     public int Id { get => id; set => id = value; }
 
-    [Required(ErrorMessage = "La identificacion es obligatoria.")]
-    [StringLength(30, ErrorMessage = "La identificacion no puede superar los 30 caracteres.")]
     [Display(Name = "Identificacion")]
     public string Identificacion { get => identificacion; set => identificacion = value; }
 
-    [Required(ErrorMessage = "El nombre completo es obligatorio.")]
-    [StringLength(120, ErrorMessage = "El nombre no puede superar los 120 caracteres.")]
     [Display(Name = "Nombre completo")]
     public string NombreCompleto { get => nombreCompleto; set => nombreCompleto = value; }
 
-    [Required(ErrorMessage = "La nacionalidad es obligatoria.")]
-    [StringLength(60)]
     [Display(Name = "Nacionalidad")]
     public string Nacionalidad { get => nacionalidad; set => nacionalidad = value; }
 
-    [Required(ErrorMessage = "La fecha de nacimiento es obligatoria.")]
     [DataType(DataType.Date)]
     [CustomValidation(typeof(Sospechoso), nameof(FechaNacimientoValida))]
     [Display(Name = "Fecha de nacimiento")]
     public DateTime FechaNacimiento { get => fechaNacimiento; set => fechaNacimiento = value; }
 
-    [Required(ErrorMessage = "El nivel de peligrosidad es obligatorio.")]
     [Range(1, 100, ErrorMessage = "El nivel de peligrosidad debe estar entre 1 y 100.")]
     [Display(Name = "Nivel de peligrosidad")]
     public int NivelPeligrosidad { get => nivelPeligrosidad; set => nivelPeligrosidad = value; }
 
-    [Required(ErrorMessage = "Debe seleccionar el estado legal.")]
-    [StringLength(30)]
     [Display(Name = "Estado legal")]
     public string EstadoLegal { get => estadoLegal; set => estadoLegal = value; }
 
-    [Required(ErrorMessage = "Debe seleccionar el caso judicial vinculado.")]
-    [StringLength(30)]
     [Display(Name = "Caso judicial vinculado")]
     public string NumeroCaso { get => numeroCaso; set => numeroCaso = value; }
 

@@ -8,16 +8,16 @@ public class AcercaDeController : ControladorBase
     {
         
         ViewBag.Universidad = "Universidad Latina de Costa Rica";
-        ViewBag.Curso = "Programacion IV";
+        ViewBag.Curso = "Programación IV (BIS10)";
         ViewBag.Profesora = "Adriana Stephanie Rubio Escobar";
         ViewBag.Version = "1.0";
 
         ViewBag.Integrantes = new List<string[]>
         {
-            new[] { "Val Sancho Vega", "Frontend, diseno del sistema, Sospechosos y Audiencias" },
-            new[] { "Juan Gabriel Sandí", "Agentes Federales y Casos Judiciales" },
-            new[] { "Maryeri Gomez Hernandez", "Evidencias, Operativos y Tribunales" },
-            new[] { "Christopher Phillips Arroyo", "Seguridad, Usuarios y Bitacora" }
+            new[] { "Christopher Phillips Arroyo", "" },
+            new[] { "Allison Valeria Sancho Vega", "" },
+            new[] { "Juan Gabriel Sandi Lopez", "" },
+            new[] { "Maryeri Gómez Hernández", "" }
         };
 
         return View();

@@ -4,13 +4,13 @@
 }
 <partial name="_EncabezadoModulo" model='new EncabezadoModulo {
     Titulo = "Acerca del sistema",
-    Descripcion = "Informacion general del proyecto y del equipo de desarrollo." }' />
+    Descripcion = "Información general del proyecto y del equipo de desarrollo." }' />
 <div class="dj-panel">
-    <div class="dj-panel-titulo">Identificacion del proyecto</div>
+    <div class="dj-panel-titulo">Identificación del proyecto</div>
     <div class="dj-panel-cuerpo">
         <dl class="dj-detalle">
             <div class="dj-detalle-item">
-                <dt>Nombre de la aplicacion</dt>
+                <dt>Nombre de la aplicación</dt>
                 <dd>Sistema del Departamento de Justicia</dd>
             </div>
             <div class="dj-detalle-item">
@@ -26,7 +26,7 @@
                 <dd>@ViewBag.Profesora</dd>
             </div>
             <div class="dj-detalle-item">
-                <dt>Version del sistema</dt>
+                <dt>Versión</dt>
                 <dd>@ViewBag.Version</dd>
             </div>
         </dl>
@@ -40,7 +40,6 @@
                 <thead>
                     <tr>
                         <th>Nombre</th>
-                        <th>Responsabilidad</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,7 +47,6 @@
                     {
                         <tr>
                             <td>@integrante[0]</td>
-                            <td>@integrante[1]</td>
                         </tr>
                     }
                 </tbody>

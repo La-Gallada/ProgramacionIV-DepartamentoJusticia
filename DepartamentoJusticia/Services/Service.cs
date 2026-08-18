@@ -590,6 +590,11 @@ public class Service : DbContext
         SaveChanges();
     }
 
+    public List<Tribunal> mostrarTribunales()
+    {
+        return tribunales.ToList();
+    }
+
     public List<Tribunal> buscarTribunales(
         string nombre,
         string ciudad,

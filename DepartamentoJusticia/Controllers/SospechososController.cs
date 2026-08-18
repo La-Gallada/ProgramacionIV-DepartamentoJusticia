@@ -10,7 +10,7 @@ namespace DepartamentoJusticia.Controllers;
 /// EQUIPO: este controlador es la plantilla de referencia. Para su modulo
 /// copien esta estructura y cambien el modelo, el Service y los textos.
 /// </summary>
-public class SospechososController : Controller
+public class SospechososController : ControladorBase
 {
     private readonly Service servicio;
 
@@ -71,6 +71,8 @@ public class SospechososController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult Crear(SospechosoViewModel modelo)
     {
+        ValidarSospechoso(modelo.Sospechoso);
+
         if (!ModelState.IsValid)
         {
             modelo.CasosJudiciales = this.servicio.ObtenerNumerosDeCaso();
@@ -123,6 +125,8 @@ public class SospechososController : Controller
     [ValidateAntiForgeryToken]
     public IActionResult Editar(SospechosoViewModel modelo)
     {
+        ValidarSospechoso(modelo.Sospechoso);
+
         if (!ModelState.IsValid)
         {
             modelo.CasosJudiciales = this.servicio.ObtenerNumerosDeCaso();
@@ -178,6 +182,68 @@ public class SospechososController : Controller
 
         TempData["Exito"] = "El sospechoso se elimino correctamente.";
         return RedirectToAction(nameof(Index));
+    }
+
+    #endregion
+
+    #region Validaciones
+
+    private void ValidarSospechoso(Sospechoso sospechoso)
+    {
+        if (string.IsNullOrWhiteSpace(sospechoso.Identificacion))
+        {
+            ModelState.AddModelError("Sospechoso.Identificacion", "La identificacion es obligatoria.");
+        }
+        else if (sospechoso.Identificacion.Length > 30)
+        {
+            ModelState.AddModelError("Sospechoso.Identificacion", "La identificacion no puede superar los 30 caracteres.");
+        }
+
+        if (string.IsNullOrWhiteSpace(sospechoso.NombreCompleto))
+        {
+            ModelState.AddModelError("Sospechoso.NombreCompleto", "El nombre completo es obligatorio.");
+        }
+        else if (sospechoso.NombreCompleto.Length > 120)
+        {
+            ModelState.AddModelError("Sospechoso.NombreCompleto", "El nombre no puede superar los 120 caracteres.");
+        }
+
+        if (string.IsNullOrWhiteSpace(sospechoso.Nacionalidad))
+        {
+            ModelState.AddModelError("Sospechoso.Nacionalidad", "La nacionalidad es obligatoria.");
+        }
+        else if (sospechoso.Nacionalidad.Length > 60)
+        {
+            ModelState.AddModelError("Sospechoso.Nacionalidad", "La nacionalidad no puede superar los 60 caracteres.");
+        }
+
+        if (sospechoso.FechaNacimiento == DateTime.MinValue || sospechoso.FechaNacimiento.Date > DateTime.Today)
+        {
+            ModelState.AddModelError("Sospechoso.FechaNacimiento", "La fecha de nacimiento debe ser anterior o igual a hoy.");
+        }
+
+        if (sospechoso.NivelPeligrosidad < 1 || sospechoso.NivelPeligrosidad > 100)
+        {
+            ModelState.AddModelError("Sospechoso.NivelPeligrosidad", "El nivel de peligrosidad debe estar entre 1 y 100.");
+        }
+
+        if (string.IsNullOrWhiteSpace(sospechoso.EstadoLegal))
+        {
+            ModelState.AddModelError("Sospechoso.EstadoLegal", "Debe seleccionar el estado legal.");
+        }
+        else if (sospechoso.EstadoLegal.Length > 30)
+        {
+            ModelState.AddModelError("Sospechoso.EstadoLegal", "El estado legal no puede superar los 30 caracteres.");
+        }
+
+        if (string.IsNullOrWhiteSpace(sospechoso.NumeroCaso))
+        {
+            ModelState.AddModelError("Sospechoso.NumeroCaso", "Debe seleccionar el caso judicial vinculado.");
+        }
+        else if (sospechoso.NumeroCaso.Length > 30)
+        {
+            ModelState.AddModelError("Sospechoso.NumeroCaso", "El numero de caso no puede superar los 30 caracteres.");
+        }
     }
 
     #endregion
