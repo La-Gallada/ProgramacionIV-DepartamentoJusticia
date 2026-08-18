@@ -32,6 +32,7 @@ public class UsuariosController : ControladorBase
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public IActionResult Create(Usuario usuario, string confirmarContrasenia)
     {
         if (service.NombreUsuarioExiste(usuario.NombreUsuario))
@@ -67,8 +68,20 @@ public class UsuariosController : ControladorBase
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public IActionResult Edit(Usuario usuario)
     {
+        Usuario? usuarioActual = service.ObtenerUsuarioPorId(usuario.Id);
+
+        if (usuarioActual == null)
+        {
+            TempData["Error"] = "El usuario solicitado no existe.";
+            return RedirectToAction("Index");
+        }
+
+        usuario.Contrasenia = usuarioActual.Contrasenia;
+        ModelState.Remove(nameof(Usuario.Contrasenia));
+
         if (service.NombreUsuarioExiste(usuario.NombreUsuario, usuario.Id))
         {
             ModelState.AddModelError("NombreUsuario", "El nombre de usuario ya existe.");
@@ -79,7 +92,12 @@ public class UsuariosController : ControladorBase
             return View(usuario);
         }
 
-        service.ActualizarUsuario(usuario);
+        if (!service.ActualizarUsuario(usuario))
+        {
+            TempData["Error"] = "No fue posible actualizar el usuario.";
+            return RedirectToAction("Index");
+        }
+
         return RedirectToAction("Index");
     }
 
@@ -97,9 +115,14 @@ public class UsuariosController : ControladorBase
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public IActionResult Delete(int id, string confirmar)
     {
-        service.EliminarUsuario(id);
+        if (!service.EliminarUsuario(id))
+        {
+            TempData["Error"] = "No fue posible eliminar el usuario.";
+        }
+
         return RedirectToAction("Index");
     }
 
@@ -117,8 +140,22 @@ public class UsuariosController : ControladorBase
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public IActionResult CambiarContrasenia(int id, string nuevaContrasenia, string confirmarNuevaContrasenia)
     {
+        Usuario? usuario = service.ObtenerUsuarioPorId(id);
+
+        if (usuario == null)
+        {
+            TempData["Error"] = "El usuario solicitado no existe.";
+            return RedirectToAction("Index");
+        }
+
+        if (string.IsNullOrWhiteSpace(nuevaContrasenia))
+        {
+            ModelState.AddModelError("nuevaContrasenia", "La nueva contraseña es obligatoria.");
+        }
+
         if (nuevaContrasenia != confirmarNuevaContrasenia)
         {
             ModelState.AddModelError("confirmarNuevaContrasenia", "La confirmación de contraseña no coincide.");
@@ -126,11 +163,15 @@ public class UsuariosController : ControladorBase
 
         if (!ModelState.IsValid)
         {
-            Usuario? usuario = service.ObtenerUsuarioPorId(id);
             return View(usuario);
         }
 
-        service.ActualizarContrasenia(id, nuevaContrasenia);
+        if (!service.ActualizarContrasenia(id, nuevaContrasenia))
+        {
+            TempData["Error"] = "No fue posible actualizar la contraseña.";
+            return RedirectToAction("Index");
+        }
+
         return RedirectToAction("Index");
     }
 }

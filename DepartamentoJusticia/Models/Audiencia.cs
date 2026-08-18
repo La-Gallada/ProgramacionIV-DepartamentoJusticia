@@ -39,26 +39,33 @@ public class Audiencia
     [Required]
     public int Id { get => id; set => id = value; }
 
+    [Required(ErrorMessage = "La fecha es obligatoria.")]
     [DataType(DataType.Date)]
     [Display(Name = "Fecha")]
     public DateTime Fecha { get => fecha; set => fecha = value; }
 
+    [Required(ErrorMessage = "La hora es obligatoria.")]
     [DataType(DataType.Time)]
     [Display(Name = "Hora")]
     public TimeSpan Hora { get => hora; set => hora = value; }
 
+    [Required(ErrorMessage = "El tipo de audiencia es obligatorio.")]
     [Display(Name = "Tipo de audiencia")]
     public string TipoAudiencia { get => tipoAudiencia; set => tipoAudiencia = value; }
 
+    [Required(ErrorMessage = "El tribunal es obligatorio.")]
     [Display(Name = "Tribunal asignado")]
     public string NombreTribunal { get => nombreTribunal; set => nombreTribunal = value; }
 
+    [Required(ErrorMessage = "El caso judicial es obligatorio.")]
     [Display(Name = "Caso judicial vinculado")]
     public string NumeroCaso { get => numeroCaso; set => numeroCaso = value; }
 
+    [Required(ErrorMessage = "Las observaciones son obligatorias.")]
     [Display(Name = "Observaciones")]
     public string Observaciones { get => observaciones; set => observaciones = value; }
 
+    [Required(ErrorMessage = "El estado es obligatorio.")]
     [Display(Name = "Estado")]
     public string Estado { get => estado; set => estado = value; }
 }

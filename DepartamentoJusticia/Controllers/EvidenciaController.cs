@@ -34,6 +34,12 @@ public class EvidenciaController : ControladorBase
     {
         try
         {
+            if (!string.IsNullOrWhiteSpace(evidencita.NumeroCaso) &&
+                !service.mostrarCasoJudicial().Any(c => c.NumeroCaso == evidencita.NumeroCaso))
+            {
+                ModelState.AddModelError("NumeroCaso", "Debe seleccionar un caso judicial registrado.");
+            }
+
             if (ModelState.IsValid)
             {
                 service.agregarEvidencia(evidencita);
@@ -72,9 +78,20 @@ public class EvidenciaController : ControladorBase
     {
         try
         {
+            if (!string.IsNullOrWhiteSpace(evidencita.NumeroCaso) &&
+                !service.mostrarCasoJudicial().Any(c => c.NumeroCaso == evidencita.NumeroCaso))
+            {
+                ModelState.AddModelError("NumeroCaso", "Debe seleccionar un caso judicial registrado.");
+            }
+
             if (ModelState.IsValid)
+            {
                 service.actualizarEvidencia(evidencita);
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.CasosJudiciales = service.mostrarCasoJudicial();
+            return View(evidencita);
         }
         catch
         {

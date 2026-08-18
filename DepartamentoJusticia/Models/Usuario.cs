@@ -39,11 +39,24 @@ public class Usuario
 
     [Required]
     public int Id { get => id; set => id = value; }
+    [Required(ErrorMessage = "El nombre completo es obligatorio.")]
     public string NombreCompleto { get => nombreCompleto; set => nombreCompleto = value; }
+
+    [Required(ErrorMessage = "La identificación es obligatoria.")]
     public string Identificacion { get => identificacion; set => identificacion = value; }
+
+    [Required(ErrorMessage = "El cargo es obligatorio.")]
     public string Cargo { get => cargo; set => cargo = value; }
+
+    [Required(ErrorMessage = "La fecha de registro es obligatoria.")]
     public DateTime FechaRegistro { get => fechaRegistro; set => fechaRegistro = value; }
+
+    [Required(ErrorMessage = "El estado es obligatorio.")]
     public string Estado { get => estado; set => estado = value; }
+
+    [Required(ErrorMessage = "El nombre de usuario es obligatorio.")]
     public string NombreUsuario { get => nombreUsuario; set => nombreUsuario = value; }
+
+    [Required(ErrorMessage = "La contraseña es obligatoria.")]
     public string Contrasenia { get => contrasenia; set => contrasenia = value; }
 }

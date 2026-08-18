@@ -69,12 +69,16 @@ public class TribunalController : ControladorBase
         try
         {
             if (ModelState.IsValid)
+            {
                 service.actualizarTribunal(tribunalito);
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
+
+            return View(tribunalito);
         }
         catch
         {
-            return View();
+            return View(tribunalito);
         }
     }
 

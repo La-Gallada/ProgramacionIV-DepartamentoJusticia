@@ -41,12 +41,15 @@ public class Sospechoso
     [Required]
     public int Id { get => id; set => id = value; }
 
+    [Required(ErrorMessage = "La identificación es obligatoria.")]
     [Display(Name = "Identificación")]
     public string Identificacion { get => identificacion; set => identificacion = value; }
 
+    [Required(ErrorMessage = "El nombre completo es obligatorio.")]
     [Display(Name = "Nombre completo")]
     public string NombreCompleto { get => nombreCompleto; set => nombreCompleto = value; }
 
+    [Required(ErrorMessage = "La nacionalidad es obligatoria.")]
     [Display(Name = "Nacionalidad")]
     public string Nacionalidad { get => nacionalidad; set => nacionalidad = value; }
 
@@ -59,9 +62,11 @@ public class Sospechoso
     [Display(Name = "Nivel de peligrosidad")]
     public int NivelPeligrosidad { get => nivelPeligrosidad; set => nivelPeligrosidad = value; }
 
+    [Required(ErrorMessage = "El estado legal es obligatorio.")]
     [Display(Name = "Estado legal")]
     public string EstadoLegal { get => estadoLegal; set => estadoLegal = value; }
 
+    [Required(ErrorMessage = "El caso judicial es obligatorio.")]
     [Display(Name = "Caso judicial vinculado")]
     public string NumeroCaso { get => numeroCaso; set => numeroCaso = value; }
 

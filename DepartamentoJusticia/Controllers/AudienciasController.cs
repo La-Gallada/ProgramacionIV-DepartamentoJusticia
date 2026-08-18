@@ -198,6 +198,10 @@ public class AudienciasController : ControladorBase
         {
             ModelState.AddModelError("Audiencia.NombreTribunal", "Debe seleccionar el tribunal asignado.");
         }
+        else if (!this.servicio.ObtenerNombresDeTribunal().Contains(audiencia.NombreTribunal))
+        {
+            ModelState.AddModelError("Audiencia.NombreTribunal", "Debe seleccionar un tribunal registrado.");
+        }
         else if (audiencia.NombreTribunal.Length > 120)
         {
             ModelState.AddModelError("Audiencia.NombreTribunal", "El tribunal asignado no puede superar los 120 caracteres.");
@@ -206,6 +210,10 @@ public class AudienciasController : ControladorBase
         if (string.IsNullOrWhiteSpace(audiencia.NumeroCaso))
         {
             ModelState.AddModelError("Audiencia.NumeroCaso", "Debe seleccionar el caso judicial.");
+        }
+        else if (!this.servicio.ObtenerNumerosDeCaso().Contains(audiencia.NumeroCaso))
+        {
+            ModelState.AddModelError("Audiencia.NumeroCaso", "Debe seleccionar un caso judicial registrado.");
         }
         else if (audiencia.NumeroCaso.Length > 30)
         {

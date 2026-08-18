@@ -41,7 +41,7 @@ namespace DepartamentoJusticia.Controllers
         // GET: AgenteController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            return RedirectToAction("Index");
         }
 
         // GET: AgenteController/Create

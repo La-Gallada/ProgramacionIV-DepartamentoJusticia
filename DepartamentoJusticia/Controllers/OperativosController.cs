@@ -44,7 +44,7 @@ namespace DepartamentoJusticia.Controllers
         // GET: OperativosController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            return RedirectToAction("Index");
         }
         // GET: OperativosController/Create
         public ActionResult Create()
@@ -66,6 +66,13 @@ namespace DepartamentoJusticia.Controllers
                         !service.existeAgentePorNombre(operativito.NombreAgente3))
                     {
                         ModelState.AddModelError("", "Debe seleccionar agentes activos registrados.");
+                        CargarListas();
+                        return View(operativito);
+                    }
+
+                    if (!service.mostrarCasos().Any(c => c.NumeroCaso == operativito.NumeroCaso))
+                    {
+                        ModelState.AddModelError("NumeroCaso", "Debe seleccionar un caso judicial registrado.");
                         CargarListas();
                         return View(operativito);
                     }
@@ -121,6 +128,13 @@ namespace DepartamentoJusticia.Controllers
                         !service.existeAgentePorNombre(operativito.NombreAgente3))
                     {
                         ModelState.AddModelError("", "Debe seleccionar agentes activos registrados.");
+                        CargarListas();
+                        return View(operativito);
+                    }
+
+                    if (!service.mostrarCasos().Any(c => c.NumeroCaso == operativito.NumeroCaso))
+                    {
+                        ModelState.AddModelError("NumeroCaso", "Debe seleccionar un caso judicial registrado.");
                         CargarListas();
                         return View(operativito);
                     }

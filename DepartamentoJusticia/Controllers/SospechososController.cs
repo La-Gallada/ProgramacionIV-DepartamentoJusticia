@@ -240,6 +240,10 @@ public class SospechososController : ControladorBase
         {
             ModelState.AddModelError("Sospechoso.NumeroCaso", "Debe seleccionar el caso judicial vinculado.");
         }
+        else if (!this.servicio.ObtenerNumerosDeCaso().Contains(sospechoso.NumeroCaso))
+        {
+            ModelState.AddModelError("Sospechoso.NumeroCaso", "Debe seleccionar un caso judicial registrado.");
+        }
         else if (sospechoso.NumeroCaso.Length > 30)
         {
             ModelState.AddModelError("Sospechoso.NumeroCaso", "El número de caso no puede superar los 30 caracteres.");

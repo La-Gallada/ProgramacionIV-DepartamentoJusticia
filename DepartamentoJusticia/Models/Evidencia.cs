@@ -37,11 +37,22 @@ public class Evidencia
 
     [Required]
     public int Id { get => id; set => id = value; }
+    [Required(ErrorMessage = "El código es obligatorio.")]
     public string Codigo { get => codigo; set => codigo = value; }
+
+    [Required(ErrorMessage = "El tipo de evidencia es obligatorio.")]
     public string TipoEvidencia { get => tipoEvidencia; set => tipoEvidencia = value; }
+
+    [Required(ErrorMessage = "La descripción es obligatoria.")]
     public string Descripcion { get => descripcion; set => descripcion = value; }
+
+    [Required(ErrorMessage = "El lugar de hallazgo es obligatorio.")]
     public string LugarHallazgo { get => lugarHallazgo; set => lugarHallazgo = value; }
+
+    [Required(ErrorMessage = "La fecha de recolección es obligatoria.")]
     public DateTime FechaRecoleccion { get => fechaRecoleccion; set => fechaRecoleccion = value; }
+
+    [Required(ErrorMessage = "El caso judicial es obligatorio.")]
     public string NumeroCaso { get => numeroCaso; set => numeroCaso = value; }
 }
    
