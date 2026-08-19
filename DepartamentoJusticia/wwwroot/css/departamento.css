@@ -128,9 +128,7 @@ body {
     font-weight: 600;
 }
 
-/* Modulo aun no construido por el equipo.
-   Cuando terminen su controlador, quitar la clase "pendiente"
-   y cambiar el <span> por <a asp-controller="..." asp-action="Index">. */
+
 .dj-menu-enlace.pendiente {
     color: #6b7d92;
     cursor: not-allowed;
