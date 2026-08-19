@@ -11,6 +11,7 @@ namespace DepartamentoJusticia.Controllers
 
         public ActionResult Index()
         {
+            ViewBag.Tribunales = service.mostrarNombresDeTribunal();
             var audiencias = service.mostrarAudiencias();
             return View(audiencias);
         }
@@ -18,6 +19,7 @@ namespace DepartamentoJusticia.Controllers
         [HttpPost]
         public ActionResult Index(string nombreTribunal, string tipoAudiencia, string estado)
         {
+            ViewBag.Tribunales = service.mostrarNombresDeTribunal();
             try
             {
                 if (!string.IsNullOrEmpty(nombreTribunal))
