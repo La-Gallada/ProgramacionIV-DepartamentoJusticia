@@ -52,7 +52,7 @@ public class Service : DbContext
         throw new Exception("Este agente no se encuentra registrado");
     }
 
-    public Agente buscarAgentePorNombre(string nombreCompleto)
+    public Agente obtenerAgenteParaCalculo(string nombreCompleto)
     {
         var agenteBuscado = Agentes
             .FirstOrDefault(a => a.NombreCompleto == nombreCompleto);
@@ -106,7 +106,7 @@ public class Service : DbContext
     public List<Agente> buscarAgentesPorNombre(string nombreCompleto)
     {
         return Agentes
-            .Where(a => a.NombreCompleto == nombreCompleto)
+            .Where(a => a.NombreCompleto.Contains(nombreCompleto))
             .ToList();
     }
 

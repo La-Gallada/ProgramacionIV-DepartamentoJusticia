@@ -57,9 +57,9 @@ namespace DepartamentoJusticia.Controllers
                 if (ModelState.IsValid)
                 {
                     // Se buscan los tres agentes para obtener sus salarios
-                    var agente1 = service.buscarAgentePorNombre(operativito.NombreAgente1);
-                    var agente2 = service.buscarAgentePorNombre(operativito.NombreAgente2);
-                    var agente3 = service.buscarAgentePorNombre(operativito.NombreAgente3);
+                    var agente1 = service.obtenerAgenteParaCalculo(operativito.NombreAgente1);
+                    var agente2 = service.obtenerAgenteParaCalculo(operativito.NombreAgente2);
+                    var agente3 = service.obtenerAgenteParaCalculo(operativito.NombreAgente3);
 
                     operativito.CostoOperativo = operativito.CalcularCostoOperativo(
                         agente1.SalarioTotal, agente2.SalarioTotal, agente3.SalarioTotal);
@@ -106,9 +106,9 @@ namespace DepartamentoJusticia.Controllers
                 if (ModelState.IsValid)
                 {
                     // Se buscan los tres agentes para obtener sus salarios
-                    var agente1 = service.buscarAgentePorNombre(operativito.NombreAgente1);
-                    var agente2 = service.buscarAgentePorNombre(operativito.NombreAgente2);
-                    var agente3 = service.buscarAgentePorNombre(operativito.NombreAgente3);
+                    var agente1 = service.obtenerAgenteParaCalculo(operativito.NombreAgente1);
+                    var agente2 = service.obtenerAgenteParaCalculo(operativito.NombreAgente2);
+                    var agente3 = service.obtenerAgenteParaCalculo(operativito.NombreAgente3);
 
                     operativito.CostoOperativo = operativito.CalcularCostoOperativo(
                         agente1.SalarioTotal, agente2.SalarioTotal, agente3.SalarioTotal);
