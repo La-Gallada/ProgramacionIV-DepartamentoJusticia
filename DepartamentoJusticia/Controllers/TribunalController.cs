@@ -9,18 +9,18 @@ namespace DepartamentoJusticia.Controllers
         Service service;
         public TribunalController() { service = new Service(); }
 
-        public ActionResult Index()
-        {
-            var tribunales = service.mostrarTribunales();
-            return View(tribunales);
-        }
-        // POST: TribunalController (busqueda por criterios)
-        [HttpPost]
-        public ActionResult Index(string ciudad, string juezAsignado, string estado)
+        public ActionResult Index(string nombre, string ciudad, string juezAsignado, string estado)
         {
             try
             {
-                if (!string.IsNullOrEmpty(ciudad))
+                ViewBag.Nombre = nombre;
+                ViewBag.Ciudad = ciudad;
+                ViewBag.JuezAsignado = juezAsignado;
+                ViewBag.Estado = estado;
+
+                if (!string.IsNullOrEmpty(nombre))
+                    return View(service.buscarTribunalesPorNombre(nombre));
+                else if (!string.IsNullOrEmpty(ciudad))
                     return View(service.buscarTribunalesPorCiudad(ciudad));
                 else if (!string.IsNullOrEmpty(juezAsignado))
                     return View(service.buscarTribunalesPorJuez(juezAsignado));
