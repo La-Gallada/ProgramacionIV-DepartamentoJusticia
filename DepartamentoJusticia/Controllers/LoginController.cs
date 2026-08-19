@@ -1,56 +1,49 @@
 using DepartamentoJusticia.Models;
 using DepartamentoJusticia.Services;
 using Microsoft.AspNetCore.Mvc;
-
-namespace DepartamentoJusticia.Controllers;
-
-public class LoginController : Controller
+namespace DepartamentoJusticia.Controllers
 {
-    private readonly Service service;
-
-    public LoginController(Service service)
+    public class LoginController : Controller
     {
-        this.service = service;
-    }
+        // GET: LoginController
+        Service service;
+        public LoginController() { service = new Service(); }
 
-    [HttpGet]
-    public IActionResult Index()
-    {
-        HttpContext.Session.Clear();
-        return View();
-    }
-
-    [HttpPost]
-    public IActionResult Index(string nombreUsuario, string contrasenia)
-    {
-        Usuario? usuario = service.ValidarUsuario(nombreUsuario, contrasenia);
-
-        if (usuario == null)
+        public ActionResult Index()
         {
-            service.RegistrarBitacora(nombreUsuario, "Fallido");
-            ModelState.AddModelError("", "Las credenciales son inválidas o el usuario no está activo.");
+            HttpContext.Session.Clear();
             return View();
         }
+        // POST: LoginController (validar inicio de sesion)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Index(string nombreUsuario, string contrasenia)
+        {
+            try
+            {
+                var usuarioLogueado = service.login(nombreUsuario, contrasenia);
 
-        service.RegistrarBitacora(nombreUsuario, "Exitoso");
+                service.registrarBitacora(nombreUsuario, "Exitoso");
 
-        HttpContext.Session.SetString("Username", usuario.NombreUsuario);
-        HttpContext.Session.SetString("NombreCompleto", usuario.NombreCompleto);
-        HttpContext.Session.SetString("Cargo", usuario.Cargo);
+                HttpContext.Session.SetString("Username", usuarioLogueado.NombreUsuario);
+                HttpContext.Session.SetString("NombreCompleto", usuarioLogueado.NombreCompleto);
+                HttpContext.Session.SetString("Cargo", usuarioLogueado.Cargo);
 
-        return RedirectToAction("Index", "Inicio");
-    }
+                return RedirectToAction("Index", "Inicio");
+            }
+            catch (Exception ex)
+            {
+                service.registrarBitacora(nombreUsuario, "Fallido");
 
-    [HttpGet]
-    public IActionResult CerrarSesion()
-    {
-        HttpContext.Session.Clear();
-        return Redirect("/Login");
-    }
-
-    [HttpGet]
-    public IActionResult Logout()
-    {
-        return CerrarSesion();
+                ViewBag.ErrorMsg = ex.Message;
+                return View();
+            }
+        }
+        // GET: LoginController/CerrarSesion
+        public ActionResult CerrarSesion()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Login");
+        }
     }
 }

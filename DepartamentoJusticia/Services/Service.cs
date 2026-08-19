@@ -213,148 +213,84 @@ public class Service : DbContext
     #endregion
 
     #region Sospechosos
-
-    /// Devuelve todos los sospechosos ordenados por nombre
-    public List<Sospechoso> ObtenerSospechosos()
+    public void agregarSospechoso(Sospechoso sospechosito)
     {
-        return this.sospechosos
-                   .OrderBy(s => s.NombreCompleto)
-                   .ToList();
+        sospechosos.Add(sospechosito);
+        SaveChanges();
     }
 
-    /// Devuelve un sospechoso por su identificador. Null si no existe.
-    public Sospechoso? ObtenerSospechoso(int id)
+    public List<Sospechoso> mostrarSospechosos()
     {
-        return this.sospechosos.FirstOrDefault(s => s.Id == id);
+        return sospechosos.ToList();
     }
 
-   
-    /// Busqueda por multiples criterios: nombre, estado legal y rango de nivel
-    /// de peligrosidad. Los criterios son combinables; los que vengan vacios
-    /// simplemente no se aplican.
-    
-    public List<Sospechoso> BuscarSospechosos(string? nombre, string? estadoLegal, int? peligrosidadMinima, int? peligrosidadMaxima)
+    public Sospechoso buscarSospechoso(int id)
     {
-        IQueryable<Sospechoso> consulta = this.sospechosos;
+        var sospechosoBuscado = sospechosos
+            .FirstOrDefault(s => s.Id == id);
 
-        if (!string.IsNullOrWhiteSpace(nombre))
+        if (sospechosoBuscado != null)
         {
-            string texto = nombre.Trim();
-            consulta = consulta.Where(s => s.NombreCompleto.Contains(texto));
+            return sospechosoBuscado;
         }
 
-        if (!string.IsNullOrWhiteSpace(estadoLegal))
-        {
-            string estado = estadoLegal.Trim();
-            consulta = consulta.Where(s => s.EstadoLegal == estado);
-        }
-
-        if (peligrosidadMinima.HasValue)
-        {
-            int minimo = peligrosidadMinima.Value;
-            consulta = consulta.Where(s => s.NivelPeligrosidad >= minimo);
-        }
-
-        if (peligrosidadMaxima.HasValue)
-        {
-            int maximo = peligrosidadMaxima.Value;
-            consulta = consulta.Where(s => s.NivelPeligrosidad <= maximo);
-        }
-
-        return consulta.OrderByDescending(s => s.NivelPeligrosidad)
-                       .ThenBy(s => s.NombreCompleto)
-                       .ToList();
+        throw new Exception("Este sospechoso no se encuentra registrado");
     }
 
-    /// Indica si ya existe otro sospechoso con la misma identificacion.
-    public bool ExisteIdentificacionSospechoso(string identificacion, int idExcluir = 0)
+    public void eliminarSospechoso(Sospechoso sospechosito)
     {
-        if (string.IsNullOrWhiteSpace(identificacion))
-        {
-            return false;
-        }
-
-        string valor = identificacion.Trim();
-
-        return this.sospechosos.Any(s => s.Identificacion == valor && s.Id != idExcluir);
+        sospechosos.Remove(sospechosito);
+        SaveChanges();
     }
 
-    /// <>Registra un nuevo sospechoso.
-    public bool AgregarSospechoso(Sospechoso sospechoso)
+    public void actualizarSospechoso(Sospechoso sospechosito)
     {
-        try
+        var sospechosoAntiguo = sospechosos
+            .FirstOrDefault(s => s.Id == sospechosito.Id);
+
+        if (sospechosoAntiguo != null)
         {
-            this.sospechosos.Add(sospechoso);
-            this.SaveChanges();
-            return true;
+            sospechosoAntiguo.Identificacion = sospechosito.Identificacion;
+            sospechosoAntiguo.NombreCompleto = sospechosito.NombreCompleto;
+            sospechosoAntiguo.Nacionalidad = sospechosito.Nacionalidad;
+            sospechosoAntiguo.FechaNacimiento = sospechosito.FechaNacimiento;
+            sospechosoAntiguo.NivelPeligrosidad = sospechosito.NivelPeligrosidad;
+            sospechosoAntiguo.EstadoLegal = sospechosito.EstadoLegal;
+            sospechosoAntiguo.NumeroCaso = sospechosito.NumeroCaso;
+            sospechosoAntiguo.NivelRiesgo = sospechosito.NivelRiesgo;
+
+            SaveChanges();
         }
-        catch
+        else
         {
-            return false;
+            throw new Exception("No se pudo actualizar el sospechoso");
         }
     }
 
-    /// Actualiza los datos de un sospechoso existente.
-    public bool ActualizarSospechoso(Sospechoso sospechoso)
+    public List<Sospechoso> buscarSospechososPorNombre(string nombreCompleto)
     {
-        try
-        {
-            Sospechoso? registrado = this.sospechosos.FirstOrDefault(s => s.Id == sospechoso.Id);
-
-            if (registrado == null)
-            {
-                return false;
-            }
-
-            registrado.Identificacion = sospechoso.Identificacion;
-            registrado.NombreCompleto = sospechoso.NombreCompleto;
-            registrado.Nacionalidad = sospechoso.Nacionalidad;
-            registrado.FechaNacimiento = sospechoso.FechaNacimiento;
-            registrado.NivelPeligrosidad = sospechoso.NivelPeligrosidad;
-            registrado.EstadoLegal = sospechoso.EstadoLegal;
-            registrado.NumeroCaso = sospechoso.NumeroCaso;
-
-            this.SaveChanges();
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
+        return sospechosos
+            .Where(s => s.NombreCompleto.Contains(nombreCompleto))
+            .ToList();
     }
 
-    /// Elimina un sospechoso por su identificador.
-    public bool EliminarSospechoso(int id)
+    public List<Sospechoso> buscarSospechososPorEstadoLegal(string estadoLegal)
     {
-        try
-        {
-            Sospechoso? registrado = this.sospechosos.FirstOrDefault(s => s.Id == id);
-
-            if (registrado == null)
-            {
-                return false;
-            }
-
-            this.sospechosos.Remove(registrado);
-            this.SaveChanges();
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
+        return sospechosos
+            .Where(s => s.EstadoLegal == estadoLegal)
+            .ToList();
     }
-
-    
-    /// Numeros de caso para alimentar el combo de la pantalla de sospechosos.
-    /// El enunciado pide que el caso vinculado se traiga de la base de datos.
-   
-    public List<string> ObtenerNumerosDeCaso()
+    public List<string> mostrarNumerosDeCaso()
     {
-        return this.casosJudiciales
-                   .OrderBy(c => c.NumeroCaso)
-                   .Select(c => c.NumeroCaso)
-                   .ToList();
+        return casosJudiciales
+            .Select(c => c.NumeroCaso)
+            .ToList();
+    }
+    public List<Sospechoso> buscarSospechososPorRiesgo(string nivelRiesgo)
+    {
+        return sospechosos
+            .Where(s => s.NivelRiesgo == nivelRiesgo)
+            .ToList();
     }
 
     #endregion
@@ -372,38 +308,6 @@ public class Service : DbContext
         return evidencias.ToList();
     }
 
-    public List<Evidencia> buscarEvidencias(
-        string codigo,
-        string tipoEvidencia,
-        DateTime? fechaRecoleccion)
-    {
-        IQueryable<Evidencia> consulta = evidencias;
-
-        if (!string.IsNullOrWhiteSpace(codigo))
-        {
-            consulta = consulta
-                .Where(e => e.Codigo.Contains(codigo));
-        }
-
-        if (!string.IsNullOrWhiteSpace(tipoEvidencia))
-        {
-            consulta = consulta
-                .Where(e => e.TipoEvidencia == tipoEvidencia);
-        }
-
-        if (fechaRecoleccion.HasValue)
-        {
-            DateTime fechaBuscar =
-                fechaRecoleccion.Value.Date;
-
-            consulta = consulta.Where(
-                e => DbFunctions.TruncateTime(
-                    e.FechaRecoleccion) == fechaBuscar);
-        }
-
-        return consulta.ToList();
-    }
-
     public Evidencia buscarEvidencia(int id)
     {
         var evidenciaBuscada = evidencias
@@ -414,8 +318,7 @@ public class Service : DbContext
             return evidenciaBuscada;
         }
 
-        throw new Exception(
-            "No se encuentra esa evidencia");
+        throw new Exception("No se encuentra esa evidencia");
     }
 
     public void eliminarEvidencia(Evidencia evidencita)
@@ -431,31 +334,42 @@ public class Service : DbContext
 
         if (evidenciaAntigua != null)
         {
-            evidenciaAntigua.Codigo =
-                evidencita.Codigo;
-
-            evidenciaAntigua.TipoEvidencia =
-                evidencita.TipoEvidencia;
-
-            evidenciaAntigua.Descripcion =
-                evidencita.Descripcion;
-
-            evidenciaAntigua.LugarHallazgo =
-                evidencita.LugarHallazgo;
-
-            evidenciaAntigua.FechaRecoleccion =
-                evidencita.FechaRecoleccion;
-
-            evidenciaAntigua.NumeroCaso =
-                evidencita.NumeroCaso;
+            evidenciaAntigua.Codigo = evidencita.Codigo;
+            evidenciaAntigua.TipoEvidencia = evidencita.TipoEvidencia;
+            evidenciaAntigua.Descripcion = evidencita.Descripcion;
+            evidenciaAntigua.LugarHallazgo = evidencita.LugarHallazgo;
+            evidenciaAntigua.FechaRecoleccion = evidencita.FechaRecoleccion;
+            evidenciaAntigua.NumeroCaso = evidencita.NumeroCaso;
 
             SaveChanges();
         }
         else
         {
-            throw new Exception(
-                "No se pudo actualizar la evidencia");
+            throw new Exception("No se pudo actualizar la evidencia");
         }
+    }
+
+    public List<Evidencia> buscarEvidenciasPorCodigo(string codigo)
+    {
+        return evidencias
+            .Where(e => e.Codigo.Contains(codigo))
+            .ToList();
+    }
+
+    public List<Evidencia> buscarEvidenciasPorTipo(string tipoEvidencia)
+    {
+        return evidencias
+            .Where(e => e.TipoEvidencia == tipoEvidencia)
+            .ToList();
+    }
+
+    public List<Evidencia> buscarEvidenciasPorFecha(DateTime fechaRecoleccion)
+    {
+        DateTime fechaBuscar = fechaRecoleccion.Date;
+
+        return evidencias
+            .Where(e => DbFunctions.TruncateTime(e.FechaRecoleccion) == fechaBuscar)
+            .ToList();
     }
 
     #endregion
@@ -575,15 +489,6 @@ public class Service : DbContext
 
     #region Tribunales
 
-    /// Nombres de tribunales para los combos de las audiencias
-    public List<string> ObtenerNombresDeTribunal()
-    {
-        return this.tribunales
-                   .OrderBy(t => t.Nombre)
-                   .Select(t => t.Nombre)
-                   .ToList();
-    }
-
     public void agregarTribunal(Tribunal tribunalito)
     {
         tribunales.Add(tribunalito);
@@ -595,53 +500,17 @@ public class Service : DbContext
         return tribunales.ToList();
     }
 
-    public List<Tribunal> buscarTribunales(
-        string nombre,
-        string ciudad,
-        string estado,
-        string juezAsignado)
-    {
-        IQueryable<Tribunal> consulta = tribunales;
-
-        if (!string.IsNullOrWhiteSpace(nombre))
-        {
-            consulta = consulta
-                .Where(t => t.Nombre.Contains(nombre));
-        }
-
-        if (!string.IsNullOrWhiteSpace(ciudad))
-        {
-            consulta = consulta
-                .Where(t => t.Ciudad.Contains(ciudad));
-        }
-
-        if (!string.IsNullOrWhiteSpace(estado))
-        {
-            consulta = consulta
-                .Where(t => t.Estado == estado);
-        }
-
-        if (!string.IsNullOrWhiteSpace(juezAsignado))
-        {
-            consulta = consulta
-                .Where(t => t.JuezAsignado.Contains(juezAsignado));
-        }
-
-        return consulta.ToList();
-    }
-
     public Tribunal buscarTribunal(int id)
     {
         var tribunalBuscado = tribunales
-            .FirstOrDefault(v => v.Id == id);
+            .FirstOrDefault(t => t.Id == id);
 
         if (tribunalBuscado != null)
         {
             return tribunalBuscado;
         }
 
-        throw new Exception(
-            "No se encuentra ese tribunal");
+        throw new Exception("No se encuentra ese tribunal");
     }
 
     public void eliminarTribunal(Tribunal tribunalito)
@@ -653,389 +522,294 @@ public class Service : DbContext
     public void actualizarTribunal(Tribunal tribunalito)
     {
         var tribunalAntiguo = tribunales
-            .FirstOrDefault(v => v.Id == tribunalito.Id);
+            .FirstOrDefault(t => t.Id == tribunalito.Id);
 
         if (tribunalAntiguo != null)
         {
-            tribunalAntiguo.Nombre =
-                tribunalito.Nombre;
-
-            tribunalAntiguo.Estado =
-                tribunalito.Estado;
-
-            tribunalAntiguo.Ciudad =
-                tribunalito.Ciudad;
-
-            tribunalAntiguo.JuezAsignado =
-                tribunalito.JuezAsignado;
-
-            tribunalAntiguo.CantidadSalas =
-                tribunalito.CantidadSalas;
+            tribunalAntiguo.Nombre = tribunalito.Nombre;
+            tribunalAntiguo.Estado = tribunalito.Estado;
+            tribunalAntiguo.Ciudad = tribunalito.Ciudad;
+            tribunalAntiguo.JuezAsignado = tribunalito.JuezAsignado;
+            tribunalAntiguo.CantidadSalas = tribunalito.CantidadSalas;
 
             SaveChanges();
         }
         else
         {
-            throw new Exception(
-                "No se pudo actualizar el tribunal");
+            throw new Exception("No se pudo actualizar el tribunal");
         }
+    }
 
+    public List<Tribunal> buscarTribunalesPorNombre(string nombre)
+    {
+        return tribunales
+            .Where(t => t.Nombre.Contains(nombre))
+            .ToList();
+    }
+
+    public List<Tribunal> buscarTribunalesPorCiudad(string ciudad)
+    {
+        return tribunales
+            .Where(t => t.Ciudad.Contains(ciudad))
+            .ToList();
+    }
+
+    public List<Tribunal> buscarTribunalesPorEstado(string estado)
+    {
+        return tribunales
+            .Where(t => t.Estado == estado)
+            .ToList();
+    }
+
+    public List<Tribunal> buscarTribunalesPorJuez(string juezAsignado)
+    {
+        return tribunales
+            .Where(t => t.JuezAsignado.Contains(juezAsignado))
+            .ToList();
+    }
+
+    public List<string> mostrarNombresDeTribunal()
+    {
+        return tribunales
+            .Select(t => t.Nombre)
+            .ToList();
     }
 
     #endregion
 
     #region Audiencias
-
-    public List<Audiencia> ObtenerAudiencias()
+    public void agregarAudiencia(Audiencia audiencita)
     {
-        return this.audiencias
-                   .OrderByDescending(a => a.Fecha)
-                   .ThenByDescending(a => a.Hora)
-                   .ToList();
+        audiencias.Add(audiencita);
+        SaveChanges();
     }
 
-    public Audiencia? ObtenerAudiencia(int id)
+    public List<Audiencia> mostrarAudiencias()
     {
-        return this.audiencias.FirstOrDefault(a => a.Id == id);
+        return audiencias.ToList();
     }
 
-    /// Busqueda combinable por tribunal, tipo de audiencia y estado.
-    public List<Audiencia> BuscarAudiencias(string? nombreTribunal, string? tipoAudiencia, string? estado)
+    public Audiencia buscarAudiencia(int id)
     {
-        IQueryable<Audiencia> consulta = this.audiencias;
+        var audienciaBuscada = audiencias
+            .FirstOrDefault(a => a.Id == id);
 
-        if (!string.IsNullOrWhiteSpace(nombreTribunal))
+        if (audienciaBuscada != null)
         {
-            consulta = consulta.Where(a => a.NombreTribunal == nombreTribunal.Trim());
+            return audienciaBuscada;
         }
 
-        if (!string.IsNullOrWhiteSpace(tipoAudiencia))
-        {
-            consulta = consulta.Where(a => a.TipoAudiencia == tipoAudiencia.Trim());
-        }
-
-        if (!string.IsNullOrWhiteSpace(estado))
-        {
-            consulta = consulta.Where(a => a.Estado == estado.Trim());
-        }
-
-        return consulta.OrderByDescending(a => a.Fecha)
-                       .ThenByDescending(a => a.Hora)
-                       .ToList();
+        throw new Exception("Esta audiencia no se encuentra registrada");
     }
 
-    public bool AgregarAudiencia(Audiencia audiencia)
+    public void eliminarAudiencia(Audiencia audiencita)
     {
-        try
-        {
-            this.audiencias.Add(audiencia);
-            this.SaveChanges();
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
+        audiencias.Remove(audiencita);
+        SaveChanges();
     }
 
-    public bool ActualizarAudiencia(Audiencia audiencia)
+    public void actualizarAudiencia(Audiencia audiencita)
     {
-        try
+        var audienciaAntigua = audiencias
+            .FirstOrDefault(a => a.Id == audiencita.Id);
+
+        if (audienciaAntigua != null)
         {
-            Audiencia? registrada = this.audiencias.FirstOrDefault(a => a.Id == audiencia.Id);
+            audienciaAntigua.Fecha = audiencita.Fecha;
+            audienciaAntigua.Hora = audiencita.Hora;
+            audienciaAntigua.TipoAudiencia = audiencita.TipoAudiencia;
+            audienciaAntigua.NombreTribunal = audiencita.NombreTribunal;
+            audienciaAntigua.NumeroCaso = audiencita.NumeroCaso;
+            audienciaAntigua.Observaciones = audiencita.Observaciones;
+            audienciaAntigua.Estado = audiencita.Estado;
 
-            if (registrada == null)
-            {
-                return false;
-            }
-
-            registrada.Fecha = audiencia.Fecha;
-            registrada.Hora = audiencia.Hora;
-            registrada.TipoAudiencia = audiencia.TipoAudiencia;
-            registrada.NombreTribunal = audiencia.NombreTribunal;
-            registrada.NumeroCaso = audiencia.NumeroCaso;
-            registrada.Observaciones = audiencia.Observaciones;
-            registrada.Estado = audiencia.Estado;
-
-            this.SaveChanges();
-            return true;
+            SaveChanges();
         }
-        catch
+        else
         {
-            return false;
+            throw new Exception("No se pudo actualizar la audiencia");
         }
     }
 
-    public bool EliminarAudiencia(int id)
+    public List<Audiencia> buscarAudienciasPorTribunal(string nombreTribunal)
     {
-        try
-        {
-            Audiencia? registrada = this.audiencias.FirstOrDefault(a => a.Id == id);
-
-            if (registrada == null)
-            {
-                return false;
-            }
-
-            this.audiencias.Remove(registrada);
-            this.SaveChanges();
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
+        return audiencias
+            .Where(a => a.NombreTribunal == nombreTribunal)
+            .ToList();
     }
+
+    public List<Audiencia> buscarAudienciasPorTipo(string tipoAudiencia)
+    {
+        return audiencias
+            .Where(a => a.TipoAudiencia == tipoAudiencia)
+            .ToList();
+    }
+
+    public List<Audiencia> buscarAudienciasPorEstado(string estado)
+    {
+        return audiencias
+            .Where(a => a.Estado == estado)
+            .ToList();
+    }
+
 
     #endregion
 
     #region Usuarios
 
-    public void AgregarUsuario(Usuario usuario)
+    public void agregarUsuario(Usuario usuarito)
     {
-        usuarios.Add(usuario);
+        usuarios.Add(usuarito);
         SaveChanges();
     }
 
-    public List<Usuario> ObtenerUsuarios()
+    public List<Usuario> mostrarUsuarios()
     {
-        List<Usuario> listaUsuarios =
-            usuarios.AsNoTracking().ToList();
-
-        return listaUsuarios;
+        return usuarios.ToList();
     }
 
-    public Usuario? ObtenerUsuarioPorId(int id)
+    public Usuario buscarUsuario(int id)
     {
-        Usuario? usuario = usuarios
-            .AsNoTracking()
+        var usuarioBuscado = usuarios
             .FirstOrDefault(u => u.Id == id);
 
-        return usuario;
-    }
-
-    public bool ActualizarUsuario(Usuario usuario)
-    {
-        Usuario? usuarioActual =
-            usuarios.Find(usuario.Id);
-
-        if (usuarioActual == null)
+        if (usuarioBuscado != null)
         {
-            return false;
+            return usuarioBuscado;
         }
 
-        usuarioActual.NombreCompleto =
-            usuario.NombreCompleto;
+        throw new Exception("Este usuario no se encuentra registrado");
+    }
 
-        usuarioActual.Identificacion =
-            usuario.Identificacion;
-
-        usuarioActual.Cargo =
-            usuario.Cargo;
-
-        usuarioActual.FechaRegistro =
-            usuario.FechaRegistro;
-
-        usuarioActual.Estado =
-            usuario.Estado;
-
-        usuarioActual.NombreUsuario =
-            usuario.NombreUsuario;
-
+    public void eliminarUsuario(Usuario usuarito)
+    {
+        usuarios.Remove(usuarito);
         SaveChanges();
-
-        return true;
     }
 
-    public bool EliminarUsuario(int id)
+    public void actualizarUsuario(Usuario usuarito)
     {
-        Usuario? usuario =
-            usuarios.Find(id);
+        var usuarioAntiguo = usuarios
+            .FirstOrDefault(u => u.Id == usuarito.Id);
 
-        if (usuario == null)
+        if (usuarioAntiguo != null)
         {
-            return false;
+            usuarioAntiguo.NombreCompleto = usuarito.NombreCompleto;
+            usuarioAntiguo.Identificacion = usuarito.Identificacion;
+            usuarioAntiguo.Cargo = usuarito.Cargo;
+            usuarioAntiguo.FechaRegistro = usuarito.FechaRegistro;
+            usuarioAntiguo.Estado = usuarito.Estado;
+            usuarioAntiguo.NombreUsuario = usuarito.NombreUsuario;
+
+            SaveChanges();
         }
-
-        usuarios.Remove(usuario);
-        SaveChanges();
-
-        return true;
+        else
+        {
+            throw new Exception("No se pudo actualizar el usuario");
+        }
     }
 
-    public bool NombreUsuarioExiste(
-        string nombreUsuario,
-        int idExcluir = 0)
+    public void actualizarContrasenia(int id, string nuevaContrasenia)
     {
-        return usuarios.Any(
-            u => u.NombreUsuario == nombreUsuario &&
-                 u.Id != idExcluir);
+        var usuarioAntiguo = usuarios
+            .FirstOrDefault(u => u.Id == id);
+
+        if (usuarioAntiguo != null)
+        {
+            usuarioAntiguo.Contrasenia = nuevaContrasenia;
+            SaveChanges();
+        }
+        else
+        {
+            throw new Exception("No se pudo actualizar la contrasenia");
+        }
     }
 
-    public List<Usuario> BuscarUsuarios(
-        string nombreCompleto,
-        string identificacion,
-        string nombreUsuario,
-        string cargo,
-        string estado)
+    public bool existeNombreUsuario(string nombreUsuario, int idExcluir = 0)
     {
-        IQueryable<Usuario> consulta =
-            usuarios.AsNoTracking();
-
-        if (!string.IsNullOrWhiteSpace(nombreCompleto))
-        {
-            consulta = consulta.Where(
-                u => u.NombreCompleto.Contains(nombreCompleto));
-        }
-
-        if (!string.IsNullOrWhiteSpace(identificacion))
-        {
-            consulta = consulta.Where(
-                u => u.Identificacion.Contains(identificacion));
-        }
-
-        if (!string.IsNullOrWhiteSpace(nombreUsuario))
-        {
-            consulta = consulta.Where(
-                u => u.NombreUsuario.Contains(nombreUsuario));
-        }
-
-        if (!string.IsNullOrWhiteSpace(cargo))
-        {
-            consulta = consulta.Where(
-                u => u.Cargo == cargo);
-        }
-
-        if (!string.IsNullOrWhiteSpace(estado))
-        {
-            consulta = consulta.Where(
-                u => u.Estado == estado);
-        }
-
-        List<Usuario> listaUsuarios =
-            consulta.ToList();
-
-        return listaUsuarios;
+        return usuarios.Any(u =>
+            u.NombreUsuario == nombreUsuario &&
+            u.Id != idExcluir);
     }
 
-    public bool ActualizarContrasenia(
-        int id,
-        string nuevaContrasenia)
+    public List<Usuario> buscarUsuariosPorNombre(string nombreCompleto)
     {
-        Usuario? usuario =
-            usuarios.Find(id);
-
-        if (usuario == null)
-        {
-            return false;
-        }
-
-        usuario.Contrasenia =
-            nuevaContrasenia;
-
-        SaveChanges();
-
-        return true;
+        return usuarios
+            .Where(u => u.NombreCompleto.Contains(nombreCompleto))
+            .ToList();
     }
 
-    public Usuario? ValidarUsuario(
-        string nombreUsuario,
-        string contrasenia)
+    public List<Usuario> buscarUsuariosPorNombreUsuario(string nombreUsuario)
     {
-        Usuario? usuario = usuarios
-            .FirstOrDefault(
-                u => u.NombreUsuario == nombreUsuario);
-
-        if (usuario == null)
-        {
-            return null;
-        }
-
-        if (usuario.Contrasenia != contrasenia)
-        {
-            return null;
-        }
-
-        if (usuario.Estado != "Activo")
-        {
-            return null;
-        }
-
-        return usuario;
+        return usuarios
+            .Where(u => u.NombreUsuario.Contains(nombreUsuario))
+            .ToList();
     }
+
+    public List<Usuario> buscarUsuariosPorCargo(string cargo)
+    {
+        return usuarios
+            .Where(u => u.Cargo == cargo)
+            .ToList();
+    }
+
+    public List<Usuario> buscarUsuariosPorEstado(string estado)
+    {
+        return usuarios
+            .Where(u => u.Estado == estado)
+            .ToList();
+    }
+
+    public Usuario login(string nombreUsuario, string contrasenia)
+    {
+        var usuarioLogueado = usuarios
+            .FirstOrDefault(u => u.NombreUsuario == nombreUsuario
+            && u.Contrasenia == contrasenia
+            && u.Estado == "Activo");
+
+        if (usuarioLogueado != null)
+        {
+            return usuarioLogueado;
+        }
+
+        throw new Exception("Datos de inicio de sesion incorrectos");
+    }
+
 
     #endregion
 
     #region Bitácora
 
-    public void RegistrarBitacora(
-        string nombreUsuario,
-        string resultado)
+    public void registrarBitacora(string nombreUsuario, string resultado)
     {
-        Bitacora bitacora = new Bitacora();
+        Bitacora bitacorita = new Bitacora();
 
-        bitacora.Fecha =
-            DateTime.Now.Date;
+        bitacorita.Fecha = DateTime.Now.Date;
+        bitacorita.Hora = DateTime.Now.TimeOfDay;
+        bitacorita.NombreUsuario = nombreUsuario;
+        bitacorita.Resultado = resultado;
 
-        bitacora.Hora =
-            DateTime.Now.TimeOfDay;
-
-        bitacora.NombreUsuario =
-            nombreUsuario;
-
-        bitacora.Resultado =
-            resultado;
-
-        bitacoras.Add(bitacora);
-
+        bitacoras.Add(bitacorita);
         SaveChanges();
     }
 
-    public List<Bitacora> ObtenerBitacora()
+    public List<Bitacora> mostrarBitacora()
     {
-        List<Bitacora> listaBitacora =
-            bitacoras.AsNoTracking().ToList();
-
-        return listaBitacora;
+        return bitacoras.ToList();
     }
 
-    public List<Bitacora> BuscarBitacora(
-        string nombreUsuario,
-        string resultado,
-        DateTime? fecha)
+    public List<Bitacora> buscarBitacoraPorUsuario(string nombreUsuario)
     {
-        IQueryable<Bitacora> consulta =
-            bitacoras.AsNoTracking();
+        return bitacoras
+            .Where(b => b.NombreUsuario.Contains(nombreUsuario))
+            .ToList();
+    }
 
-        if (!string.IsNullOrWhiteSpace(nombreUsuario))
-        {
-            consulta = consulta.Where(
-                b => b.NombreUsuario.Contains(nombreUsuario));
-        }
-
-        if (!string.IsNullOrWhiteSpace(resultado))
-        {
-            consulta = consulta.Where(
-                b => b.Resultado == resultado);
-        }
-
-        if (fecha.HasValue)
-        {
-            DateTime fechaBuscar =
-                fecha.Value.Date;
-
-            consulta = consulta.Where(
-                b => b.Fecha == fechaBuscar);
-        }
-
-        consulta = consulta
-            .OrderByDescending(b => b.Fecha)
-            .ThenByDescending(b => b.Hora);
-
-        List<Bitacora> listaBitacora =
-            consulta.ToList();
-
-        return listaBitacora;
+    public List<Bitacora> buscarBitacoraPorResultado(string resultado)
+    {
+        return bitacoras
+            .Where(b => b.Resultado == resultado)
+            .ToList();
     }
 
     #endregion

@@ -1,239 +1,131 @@
 using DepartamentoJusticia.Models;
 using DepartamentoJusticia.Services;
-using DepartamentoJusticia.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-
-namespace DepartamentoJusticia.Controllers;
-
-/// <summary>Gestion de las audiencias relacionadas con casos judiciales y tribunales.</summary>
-public class AudienciasController : ControladorBase
+namespace DepartamentoJusticia.Controllers
 {
-    private readonly Service servicio;
-
-    public AudienciasController(Service servicio)
+    public class AudienciasController : ControladorBase
     {
-        this.servicio = servicio;
-    }
+        // GET: AudienciasController
+        Service service;
+        public AudienciasController() { service = new Service(); }
 
-    #region Mostrar y buscar
-
-    [HttpGet]
-    public IActionResult Index(BusquedaAudienciaViewModel filtros)
-    {
-        filtros ??= new BusquedaAudienciaViewModel();
-        filtros.Tribunales = this.servicio.ObtenerNombresDeTribunal();
-        filtros.Resultados = filtros.HayFiltros
-            ? this.servicio.BuscarAudiencias(filtros.NombreTribunal, filtros.TipoAudiencia, filtros.Estado)
-            : this.servicio.ObtenerAudiencias();
-
-        if (filtros.HayFiltros && filtros.Resultados.Count == 0)
+        public ActionResult Index()
         {
-            TempData["Aviso"] = "No se encontraron audiencias con los criterios indicados.";
+            var audiencias = service.mostrarAudiencias();
+            return View(audiencias);
         }
-
-        return View(filtros);
-    }
-
-    [HttpGet]
-    public IActionResult Detalles(int id)
-    {
-        Audiencia? audiencia = this.servicio.ObtenerAudiencia(id);
-
-        if (audiencia == null)
+        // POST: AudienciasController (busqueda por criterios)
+        [HttpPost]
+        public ActionResult Index(string nombreTribunal, string tipoAudiencia, string estado)
         {
-            TempData["Error"] = "La audiencia solicitada no existe.";
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                if (!string.IsNullOrEmpty(nombreTribunal))
+                    return View(service.buscarAudienciasPorTribunal(nombreTribunal));
+                else if (!string.IsNullOrEmpty(tipoAudiencia))
+                    return View(service.buscarAudienciasPorTipo(tipoAudiencia));
+                else if (!string.IsNullOrEmpty(estado))
+                    return View(service.buscarAudienciasPorEstado(estado));
+                else
+                    return View(service.mostrarAudiencias());
+            }
+            catch
+            {
+                return View(service.mostrarAudiencias());
+            }
         }
-
-        return View(audiencia);
-    }
-
-    #endregion
-
-    #region Agregar
-
-    [HttpGet]
-    public IActionResult Crear()
-    {
-        return View(CrearModeloFormulario());
-    }
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public IActionResult Crear(AudienciaViewModel modelo)
-    {
-        ValidarAudiencia(modelo.Audiencia);
-
-        if (!ModelState.IsValid)
+        // GET: AudienciasController/Details/5
+        public ActionResult Details(int id)
         {
-            CargarListasFormulario(modelo);
-            return View(modelo);
+            return RedirectToAction("Index");
         }
-
-        if (!this.servicio.AgregarAudiencia(modelo.Audiencia))
+        // GET: AudienciasController/Create
+        public ActionResult Create()
         {
-            TempData["Error"] = "No fue posible registrar la audiencia.";
-            CargarListasFormulario(modelo);
-            return View(modelo);
+            ViewBag.Tribunales = service.mostrarNombresDeTribunal();
+            ViewBag.CasosJudiciales = service.mostrarNumerosDeCaso();
+            return View(new Audiencia());
         }
-
-        TempData["Exito"] = "La audiencia se registró correctamente.";
-        return RedirectToAction(nameof(Index));
-    }
-
-    #endregion
-
-    #region Actualizar
-
-    [HttpGet]
-    public IActionResult Editar(int id)
-    {
-        Audiencia? audiencia = this.servicio.ObtenerAudiencia(id);
-
-        if (audiencia == null)
+        // POST: AudienciasController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Audiencia audiencita)
         {
-            TempData["Error"] = "La audiencia solicitada no existe.";
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    service.agregarAudiencia(audiencita);
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ViewBag.Tribunales = service.mostrarNombresDeTribunal();
+                    ViewBag.CasosJudiciales = service.mostrarNumerosDeCaso();
+                    return View(audiencita);
+                }
+            }
+            catch
+            {
+                ViewBag.Tribunales = service.mostrarNombresDeTribunal();
+                ViewBag.CasosJudiciales = service.mostrarNumerosDeCaso();
+                return View(audiencita);
+            }
         }
-
-        AudienciaViewModel modelo = CrearModeloFormulario();
-        modelo.Audiencia = audiencia;
-        return View(modelo);
-    }
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public IActionResult Editar(AudienciaViewModel modelo)
-    {
-        ValidarAudiencia(modelo.Audiencia);
-
-        if (!ModelState.IsValid)
+        // GET: AudienciasController/Edit/5
+        public ActionResult Edit(int id)
         {
-            CargarListasFormulario(modelo);
-            return View(modelo);
+            try
+            {
+                ViewBag.Tribunales = service.mostrarNombresDeTribunal();
+                ViewBag.CasosJudiciales = service.mostrarNumerosDeCaso();
+                var audienciaBuscada = service.buscarAudiencia(id);
+                return View(audienciaBuscada);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index");
+            }
         }
-
-        if (!this.servicio.ActualizarAudiencia(modelo.Audiencia))
+        // POST: AudienciasController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Audiencia audiencita)
         {
-            TempData["Error"] = "No fue posible actualizar la audiencia.";
-            CargarListasFormulario(modelo);
-            return View(modelo);
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    service.actualizarAudiencia(audiencita);
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ViewBag.Tribunales = service.mostrarNombresDeTribunal();
+                    ViewBag.CasosJudiciales = service.mostrarNumerosDeCaso();
+                    return View(audiencita);
+                }
+            }
+            catch
+            {
+                ViewBag.Tribunales = service.mostrarNombresDeTribunal();
+                ViewBag.CasosJudiciales = service.mostrarNumerosDeCaso();
+                return View(audiencita);
+            }
         }
-
-        TempData["Exito"] = "Los datos de la audiencia se actualizaron correctamente.";
-        return RedirectToAction(nameof(Index));
-    }
-
-    #endregion
-
-    #region Eliminar
-
-    [HttpGet]
-    public IActionResult Eliminar(int id)
-    {
-        Audiencia? audiencia = this.servicio.ObtenerAudiencia(id);
-
-        if (audiencia == null)
+        // GET: AudienciasController/Delete/5
+        public ActionResult Delete(int id)
         {
-            TempData["Error"] = "La audiencia solicitada no existe.";
-            return RedirectToAction(nameof(Index));
-        }
-
-        return View(audiencia);
-    }
-
-    [HttpPost]
-    [ActionName("Eliminar")]
-    [ValidateAntiForgeryToken]
-    public IActionResult ConfirmarEliminar(int id)
-    {
-        if (!this.servicio.EliminarAudiencia(id))
-        {
-            TempData["Error"] = "No fue posible eliminar la audiencia.";
-            return RedirectToAction(nameof(Index));
-        }
-
-        TempData["Exito"] = "La audiencia se eliminó correctamente.";
-        return RedirectToAction(nameof(Index));
-    }
-
-    #endregion
-
-    #region Metodos auxiliares
-
-    private AudienciaViewModel CrearModeloFormulario()
-    {
-        AudienciaViewModel modelo = new();
-        CargarListasFormulario(modelo);
-        return modelo;
-    }
-
-    private void CargarListasFormulario(AudienciaViewModel modelo)
-    {
-        modelo.Tribunales = this.servicio.ObtenerNombresDeTribunal();
-        modelo.CasosJudiciales = this.servicio.ObtenerNumerosDeCaso();
-    }
-
-    #endregion
-
-    #region Validaciones
-
-    private void ValidarAudiencia(Audiencia audiencia)
-    {
-        if (audiencia.Fecha == DateTime.MinValue)
-        {
-            ModelState.AddModelError("Audiencia.Fecha", "La fecha es obligatoria.");
-        }
-
-        if (string.IsNullOrWhiteSpace(audiencia.TipoAudiencia))
-        {
-            ModelState.AddModelError("Audiencia.TipoAudiencia", "Debe seleccionar el tipo de audiencia.");
-        }
-        else if (audiencia.TipoAudiencia.Length > 20)
-        {
-            ModelState.AddModelError("Audiencia.TipoAudiencia", "El tipo de audiencia no puede superar los 20 caracteres.");
-        }
-
-        if (string.IsNullOrWhiteSpace(audiencia.NombreTribunal))
-        {
-            ModelState.AddModelError("Audiencia.NombreTribunal", "Debe seleccionar el tribunal asignado.");
-        }
-        else if (!this.servicio.ObtenerNombresDeTribunal().Contains(audiencia.NombreTribunal))
-        {
-            ModelState.AddModelError("Audiencia.NombreTribunal", "Debe seleccionar un tribunal registrado.");
-        }
-        else if (audiencia.NombreTribunal.Length > 120)
-        {
-            ModelState.AddModelError("Audiencia.NombreTribunal", "El tribunal asignado no puede superar los 120 caracteres.");
-        }
-
-        if (string.IsNullOrWhiteSpace(audiencia.NumeroCaso))
-        {
-            ModelState.AddModelError("Audiencia.NumeroCaso", "Debe seleccionar el caso judicial.");
-        }
-        else if (!this.servicio.ObtenerNumerosDeCaso().Contains(audiencia.NumeroCaso))
-        {
-            ModelState.AddModelError("Audiencia.NumeroCaso", "Debe seleccionar un caso judicial registrado.");
-        }
-        else if (audiencia.NumeroCaso.Length > 30)
-        {
-            ModelState.AddModelError("Audiencia.NumeroCaso", "El número de caso no puede superar los 30 caracteres.");
-        }
-
-        if (!string.IsNullOrWhiteSpace(audiencia.Observaciones) && audiencia.Observaciones.Length > 500)
-        {
-            ModelState.AddModelError("Audiencia.Observaciones", "Las observaciones no pueden superar los 500 caracteres.");
-        }
-
-        if (string.IsNullOrWhiteSpace(audiencia.Estado))
-        {
-            ModelState.AddModelError("Audiencia.Estado", "Debe seleccionar el estado de la audiencia.");
-        }
-        else if (audiencia.Estado.Length > 30)
-        {
-            ModelState.AddModelError("Audiencia.Estado", "El estado no puede superar los 30 caracteres.");
+            try
+            {
+                var audienciaEliminada = service.buscarAudiencia(id);
+                service.eliminarAudiencia(audienciaEliminada);
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index");
+            }
         }
     }
-
-    #endregion
 }

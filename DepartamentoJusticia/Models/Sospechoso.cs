@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DepartamentoJusticia.Models;
 
@@ -13,8 +12,9 @@ public class Sospechoso
     private int nivelPeligrosidad;
     private string estadoLegal;
     private string numeroCaso;
+    private string nivelRiesgo;
 
-    public Sospechoso(int id, string identificacion, string nombreCompleto, string nacionalidad, DateTime fechaNacimiento, int nivelPeligrosidad, string estadoLegal, string numeroCaso)
+    public Sospechoso(int id, string identificacion, string nombreCompleto, string nacionalidad, DateTime fechaNacimiento, int nivelPeligrosidad, string estadoLegal, string numeroCaso, string nivelRiesgo)
     {
         this.Id = id;
         this.Identificacion = identificacion;
@@ -24,6 +24,7 @@ public class Sospechoso
         this.NivelPeligrosidad = nivelPeligrosidad;
         this.EstadoLegal = estadoLegal;
         this.NumeroCaso = numeroCaso;
+        this.NivelRiesgo = nivelRiesgo;
     }
 
     public Sospechoso()
@@ -36,6 +37,7 @@ public class Sospechoso
         this.NivelPeligrosidad = 0;
         this.EstadoLegal = "";
         this.NumeroCaso = "";
+        this.NivelRiesgo = "";
     }
 
     [Required]
@@ -53,8 +55,8 @@ public class Sospechoso
     [Display(Name = "Nacionalidad")]
     public string Nacionalidad { get => nacionalidad; set => nacionalidad = value; }
 
+    [Required(ErrorMessage = "La fecha de nacimiento es obligatoria.")]
     [DataType(DataType.Date)]
-    [CustomValidation(typeof(Sospechoso), nameof(FechaNacimientoValida))]
     [Display(Name = "Fecha de nacimiento")]
     public DateTime FechaNacimiento { get => fechaNacimiento; set => fechaNacimiento = value; }
 
@@ -70,74 +72,31 @@ public class Sospechoso
     [Display(Name = "Caso judicial vinculado")]
     public string NumeroCaso { get => numeroCaso; set => numeroCaso = value; }
 
-    #region Calculos de la clase logica
-
-    public static ValidationResult? FechaNacimientoValida(DateTime fechaNacimiento, ValidationContext contexto)
-    {
-        if (fechaNacimiento == DateTime.MinValue || fechaNacimiento.Date > DateTime.Today)
-        {
-            return new ValidationResult("La fecha de nacimiento debe ser anterior o igual a hoy.");
-        }
-
-        return ValidationResult.Success;
-    }
-
-    
-    /// Nivel de riesgo calculado a partir del nivel de peligrosidad.
-    /// Riesgo Bajo: 1 a 25 | Moderado: 26 a 50 | Alto: 51 a 75 | Crítico: 76 a 100.
-    /// No se almacena en la base de datos, se calcula cada vez que se consulta.
-    
-    [NotMapped]
     [Display(Name = "Nivel de riesgo")]
-    public string NivelRiesgo
+    public string NivelRiesgo { get => nivelRiesgo; set => nivelRiesgo = value; }
+
+    public string CalcularNivelRiesgo()
     {
-        get
+        // Riesgo Bajo: 1 a 25 | Moderado: 26 a 50 | Alto: 51 a 75 | Critico: 76 a 100
+        if (NivelPeligrosidad >= 1 && NivelPeligrosidad <= 25)
         {
-            if (this.NivelPeligrosidad >= 76)
-            {
-                return "Riesgo Crítico";
-            }
-
-            if (this.NivelPeligrosidad >= 51)
-            {
-                return "Riesgo Alto";
-            }
-
-            if (this.NivelPeligrosidad >= 26)
-            {
-                return "Riesgo Moderado";
-            }
-
-            return this.NivelPeligrosidad >= 1 ? "Riesgo Bajo" : "No calculado";
+            return "Riesgo Bajo";
+        }
+        else if (NivelPeligrosidad >= 26 && NivelPeligrosidad <= 50)
+        {
+            return "Riesgo Moderado";
+        }
+        else if (NivelPeligrosidad >= 51 && NivelPeligrosidad <= 75)
+        {
+            return "Riesgo Alto";
+        }
+        else if (NivelPeligrosidad >= 76 && NivelPeligrosidad <= 100)
+        {
+            return "Riesgo Crítico";
+        }
+        else
+        {
+            return "No calculado";
         }
     }
-
-   
-    /// Edad calculada a partir de la fecha de nacimiento.
-  
-    [NotMapped]
-    [Display(Name = "Edad")]
-    public int Edad
-    {
-        get
-        {
-            if (this.FechaNacimiento == DateTime.MinValue)
-            {
-                return 0;
-            }
-
-            int edad = DateTime.Today.Year - this.FechaNacimiento.Year;
-
-            if (this.FechaNacimiento.Date > DateTime.Today.AddYears(-edad))
-            {
-                edad--;
-            }
-
-            return edad;
-        }
-    }
-
-    //e
-
-    #endregion
 }
