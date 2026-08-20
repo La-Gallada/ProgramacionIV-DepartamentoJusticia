@@ -35,9 +35,7 @@ public class Service : DbContext
 
     public List<Agente> mostrarAgentesActivos()
     {
-        return Agentes
-            .Where(a => a.Estado == "Activo")
-            .ToList();
+        return Agentes.Where(a => a.Estado == "Activo").ToList();
     }
 
     public Agente buscarAgente(int id)
@@ -52,10 +50,10 @@ public class Service : DbContext
         throw new Exception("Este agente no se encuentra registrado");
     }
 
-    public Agente buscarAgentePorNombre(string nombreCompleto)
+   
+    public Agente obtenerAgenteParaCalculo(string nombreCompleto)
     {
-        var agenteBuscado = Agentes
-            .FirstOrDefault(a => a.NombreCompleto == nombreCompleto);
+        var agenteBuscado = Agentes.FirstOrDefault(a => a.NombreCompleto == nombreCompleto);
 
         if (agenteBuscado != null)
         {
@@ -67,9 +65,7 @@ public class Service : DbContext
 
     public bool existeAgentePorNombre(string nombreCompleto)
     {
-        return Agentes.Any(a =>
-            a.NombreCompleto == nombreCompleto &&
-            a.Estado == "Activo");
+        return Agentes.Any(a => a.NombreCompleto == nombreCompleto && a.Estado == "Activo");
     }
 
     public void eliminarAgente(Agente agentito)
@@ -80,8 +76,7 @@ public class Service : DbContext
 
     public void actualizarAgente(Agente agentito)
     {
-        var agenteAntiguo = Agentes
-            .FirstOrDefault(a => a.Id == agentito.Id);
+        var agenteAntiguo = Agentes.FirstOrDefault(a => a.Id == agentito.Id);
 
         if (agenteAntiguo != null)
         {
@@ -105,23 +100,17 @@ public class Service : DbContext
 
     public List<Agente> buscarAgentesPorNombre(string nombreCompleto)
     {
-        return Agentes
-            .Where(a => a.NombreCompleto == nombreCompleto)
-            .ToList();
+        return Agentes.Where(a => a.NombreCompleto.Contains(nombreCompleto)).ToList();
     }
 
     public List<Agente> buscarAgentesPorEspecialidad(string especialidad)
     {
-        return Agentes
-            .Where(a => a.Especialidad == especialidad)
-            .ToList();
+        return Agentes.Where(a => a.Especialidad == especialidad).ToList();
     }
 
     public List<Agente> buscarAgentesPorRango(string rango)
     {
-        return Agentes
-            .Where(a => a.Rango == rango)
-            .ToList();
+        return Agentes.Where(a => a.Rango == rango).ToList();
     }
 
     #endregion
@@ -139,23 +128,17 @@ public class Service : DbContext
         return casosJudiciales.ToList();
     }
 
-    public List<CasoJudicial> mostrarCasoJudicial()
-    {
-        return mostrarCasos();
-    }
-
+ 
     public CasoJudicial buscarCaso(int id)
     {
-        var casoBuscado = casosJudiciales
-            .FirstOrDefault(c => c.Id == id);
+        var casoBuscado = casosJudiciales.FirstOrDefault(c => c.Id == id);
 
         if (casoBuscado != null)
         {
             return casoBuscado;
         }
 
-        throw new Exception(
-            "Este caso judicial no se encuentra registrado");
+        throw new Exception("Este caso judicial no se encuentra registrado");
     }
 
     public void eliminarCaso(CasoJudicial casito)
@@ -166,8 +149,7 @@ public class Service : DbContext
 
     public void actualizarCaso(CasoJudicial casito)
     {
-        var casoAntiguo = casosJudiciales
-            .FirstOrDefault(c => c.Id == casito.Id);
+        var casoAntiguo = casosJudiciales.FirstOrDefault(c => c.Id == casito.Id);
 
         if (casoAntiguo != null)
         {
@@ -184,35 +166,29 @@ public class Service : DbContext
         }
         else
         {
-            throw new Exception(
-                "No se pudo actualizar el caso judicial");
+            throw new Exception("No se pudo actualizar el caso judicial");
         }
     }
 
     public List<CasoJudicial> buscarCasosPorNumero(string numeroCaso)
     {
-        return casosJudiciales
-            .Where(c => c.NumeroCaso == numeroCaso)
-            .ToList();
+        return casosJudiciales.Where(c => c.NumeroCaso.Contains(numeroCaso)).ToList();
     }
 
     public List<CasoJudicial> buscarCasosPorTipoDelito(string tipoDelito)
     {
-        return casosJudiciales
-            .Where(c => c.TipoDelito == tipoDelito)
-            .ToList();
+        return casosJudiciales.Where(c => c.TipoDelito == tipoDelito).ToList();
     }
 
     public List<CasoJudicial> buscarCasosPorPrioridad(string prioridad)
     {
-        return casosJudiciales
-            .Where(c => c.Prioridad == prioridad)
-            .ToList();
+        return casosJudiciales.Where(c => c.Prioridad == prioridad).ToList();
     }
 
     #endregion
 
     #region Sospechosos
+
     public void agregarSospechoso(Sospechoso sospechosito)
     {
         sospechosos.Add(sospechosito);
@@ -226,8 +202,7 @@ public class Service : DbContext
 
     public Sospechoso buscarSospechoso(int id)
     {
-        var sospechosoBuscado = sospechosos
-            .FirstOrDefault(s => s.Id == id);
+        var sospechosoBuscado = sospechosos.FirstOrDefault(s => s.Id == id);
 
         if (sospechosoBuscado != null)
         {
@@ -245,8 +220,7 @@ public class Service : DbContext
 
     public void actualizarSospechoso(Sospechoso sospechosito)
     {
-        var sospechosoAntiguo = sospechosos
-            .FirstOrDefault(s => s.Id == sospechosito.Id);
+        var sospechosoAntiguo = sospechosos.FirstOrDefault(s => s.Id == sospechosito.Id);
 
         if (sospechosoAntiguo != null)
         {
@@ -269,28 +243,22 @@ public class Service : DbContext
 
     public List<Sospechoso> buscarSospechososPorNombre(string nombreCompleto)
     {
-        return sospechosos
-            .Where(s => s.NombreCompleto.Contains(nombreCompleto))
-            .ToList();
+        return sospechosos.Where(s => s.NombreCompleto.Contains(nombreCompleto)).ToList();
     }
 
     public List<Sospechoso> buscarSospechososPorEstadoLegal(string estadoLegal)
     {
-        return sospechosos
-            .Where(s => s.EstadoLegal == estadoLegal)
-            .ToList();
+        return sospechosos.Where(s => s.EstadoLegal == estadoLegal).ToList();
     }
-    public List<string> mostrarNumerosDeCaso()
-    {
-        return casosJudiciales
-            .Select(c => c.NumeroCaso)
-            .ToList();
-    }
+
     public List<Sospechoso> buscarSospechososPorRiesgo(string nivelRiesgo)
     {
-        return sospechosos
-            .Where(s => s.NivelRiesgo == nivelRiesgo)
-            .ToList();
+        return sospechosos.Where(s => s.NivelRiesgo == nivelRiesgo).ToList();
+    }
+
+    public List<string> mostrarNumerosDeCaso()
+    {
+        return casosJudiciales.Select(c => c.NumeroCaso).ToList();
     }
 
     #endregion
@@ -310,8 +278,7 @@ public class Service : DbContext
 
     public Evidencia buscarEvidencia(int id)
     {
-        var evidenciaBuscada = evidencias
-            .FirstOrDefault(v => v.Id == id);
+        var evidenciaBuscada = evidencias.FirstOrDefault(e => e.Id == id);
 
         if (evidenciaBuscada != null)
         {
@@ -329,8 +296,7 @@ public class Service : DbContext
 
     public void actualizarEvidencia(Evidencia evidencita)
     {
-        var evidenciaAntigua = evidencias
-            .FirstOrDefault(v => v.Id == evidencita.Id);
+        var evidenciaAntigua = evidencias.FirstOrDefault(e => e.Id == evidencita.Id);
 
         if (evidenciaAntigua != null)
         {
@@ -351,25 +317,19 @@ public class Service : DbContext
 
     public List<Evidencia> buscarEvidenciasPorCodigo(string codigo)
     {
-        return evidencias
-            .Where(e => e.Codigo.Contains(codigo))
-            .ToList();
+        return evidencias.Where(e => e.Codigo.Contains(codigo)).ToList();
     }
 
     public List<Evidencia> buscarEvidenciasPorTipo(string tipoEvidencia)
     {
-        return evidencias
-            .Where(e => e.TipoEvidencia == tipoEvidencia)
-            .ToList();
+        return evidencias.Where(e => e.TipoEvidencia == tipoEvidencia).ToList();
     }
 
     public List<Evidencia> buscarEvidenciasPorFecha(DateTime fechaRecoleccion)
     {
         DateTime fechaBuscar = fechaRecoleccion.Date;
 
-        return evidencias
-            .Where(e => DbFunctions.TruncateTime(e.FechaRecoleccion) == fechaBuscar)
-            .ToList();
+        return evidencias.Where(e => DbFunctions.TruncateTime(e.FechaRecoleccion) == fechaBuscar).ToList();
     }
 
     #endregion
@@ -389,16 +349,14 @@ public class Service : DbContext
 
     public Operativo buscarOperativo(int id)
     {
-        var operativoBuscado = operativos
-            .FirstOrDefault(o => o.Id == id);
+        var operativoBuscado = operativos.FirstOrDefault(o => o.Id == id);
 
         if (operativoBuscado != null)
         {
             return operativoBuscado;
         }
 
-        throw new Exception(
-            "Este operativo no se encuentra registrado");
+        throw new Exception("Este operativo no se encuentra registrado");
     }
 
     public void eliminarOperativo(Operativo operativito)
@@ -409,80 +367,49 @@ public class Service : DbContext
 
     public void actualizarOperativo(Operativo operativito)
     {
-        var operativoAntiguo = operativos
-            .FirstOrDefault(o => o.Id == operativito.Id);
+        var operativoAntiguo = operativos.FirstOrDefault(o => o.Id == operativito.Id);
 
         if (operativoAntiguo != null)
         {
-            operativoAntiguo.NombreOperativo =
-                operativito.NombreOperativo;
-
-            operativoAntiguo.FechaEjecucion =
-                operativito.FechaEjecucion;
-
-            operativoAntiguo.Ciudad =
-                operativito.Ciudad;
-
-            operativoAntiguo.TipoOperativo =
-                operativito.TipoOperativo;
-
-            operativoAntiguo.NombreAgente1 =
-                operativito.NombreAgente1;
-
-            operativoAntiguo.NombreAgente2 =
-                operativito.NombreAgente2;
-
-            operativoAntiguo.NombreAgente3 =
-                operativito.NombreAgente3;
-
-            operativoAntiguo.Resultado =
-                operativito.Resultado;
-
-            operativoAntiguo.NumeroCaso =
-                operativito.NumeroCaso;
-
-            operativoAntiguo.CostoOperativo =
-                operativito.CostoOperativo;
+            operativoAntiguo.NombreOperativo = operativito.NombreOperativo;
+            operativoAntiguo.FechaEjecucion = operativito.FechaEjecucion;
+            operativoAntiguo.Ciudad = operativito.Ciudad;
+            operativoAntiguo.TipoOperativo = operativito.TipoOperativo;
+            operativoAntiguo.NombreAgente1 = operativito.NombreAgente1;
+            operativoAntiguo.NombreAgente2 = operativito.NombreAgente2;
+            operativoAntiguo.NombreAgente3 = operativito.NombreAgente3;
+            operativoAntiguo.Resultado = operativito.Resultado;
+            operativoAntiguo.NumeroCaso = operativito.NumeroCaso;
+            operativoAntiguo.CostoOperativo = operativito.CostoOperativo;
 
             SaveChanges();
         }
         else
         {
-            throw new Exception(
-                "No se pudo actualizar el operativo");
+            throw new Exception("No se pudo actualizar el operativo");
         }
     }
 
-    public List<Operativo> buscarOperativosPorCiudad(
-        string ciudad)
+    public List<Operativo> buscarOperativosPorCiudad(string ciudad)
     {
-        return operativos
-            .Where(o => o.Ciudad == ciudad)
-            .ToList();
+        return operativos.Where(o => o.Ciudad.Contains(ciudad)).ToList();
     }
 
-    public List<Operativo> buscarOperativosPorFecha(
-        DateTime fecha)
+    public List<Operativo> buscarOperativosPorFecha(DateTime fecha)
     {
-        return operativos
-            .Where(o => o.FechaEjecucion == fecha)
-            .ToList();
+        DateTime fechaBuscar = fecha.Date;
+
+        return operativos.Where(o => DbFunctions.TruncateTime(o.FechaEjecucion) == fechaBuscar).ToList();
     }
 
-    public List<Operativo> buscarOperativosPorTipo(
-        string tipoOperativo)
+    public List<Operativo> buscarOperativosPorTipo(string tipoOperativo)
     {
-        return operativos
-            .Where(o => o.TipoOperativo == tipoOperativo)
-            .ToList();
+        return operativos.Where(o => o.TipoOperativo == tipoOperativo).ToList();
     }
 
-    public List<Operativo> buscarOperativosPorResultado(
-        string resultado)
+    public List<Operativo> buscarOperativosPorResultado(string resultado)
     {
-        return operativos
-            .Where(o => o.Resultado == resultado)
-            .ToList();
+        return operativos.Where(o => o.Resultado == resultado).ToList();
     }
 
     #endregion
@@ -502,8 +429,7 @@ public class Service : DbContext
 
     public Tribunal buscarTribunal(int id)
     {
-        var tribunalBuscado = tribunales
-            .FirstOrDefault(t => t.Id == id);
+        var tribunalBuscado = tribunales.FirstOrDefault(t => t.Id == id);
 
         if (tribunalBuscado != null)
         {
@@ -521,8 +447,7 @@ public class Service : DbContext
 
     public void actualizarTribunal(Tribunal tribunalito)
     {
-        var tribunalAntiguo = tribunales
-            .FirstOrDefault(t => t.Id == tribunalito.Id);
+        var tribunalAntiguo = tribunales.FirstOrDefault(t => t.Id == tribunalito.Id);
 
         if (tribunalAntiguo != null)
         {
@@ -542,42 +467,33 @@ public class Service : DbContext
 
     public List<Tribunal> buscarTribunalesPorNombre(string nombre)
     {
-        return tribunales
-            .Where(t => t.Nombre.Contains(nombre))
-            .ToList();
+        return tribunales.Where(t => t.Nombre.Contains(nombre)).ToList();
     }
 
     public List<Tribunal> buscarTribunalesPorCiudad(string ciudad)
     {
-        return tribunales
-            .Where(t => t.Ciudad.Contains(ciudad))
-            .ToList();
+        return tribunales.Where(t => t.Ciudad.Contains(ciudad)).ToList();
     }
 
     public List<Tribunal> buscarTribunalesPorEstado(string estado)
     {
-        return tribunales
-            .Where(t => t.Estado == estado)
-            .ToList();
+        return tribunales.Where(t => t.Estado == estado).ToList();
     }
 
     public List<Tribunal> buscarTribunalesPorJuez(string juezAsignado)
     {
-        return tribunales
-            .Where(t => t.JuezAsignado.Contains(juezAsignado))
-            .ToList();
+        return tribunales.Where(t => t.JuezAsignado.Contains(juezAsignado)).ToList();
     }
 
     public List<string> mostrarNombresDeTribunal()
     {
-        return tribunales
-            .Select(t => t.Nombre)
-            .ToList();
+        return tribunales.Select(t => t.Nombre).ToList();
     }
 
     #endregion
 
     #region Audiencias
+
     public void agregarAudiencia(Audiencia audiencita)
     {
         audiencias.Add(audiencita);
@@ -591,8 +507,7 @@ public class Service : DbContext
 
     public Audiencia buscarAudiencia(int id)
     {
-        var audienciaBuscada = audiencias
-            .FirstOrDefault(a => a.Id == id);
+        var audienciaBuscada = audiencias.FirstOrDefault(a => a.Id == id);
 
         if (audienciaBuscada != null)
         {
@@ -610,8 +525,7 @@ public class Service : DbContext
 
     public void actualizarAudiencia(Audiencia audiencita)
     {
-        var audienciaAntigua = audiencias
-            .FirstOrDefault(a => a.Id == audiencita.Id);
+        var audienciaAntigua = audiencias.FirstOrDefault(a => a.Id == audiencita.Id);
 
         if (audienciaAntigua != null)
         {
@@ -633,25 +547,18 @@ public class Service : DbContext
 
     public List<Audiencia> buscarAudienciasPorTribunal(string nombreTribunal)
     {
-        return audiencias
-            .Where(a => a.NombreTribunal == nombreTribunal)
-            .ToList();
+        return audiencias.Where(a => a.NombreTribunal == nombreTribunal).ToList();
     }
 
     public List<Audiencia> buscarAudienciasPorTipo(string tipoAudiencia)
     {
-        return audiencias
-            .Where(a => a.TipoAudiencia == tipoAudiencia)
-            .ToList();
+        return audiencias.Where(a => a.TipoAudiencia == tipoAudiencia).ToList();
     }
 
     public List<Audiencia> buscarAudienciasPorEstado(string estado)
     {
-        return audiencias
-            .Where(a => a.Estado == estado)
-            .ToList();
+        return audiencias.Where(a => a.Estado == estado).ToList();
     }
-
 
     #endregion
 
@@ -670,8 +577,7 @@ public class Service : DbContext
 
     public Usuario buscarUsuario(int id)
     {
-        var usuarioBuscado = usuarios
-            .FirstOrDefault(u => u.Id == id);
+        var usuarioBuscado = usuarios.FirstOrDefault(u => u.Id == id);
 
         if (usuarioBuscado != null)
         {
@@ -689,8 +595,7 @@ public class Service : DbContext
 
     public void actualizarUsuario(Usuario usuarito)
     {
-        var usuarioAntiguo = usuarios
-            .FirstOrDefault(u => u.Id == usuarito.Id);
+        var usuarioAntiguo = usuarios.FirstOrDefault(u => u.Id == usuarito.Id);
 
         if (usuarioAntiguo != null)
         {
@@ -711,8 +616,7 @@ public class Service : DbContext
 
     public void actualizarContrasenia(int id, string nuevaContrasenia)
     {
-        var usuarioAntiguo = usuarios
-            .FirstOrDefault(u => u.Id == id);
+        var usuarioAntiguo = usuarios.FirstOrDefault(u => u.Id == id);
 
         if (usuarioAntiguo != null)
         {
@@ -727,16 +631,12 @@ public class Service : DbContext
 
     public bool existeNombreUsuario(string nombreUsuario, int idExcluir = 0)
     {
-        return usuarios.Any(u =>
-            u.NombreUsuario == nombreUsuario &&
-            u.Id != idExcluir);
+        return usuarios.Any(u => u.NombreUsuario == nombreUsuario && u.Id != idExcluir);
     }
 
     public List<Usuario> buscarUsuariosPorNombre(string nombreCompleto)
     {
-        return usuarios
-            .Where(u => u.NombreCompleto.Contains(nombreCompleto))
-            .ToList();
+        return usuarios.Where(u => u.NombreCompleto.Contains(nombreCompleto)).ToList();
     }
 
     public List<Usuario> buscarUsuariosPorIdentificacion(string identificacion)
@@ -748,31 +648,22 @@ public class Service : DbContext
 
     public List<Usuario> buscarUsuariosPorNombreUsuario(string nombreUsuario)
     {
-        return usuarios
-            .Where(u => u.NombreUsuario.Contains(nombreUsuario))
-            .ToList();
+        return usuarios.Where(u => u.NombreUsuario.Contains(nombreUsuario)).ToList();
     }
 
     public List<Usuario> buscarUsuariosPorCargo(string cargo)
     {
-        return usuarios
-            .Where(u => u.Cargo == cargo)
-            .ToList();
+        return usuarios.Where(u => u.Cargo == cargo).ToList();
     }
 
     public List<Usuario> buscarUsuariosPorEstado(string estado)
     {
-        return usuarios
-            .Where(u => u.Estado == estado)
-            .ToList();
+        return usuarios.Where(u => u.Estado == estado).ToList();
     }
 
     public Usuario login(string nombreUsuario, string contrasenia)
     {
-        var usuarioLogueado = usuarios
-            .FirstOrDefault(u => u.NombreUsuario == nombreUsuario
-            && u.Contrasenia == contrasenia
-            && u.Estado == "Activo");
+        var usuarioLogueado = usuarios.FirstOrDefault(u => u.NombreUsuario == nombreUsuario && u.Contrasenia == contrasenia && u.Estado == "Activo");
 
         if (usuarioLogueado != null)
         {
@@ -782,10 +673,9 @@ public class Service : DbContext
         throw new Exception("Datos de inicio de sesion incorrectos");
     }
 
-
     #endregion
 
-    #region Bitácora
+    #region Bitacora
 
     public void registrarBitacora(string nombreUsuario, string resultado)
     {
@@ -807,16 +697,12 @@ public class Service : DbContext
 
     public List<Bitacora> buscarBitacoraPorUsuario(string nombreUsuario)
     {
-        return bitacoras
-            .Where(b => b.NombreUsuario.Contains(nombreUsuario))
-            .ToList();
+        return bitacoras.Where(b => b.NombreUsuario.Contains(nombreUsuario)).ToList();
     }
 
     public List<Bitacora> buscarBitacoraPorResultado(string resultado)
     {
-        return bitacoras
-            .Where(b => b.Resultado == resultado)
-            .ToList();
+        return bitacoras.Where(b => b.Resultado == resultado).ToList();
     }
 
     public List<Bitacora> buscarBitacoraPorFecha(DateTime fecha)

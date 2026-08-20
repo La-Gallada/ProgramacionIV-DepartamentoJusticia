@@ -39,7 +39,7 @@ namespace DepartamentoJusticia.Controllers
         // GET: EvidenciaController/Create
         public ActionResult Create()
         {
-            ViewBag.CasosJudiciales = service.mostrarCasoJudicial();
+            ViewBag.CasosJudiciales = service.mostrarCasos();
             return View(new Evidencia());
         }
         // POST: EvidenciaController/Create
@@ -49,6 +49,10 @@ namespace DepartamentoJusticia.Controllers
         {
             try
             {
+                if (evidencita.FechaRecoleccion == DateTime.MinValue)
+                {
+                    ModelState.AddModelError("FechaRecoleccion", "Debe indicar la fecha de recoleccion");
+                }
                 if (ModelState.IsValid)
                 {
                     service.agregarEvidencia(evidencita);
@@ -56,13 +60,13 @@ namespace DepartamentoJusticia.Controllers
                 }
                 else
                 {
-                    ViewBag.CasosJudiciales = service.mostrarCasoJudicial();
+                    ViewBag.CasosJudiciales = service.mostrarCasos();
                     return View(evidencita);
                 }
             }
             catch
             {
-                ViewBag.CasosJudiciales = service.mostrarCasoJudicial();
+                ViewBag.CasosJudiciales = service.mostrarCasos();
                 return View(evidencita);
             }
         }
@@ -71,7 +75,7 @@ namespace DepartamentoJusticia.Controllers
         {
             try
             {
-                ViewBag.CasosJudiciales = service.mostrarCasoJudicial();
+                ViewBag.CasosJudiciales = service.mostrarCasos();
                 var evidenciaBuscada = service.buscarEvidencia(id);
                 return View(evidenciaBuscada);
             }
@@ -87,6 +91,10 @@ namespace DepartamentoJusticia.Controllers
         {
             try
             {
+                if (evidencita.FechaRecoleccion == DateTime.MinValue)
+                {
+                    ModelState.AddModelError("FechaRecoleccion", "Debe indicar la fecha de recoleccion");
+                }
                 if (ModelState.IsValid)
                 {
                     service.actualizarEvidencia(evidencita);
@@ -94,13 +102,13 @@ namespace DepartamentoJusticia.Controllers
                 }
                 else
                 {
-                    ViewBag.CasosJudiciales = service.mostrarCasoJudicial();
+                    ViewBag.CasosJudiciales = service.mostrarCasos();
                     return View(evidencita);
                 }
             }
             catch
             {
-                ViewBag.CasosJudiciales = service.mostrarCasoJudicial();
+                ViewBag.CasosJudiciales = service.mostrarCasos();
                 return View(evidencita);
             }
         }

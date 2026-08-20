@@ -37,21 +37,21 @@ public class CasoJudicial
     }
     public string CalcularPrioridad()
     {
-        // Prioridad segun el tipo de delito
+   
         switch (TipoDelito)
         {
-            // Delitos económicos o contra el Estado
+            
             case "Económicos":
             case "Contra el Estado":
                 return "Alta";
-            // Delitos contra el patrimonio o la seguridad pública
+            
             case "Contra el Patrimonio":
             case "Contra la Seguridad Pública":
                 return "Media";
-            // Delitos contra las personas
+           
             case "Contra las personas":
                 return "Baja";
-            // Si el tipo de delito no es válido
+            
             default:
                 return "Sin definir";
         }
