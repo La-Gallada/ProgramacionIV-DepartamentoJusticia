@@ -29,7 +29,7 @@ public class Evidencia
         this.TipoEvidencia = "";
         this.Descripcion = "";
         this.LugarHallazgo = "";
-        this.FechaRecoleccion = DateTime.MinValue;
+        this.FechaRecoleccion = DateTime.Now;
         this.NumeroCaso = "";
     }
 
