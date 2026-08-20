@@ -55,6 +55,10 @@ namespace DepartamentoJusticia.Controllers
         {
             try
             {
+                if (audiencita.Fecha == DateTime.MinValue)
+                {
+                    ModelState.AddModelError("Fecha", "Debe indicar la fecha de la audiencia");
+                }
                 if (ModelState.IsValid)
                 {
                     service.agregarAudiencia(audiencita);
@@ -96,6 +100,10 @@ namespace DepartamentoJusticia.Controllers
         {
             try
             {
+                if (audiencita.Fecha == DateTime.MinValue)
+                {
+                    ModelState.AddModelError("Fecha", "Debe indicar la fecha de la audiencia");
+                }
                 if (ModelState.IsValid)
                 {
                     service.actualizarAudiencia(audiencita);
