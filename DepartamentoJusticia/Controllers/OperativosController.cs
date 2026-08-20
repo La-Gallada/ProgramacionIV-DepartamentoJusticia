@@ -73,7 +73,7 @@ namespace DepartamentoJusticia.Controllers
                         return View(operativito);
                     }
 
-                    // Se buscan los tres agentes para obtener sus salarios
+                  
                     var agente1 = service.obtenerAgenteParaCalculo(operativito.NombreAgente1);
                     var agente2 = service.obtenerAgenteParaCalculo(operativito.NombreAgente2);
                     var agente3 = service.obtenerAgenteParaCalculo(operativito.NombreAgente3);
@@ -137,7 +137,7 @@ namespace DepartamentoJusticia.Controllers
                         return View(operativito);
                     }
 
-                    // Se buscan los tres agentes para obtener sus salarios
+                    
                     var agente1 = service.obtenerAgenteParaCalculo(operativito.NombreAgente1);
                     var agente2 = service.obtenerAgenteParaCalculo(operativito.NombreAgente2);
                     var agente3 = service.obtenerAgenteParaCalculo(operativito.NombreAgente3);
