@@ -20,7 +20,7 @@ public class Bitacora
     public Bitacora()
     {
         this.Id = 0;
-        this.Fecha = DateTime.MinValue;
+        this.Fecha = DateTime.Now;
         this.Hora = TimeSpan.Zero;
         this.NombreUsuario = "";
         this.Resultado = "";

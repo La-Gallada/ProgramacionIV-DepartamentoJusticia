@@ -30,7 +30,7 @@ public class Usuario
         this.NombreCompleto = "";
         this.Identificacion = "";
         this.Cargo = "";
-        this.FechaRegistro = DateTime.MinValue;
+        this.FechaRegistro = DateTime.Now;
         this.Estado = "";
         this.NombreUsuario = "";
         this.Contrasenia = "";

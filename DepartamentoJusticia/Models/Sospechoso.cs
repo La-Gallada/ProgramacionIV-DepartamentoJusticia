@@ -77,7 +77,7 @@ public class Sospechoso
 
     public string CalcularNivelRiesgo()
     {
-        // Riesgo Bajo: 1 a 25 | Moderado: 26 a 50 | Alto: 51 a 75 | Critico: 76 a 100
+        
         if (NivelPeligrosidad >= 1 && NivelPeligrosidad <= 25)
         {
             return "Riesgo Bajo";

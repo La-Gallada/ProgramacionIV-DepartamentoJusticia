@@ -52,10 +52,7 @@ namespace DepartamentoJusticia.Controllers
         {
             try
             {
-                if (sospechosito.FechaNacimiento == DateTime.MinValue || sospechosito.FechaNacimiento.Date > DateTime.Today)
-                {
-                    ModelState.AddModelError("FechaNacimiento", "Debe indicar una fecha de nacimiento valida");
-                }
+              
                 if (ModelState.IsValid)
                 {
                     sospechosito.NivelRiesgo = sospechosito.CalcularNivelRiesgo();
@@ -95,10 +92,7 @@ namespace DepartamentoJusticia.Controllers
         {
             try
             {
-                if (sospechosito.FechaNacimiento == DateTime.MinValue || sospechosito.FechaNacimiento.Date > DateTime.Today)
-                {
-                    ModelState.AddModelError("FechaNacimiento", "Debe indicar una fecha de nacimiento valida");
-                }
+                
                 if (ModelState.IsValid)
                 {
                     sospechosito.NivelRiesgo = sospechosito.CalcularNivelRiesgo();

@@ -63,10 +63,6 @@ public class Service : DbContext
         throw new Exception("Este agente no se encuentra registrado");
     }
 
-    public bool existeAgentePorNombre(string nombreCompleto)
-    {
-        return Agentes.Any(a => a.NombreCompleto == nombreCompleto && a.Estado == "Activo");
-    }
 
     public void eliminarAgente(Agente agentito)
     {

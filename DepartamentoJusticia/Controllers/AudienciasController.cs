@@ -55,10 +55,7 @@ namespace DepartamentoJusticia.Controllers
         {
             try
             {
-                if (audiencita.Fecha == DateTime.MinValue)
-                {
-                    ModelState.AddModelError("Fecha", "Debe indicar la fecha de la audiencia");
-                }
+               
                 if (ModelState.IsValid)
                 {
                     service.agregarAudiencia(audiencita);
@@ -83,8 +80,8 @@ namespace DepartamentoJusticia.Controllers
         {
             try
             {
-                ViewBag.Taribunales = service.mostrarNombresDeTribunal();
-                ViewBag.CasosJudiciles = service.mostrarNumerosDeCaso();
+                ViewBag.Tribunales = service.mostrarNombresDeTribunal();
+                ViewBag.CasosJudiciales = service.mostrarNumerosDeCaso();
                 var audienciaBuscada = service.buscarAudiencia(id);
                 return View(audienciaBuscada);
             }
@@ -100,10 +97,7 @@ namespace DepartamentoJusticia.Controllers
         {
             try
             {
-                if (audiencita.Fecha == DateTime.MinValue)
-                {
-                    ModelState.AddModelError("Fecha", "Debe indicar la fecha de la audiencia");
-                }
+               
                 if (ModelState.IsValid)
                 {
                     service.actualizarAudiencia(audiencita);

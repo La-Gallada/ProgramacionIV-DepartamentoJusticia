@@ -57,13 +57,7 @@ namespace DepartamentoJusticia.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (!service.existeAgentePorNombre(operativito.NombreAgente1) || !service.existeAgentePorNombre(operativito.NombreAgente2) || !service.existeAgentePorNombre(operativito.NombreAgente3))
-                    {
-                        ModelState.AddModelError("", "Debe seleccionar agentes activos registrados");
-                        ViewBag.Agentes = service.mostrarAgentesActivos();
-                        ViewBag.Casos = service.mostrarCasos();
-                        return View(operativito);
-                    }
+                    
 
                     if (operativito.NombreAgente1 == operativito.NombreAgente2 || operativito.NombreAgente1 == operativito.NombreAgente3 || operativito.NombreAgente2 == operativito.NombreAgente3)
                     {
@@ -121,13 +115,7 @@ namespace DepartamentoJusticia.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (!service.existeAgentePorNombre(operativito.NombreAgente1) || !service.existeAgentePorNombre(operativito.NombreAgente2) || !service.existeAgentePorNombre(operativito.NombreAgente3))
-                    {
-                        ModelState.AddModelError("", "Debe seleccionar agentes activos registrados");
-                        ViewBag.Agentes = service.mostrarAgentesActivos();
-                        ViewBag.Casos = service.mostrarCasos();
-                        return View(operativito);
-                    }
+                  
 
                     if (operativito.NombreAgente1 == operativito.NombreAgente2 || operativito.NombreAgente1 == operativito.NombreAgente3 || operativito.NombreAgente2 == operativito.NombreAgente3)
                     {
