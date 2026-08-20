@@ -639,6 +639,13 @@ public class Service : DbContext
         return usuarios.Where(u => u.NombreCompleto.Contains(nombreCompleto)).ToList();
     }
 
+    public List<Usuario> buscarUsuariosPorIdentificacion(string identificacion)
+    {
+        return usuarios
+            .Where(u => u.Identificacion.Contains(identificacion))
+            .ToList();
+    }
+
     public List<Usuario> buscarUsuariosPorNombreUsuario(string nombreUsuario)
     {
         return usuarios.Where(u => u.NombreUsuario.Contains(nombreUsuario)).ToList();
@@ -696,6 +703,15 @@ public class Service : DbContext
     public List<Bitacora> buscarBitacoraPorResultado(string resultado)
     {
         return bitacoras.Where(b => b.Resultado == resultado).ToList();
+    }
+
+    public List<Bitacora> buscarBitacoraPorFecha(DateTime fecha)
+    {
+        DateTime fechaBuscar = fecha.Date;
+
+        return bitacoras
+            .Where(b => DbFunctions.TruncateTime(b.Fecha) == fechaBuscar)
+            .ToList();
     }
 
     #endregion

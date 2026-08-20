@@ -41,6 +41,7 @@
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
+            <th>Id</th>
             <th>Nombre</th>
             <th>Estado</th>
             <th>Ciudad</th>
@@ -53,6 +54,7 @@
         @foreach (Tribunal tribunal in Model)
         {
             <tr>
+                <td>@tribunal.Id</td>
                 <td>@tribunal.Nombre</td>
                 <td>@tribunal.Estado</td>
                 <td>@tribunal.Ciudad</td>

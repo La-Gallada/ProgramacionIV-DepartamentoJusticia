@@ -9,19 +9,20 @@ namespace DepartamentoJusticia.Controllers
         Service service;
         public UsuariosController() { service = new Service(); }
 
-        public ActionResult Index()
-        {
-            var usuarios = service.mostrarUsuarios();
-            return View(usuarios);
-        }
-        // POST: UsuariosController (busqueda por criterios)
-        [HttpPost]
-        public ActionResult Index(string nombreCompleto, string nombreUsuario, string cargo, string estado)
+        public ActionResult Index(string nombreCompleto, string identificacion, string nombreUsuario, string cargo, string estado)
         {
             try
             {
+                ViewBag.NombreCompleto = nombreCompleto;
+                ViewBag.Identificacion = identificacion;
+                ViewBag.NombreUsuario = nombreUsuario;
+                ViewBag.Cargo = cargo;
+                ViewBag.Estado = estado;
+
                 if (!string.IsNullOrEmpty(nombreCompleto))
                     return View(service.buscarUsuariosPorNombre(nombreCompleto));
+                else if (!string.IsNullOrEmpty(identificacion))
+                    return View(service.buscarUsuariosPorIdentificacion(identificacion));
                 else if (!string.IsNullOrEmpty(nombreUsuario))
                     return View(service.buscarUsuariosPorNombreUsuario(nombreUsuario));
                 else if (!string.IsNullOrEmpty(cargo))
@@ -95,6 +96,10 @@ namespace DepartamentoJusticia.Controllers
         {
             try
             {
+                var usuarioExistente = service.buscarUsuario(usuarito.Id);
+                usuarito.Contrasenia = usuarioExistente.Contrasenia;
+                ModelState.Remove(nameof(Usuario.Contrasenia));
+
                 if (service.existeNombreUsuario(usuarito.NombreUsuario, usuarito.Id))
                 {
                     ModelState.AddModelError("NombreUsuario", "El nombre de usuario ya existe");
@@ -132,10 +137,18 @@ namespace DepartamentoJusticia.Controllers
         {
             try
             {
+                var usuarioBuscado = service.buscarUsuario(id);
+
+                if (string.IsNullOrWhiteSpace(nuevaContrasenia))
+                {
+                    ModelState.AddModelError("nuevaContrasenia", "La nueva contraseña es obligatoria.");
+                    return View(usuarioBuscado);
+                }
+
                 if (nuevaContrasenia != confirmarNuevaContrasenia)
                 {
                     ModelState.AddModelError("", "La confirmacion de contrasenia no coincide");
-                    return View(service.buscarUsuario(id));
+                    return View(usuarioBuscado);
                 }
 
                 service.actualizarContrasenia(id, nuevaContrasenia);

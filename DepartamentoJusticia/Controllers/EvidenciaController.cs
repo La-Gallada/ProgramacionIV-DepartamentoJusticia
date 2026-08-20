@@ -9,17 +9,14 @@ namespace DepartamentoJusticia.Controllers
         Service service;
         public EvidenciaController() { service = new Service(); }
 
-        public ActionResult Index()
-        {
-            var evidencias = service.mostrarEvidencias();
-            return View(evidencias);
-        }
-        // POST: EvidenciaController (busqueda por criterios)
-        [HttpPost]
         public ActionResult Index(string codigo, string tipoEvidencia, DateTime? fechaRecoleccion)
         {
             try
             {
+                ViewBag.Codigo = codigo;
+                ViewBag.TipoEvidencia = tipoEvidencia;
+                ViewBag.FechaRecoleccion = fechaRecoleccion?.ToString("yyyy-MM-dd");
+
                 if (!string.IsNullOrEmpty(codigo))
                     return View(service.buscarEvidenciasPorCodigo(codigo));
                 else if (!string.IsNullOrEmpty(tipoEvidencia))

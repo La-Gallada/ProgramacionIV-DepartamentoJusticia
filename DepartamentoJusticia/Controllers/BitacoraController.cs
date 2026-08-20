@@ -9,21 +9,20 @@ namespace DepartamentoJusticia.Controllers
         Service service;
         public BitacoraController() { service = new Service(); }
 
-        public ActionResult Index()
-        {
-            var bitacoras = service.mostrarBitacora();
-            return View(bitacoras);
-        }
-        // POST: BitacoraController (busqueda por criterios)
-        [HttpPost]
-        public ActionResult Index(string nombreUsuario, string resultado)
+        public ActionResult Index(string nombreUsuario, string resultado, DateTime? fecha)
         {
             try
             {
+                ViewBag.NombreUsuario = nombreUsuario;
+                ViewBag.Resultado = resultado;
+                ViewBag.Fecha = fecha?.ToString("yyyy-MM-dd");
+
                 if (!string.IsNullOrEmpty(nombreUsuario))
                     return View(service.buscarBitacoraPorUsuario(nombreUsuario));
                 else if (!string.IsNullOrEmpty(resultado))
                     return View(service.buscarBitacoraPorResultado(resultado));
+                else if (fecha != null)
+                    return View(service.buscarBitacoraPorFecha(fecha.Value));
                 else
                     return View(service.mostrarBitacora());
             }

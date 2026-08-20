@@ -39,6 +39,7 @@
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
+            <th>Id</th>
             <th>Código</th>
             <th>Tipo</th>
             <th>Descripción</th>
@@ -52,6 +53,7 @@
         @foreach (Evidencia evidencia in Model)
         {
             <tr>
+                <td>@evidencia.Id</td>
                 <td>@evidencia.Codigo</td>
                 <td>@evidencia.TipoEvidencia</td>
                 <td>@evidencia.Descripcion</td>
