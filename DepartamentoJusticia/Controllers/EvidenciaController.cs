@@ -88,10 +88,7 @@ namespace DepartamentoJusticia.Controllers
         {
             try
             {
-                if (evidencita.FechaRecoleccion == DateTime.MinValue)
-                {
-                    ModelState.AddModelError("FechaRecoleccion", "Debe indicar la fecha de recoleccion");
-                }
+                
                 if (ModelState.IsValid)
                 {
                     service.actualizarEvidencia(evidencita);
