@@ -79,8 +79,8 @@ namespace DepartamentoJusticia.Controllers
         {
             try
             {
-                ViewBag.Tribunales = service.mostrarNombresDeTribunal();
-                ViewBag.CasosJudiciales = service.mostrarNumerosDeCaso();
+                ViewBag.Taribunales = service.mostrarNombresDeTribunal();
+                ViewBag.CasosJudiciles = service.mostrarNumerosDeCaso();
                 var audienciaBuscada = service.buscarAudiencia(id);
                 return View(audienciaBuscada);
             }

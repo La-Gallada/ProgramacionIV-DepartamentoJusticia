@@ -33,7 +33,7 @@ public class Sospechoso
         this.Identificacion = "";
         this.NombreCompleto = "";
         this.Nacionalidad = "";
-        this.FechaNacimiento = DateTime.MinValue;
+        this.FechaNacimiento = DateTime.Now;
         this.NivelPeligrosidad = 0;
         this.EstadoLegal = "";
         this.NumeroCaso = "";
