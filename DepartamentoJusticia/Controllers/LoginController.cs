@@ -35,7 +35,7 @@ namespace DepartamentoJusticia.Controllers
             {
                 service.registrarBitacora(nombreUsuario, "Fallido");
 
-                ViewBag.ErrorMsg = ex.Message;
+                TempData["Error"] = ex.Message;
                 return View();
             }
         }
