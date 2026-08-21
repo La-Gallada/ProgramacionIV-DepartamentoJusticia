@@ -41,14 +41,11 @@ public class Operativo
         this.NumeroCaso = "";
         this.CostoOperativo = 0;
     }
-    // Los salarios llegan por parametro porque el operativo guarda los NOMBRES
-    // de los agentes, no sus salarios. El controller los busca en la base y los pasa.
+    
     public double CalcularCostoOperativo(double salario1, double salario2, double salario3)
     {
-        // Suma de los salarios de los tres agentes participantes
+        
         double total = salario1 + salario2 + salario3;
-
-        // Monto fijo segun el tipo de operativo
         switch (TipoOperativo)
         {
             case "Intervención y Captura":
@@ -64,7 +61,6 @@ public class Operativo
                 total += 55000;
                 break;
         }
-
         return total;
     }
     [Required]

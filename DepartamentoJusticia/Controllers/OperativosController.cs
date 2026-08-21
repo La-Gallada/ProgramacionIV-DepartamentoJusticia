@@ -5,15 +5,10 @@ namespace DepartamentoJusticia.Controllers
 {
     public class OperativosController : ControladorBase
     {
+        // GET: OperativosController
         Service service;
         public OperativosController() { service = new Service(); }
 
-        private void CargarListas()
-        {
-            ViewBag.Agentes = service.mostrarAgentesActivos();
-            ViewBag.Casos = service.mostrarCasos();
-        }
-        // GET: OperativosController
         public ActionResult Index()
         {
             var operativos = service.mostrarOperativos();
@@ -44,12 +39,13 @@ namespace DepartamentoJusticia.Controllers
         // GET: OperativosController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            return RedirectToAction("Index");
         }
         // GET: OperativosController/Create
         public ActionResult Create()
         {
-            CargarListas();
+            ViewBag.Agentes = service.mostrarAgentesActivos();
+            ViewBag.Casos = service.mostrarCasos();
             return View(new Operativo());
         }
         // POST: OperativosController/Create
@@ -61,35 +57,37 @@ namespace DepartamentoJusticia.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (!service.existeAgentePorNombre(operativito.NombreAgente1) ||
-                        !service.existeAgentePorNombre(operativito.NombreAgente2) ||
-                        !service.existeAgentePorNombre(operativito.NombreAgente3))
+                    
+
+                    if (operativito.NombreAgente1 == operativito.NombreAgente2 || operativito.NombreAgente1 == operativito.NombreAgente3 || operativito.NombreAgente2 == operativito.NombreAgente3)
                     {
-                        ModelState.AddModelError("", "Debe seleccionar agentes activos registrados.");
-                        CargarListas();
+                        ModelState.AddModelError("", "Los tres agentes deben ser diferentes");
+                        ViewBag.Agentes = service.mostrarAgentesActivos();
+                        ViewBag.Casos = service.mostrarCasos();
                         return View(operativito);
                     }
 
-                    // Se buscan los tres agentes para obtener sus salarios
-                    var agente1 = service.buscarAgentePorNombre(operativito.NombreAgente1);
-                    var agente2 = service.buscarAgentePorNombre(operativito.NombreAgente2);
-                    var agente3 = service.buscarAgentePorNombre(operativito.NombreAgente3);
+                  
+                    var agente1 = service.obtenerAgenteParaCalculo(operativito.NombreAgente1);
+                    var agente2 = service.obtenerAgenteParaCalculo(operativito.NombreAgente2);
+                    var agente3 = service.obtenerAgenteParaCalculo(operativito.NombreAgente3);
 
-                    operativito.CostoOperativo = operativito.CalcularCostoOperativo(
-                        agente1.SalarioTotal, agente2.SalarioTotal, agente3.SalarioTotal);
+                    operativito.CostoOperativo = operativito.CalcularCostoOperativo(agente1.SalarioTotal, agente2.SalarioTotal, agente3.SalarioTotal);
 
                     service.agregarOperativo(operativito);
                     return RedirectToAction("Index");
                 }
                 else
                 {
-                    CargarListas();
+                    ViewBag.Agentes = service.mostrarAgentesActivos();
+                    ViewBag.Casos = service.mostrarCasos();
                     return View(operativito);
                 }
             }
             catch
             {
-                CargarListas();
+                ViewBag.Agentes = service.mostrarAgentesActivos();
+                ViewBag.Casos = service.mostrarCasos();
                 return View(operativito);
             }
         }
@@ -98,7 +96,8 @@ namespace DepartamentoJusticia.Controllers
         {
             try
             {
-                CargarListas();
+                ViewBag.Agentes = service.mostrarAgentesActivos();
+                ViewBag.Casos = service.mostrarCasos();
                 var operativoBuscado = service.buscarOperativo(id);
                 return View(operativoBuscado);
             }
@@ -116,35 +115,37 @@ namespace DepartamentoJusticia.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (!service.existeAgentePorNombre(operativito.NombreAgente1) ||
-                        !service.existeAgentePorNombre(operativito.NombreAgente2) ||
-                        !service.existeAgentePorNombre(operativito.NombreAgente3))
+                  
+
+                    if (operativito.NombreAgente1 == operativito.NombreAgente2 || operativito.NombreAgente1 == operativito.NombreAgente3 || operativito.NombreAgente2 == operativito.NombreAgente3)
                     {
-                        ModelState.AddModelError("", "Debe seleccionar agentes activos registrados.");
-                        CargarListas();
+                        ModelState.AddModelError("", "Los tres agentes deben ser diferentes");
+                        ViewBag.Agentes = service.mostrarAgentesActivos();
+                        ViewBag.Casos = service.mostrarCasos();
                         return View(operativito);
                     }
 
-                    // Se buscan los tres agentes para obtener sus salarios
-                    var agente1 = service.buscarAgentePorNombre(operativito.NombreAgente1);
-                    var agente2 = service.buscarAgentePorNombre(operativito.NombreAgente2);
-                    var agente3 = service.buscarAgentePorNombre(operativito.NombreAgente3);
+                    
+                    var agente1 = service.obtenerAgenteParaCalculo(operativito.NombreAgente1);
+                    var agente2 = service.obtenerAgenteParaCalculo(operativito.NombreAgente2);
+                    var agente3 = service.obtenerAgenteParaCalculo(operativito.NombreAgente3);
 
-                    operativito.CostoOperativo = operativito.CalcularCostoOperativo(
-                        agente1.SalarioTotal, agente2.SalarioTotal, agente3.SalarioTotal);
+                    operativito.CostoOperativo = operativito.CalcularCostoOperativo(agente1.SalarioTotal, agente2.SalarioTotal, agente3.SalarioTotal);
 
                     service.actualizarOperativo(operativito);
                     return RedirectToAction("Index");
                 }
                 else
                 {
-                    CargarListas();
+                    ViewBag.Agentes = service.mostrarAgentesActivos();
+                    ViewBag.Casos = service.mostrarCasos();
                     return View(operativito);
                 }
             }
             catch
             {
-                CargarListas();
+                ViewBag.Agentes = service.mostrarAgentesActivos();
+                ViewBag.Casos = service.mostrarCasos();
                 return View(operativito);
             }
         }

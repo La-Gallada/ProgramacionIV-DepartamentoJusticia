@@ -6,7 +6,15 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<Service>();
 
-builder.Services.AddSession();
+// Almacen en memoria que necesita el manejo de sesiones.
+builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddSession(opciones =>
+{
+    opciones.IdleTimeout = TimeSpan.FromMinutes(30);
+    opciones.Cookie.HttpOnly = true;
+    opciones.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
@@ -27,6 +35,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Inicio}/{action=Index}/{id?}");
+    pattern: "{controller=Login}/{action=Index}/{id?}");
 
 app.Run();

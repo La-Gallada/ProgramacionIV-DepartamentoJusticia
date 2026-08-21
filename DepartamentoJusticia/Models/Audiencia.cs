@@ -27,7 +27,7 @@ public class Audiencia
     public Audiencia()
     {
         this.Id = 0;
-        this.Fecha = DateTime.MinValue;
+        this.Fecha = DateTime.Now;
         this.Hora = TimeSpan.Zero;
         this.TipoAudiencia = "";
         this.NombreTribunal = "";
@@ -38,14 +38,23 @@ public class Audiencia
 
     public int Id { get => id; set => id = value; }
 
+<<<<<<< HEAD
+=======
+    [Required(ErrorMessage = "La fecha es obligatoria.")]
+>>>>>>> refactor/homogeneizar-crud-profesora
     [DataType(DataType.Date)]
     [Display(Name = "Fecha")]
     public DateTime Fecha { get => fecha; set => fecha = value; }
 
+<<<<<<< HEAD
+=======
+    [Required(ErrorMessage = "La hora es obligatoria.")]
+>>>>>>> refactor/homogeneizar-crud-profesora
     [DataType(DataType.Time)]
     [Display(Name = "Hora")]
     public TimeSpan Hora { get => hora; set => hora = value; }
 
+<<<<<<< HEAD
     [Display(Name = "Tipo de audiencia")]
     public string TipoAudiencia { get => tipoAudiencia; set => tipoAudiencia = value; }
 
@@ -58,6 +67,25 @@ public class Audiencia
     [Display(Name = "Observaciones")]
     public string Observaciones { get => observaciones; set => observaciones = value; }
 
+=======
+    [Required(ErrorMessage = "El tipo de audiencia es obligatorio.")]
+    [Display(Name = "Tipo de audiencia")]
+    public string TipoAudiencia { get => tipoAudiencia; set => tipoAudiencia = value; }
+
+    [Required(ErrorMessage = "El tribunal es obligatorio.")]
+    [Display(Name = "Tribunal asignado")]
+    public string NombreTribunal { get => nombreTribunal; set => nombreTribunal = value; }
+
+    [Required(ErrorMessage = "El caso judicial es obligatorio.")]
+    [Display(Name = "Caso judicial vinculado")]
+    public string NumeroCaso { get => numeroCaso; set => numeroCaso = value; }
+
+    [Required(ErrorMessage = "Las observaciones son obligatorias.")]
+    [Display(Name = "Observaciones")]
+    public string Observaciones { get => observaciones; set => observaciones = value; }
+
+    [Required(ErrorMessage = "El estado es obligatorio.")]
+>>>>>>> refactor/homogeneizar-crud-profesora
     [Display(Name = "Estado")]
     public string Estado { get => estado; set => estado = value; }
 }

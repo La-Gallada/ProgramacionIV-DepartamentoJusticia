@@ -1,119 +1,124 @@
-using Microsoft.AspNetCore.Mvc;
 using DepartamentoJusticia.Models;
 using DepartamentoJusticia.Services;
-namespace DepartamentoJusticia.Controllers;
-
-public class EvidenciaController : ControladorBase
+using Microsoft.AspNetCore.Mvc;
+namespace DepartamentoJusticia.Controllers
 {
-    Service service;
-
-    public EvidenciaController() { service = new Service(); }
-
-    // GET: EvidenciaController
-    public ActionResult Index(string codigo, string tipoEvidencia, DateTime? fechaRecoleccion)
+    public class EvidenciaController : ControladorBase
     {
-        ViewBag.Codigo = codigo;
-        ViewBag.TipoEvidencia = tipoEvidencia;
-        ViewBag.FechaRecoleccion = fechaRecoleccion?.ToString("yyyy-MM-dd");
+        // GET: EvidenciaController
+        Service service;
+        public EvidenciaController() { service = new Service(); }
 
-        var evidencias = service.buscarEvidencias(codigo, tipoEvidencia, fechaRecoleccion);
-        return View(evidencias);
-    }
-
-    // GET: EvidenciaController/Create
-    public ActionResult Create()
-    {
-        ViewBag.CasosJudiciales = service.mostrarCasoJudicial();
-        return View();
-    }
-
-    // POST: EvidenciaController/Create
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public ActionResult Create(Evidencia evidencita)
-    {
-        try
+        public ActionResult Index(string codigo, string tipoEvidencia, DateTime? fechaRecoleccion)
         {
-            if (ModelState.IsValid)
+            try
             {
-                service.agregarEvidencia(evidencita);
+                ViewBag.Codigo = codigo;
+                ViewBag.TipoEvidencia = tipoEvidencia;
+                ViewBag.FechaRecoleccion = fechaRecoleccion?.ToString("yyyy-MM-dd");
+
+                if (!string.IsNullOrEmpty(codigo))
+                    return View(service.buscarEvidenciasPorCodigo(codigo));
+                else if (!string.IsNullOrEmpty(tipoEvidencia))
+                    return View(service.buscarEvidenciasPorTipo(tipoEvidencia));
+                else if (fechaRecoleccion != null)
+                    return View(service.buscarEvidenciasPorFecha(fechaRecoleccion.Value));
+                else
+                    return View(service.mostrarEvidencias());
+            }
+            catch
+            {
+                return View(service.mostrarEvidencias());
+            }
+        }
+        // GET: EvidenciaController/Details/5
+        public ActionResult Details(int id)
+        {
+            return RedirectToAction("Index");
+        }
+        // GET: EvidenciaController/Create
+        public ActionResult Create()
+        {
+            ViewBag.CasosJudiciales = service.mostrarCasos();
+            return View(new Evidencia());
+        }
+        // POST: EvidenciaController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Evidencia evidencita)
+        {
+            try
+            {
+                
+                if (ModelState.IsValid)
+                {
+                    service.agregarEvidencia(evidencita);
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ViewBag.CasosJudiciales = service.mostrarCasos();
+                    return View(evidencita);
+                }
+            }
+            catch
+            {
+                ViewBag.CasosJudiciales = service.mostrarCasos();
+                return View(evidencita);
+            }
+        }
+        // GET: EvidenciaController/Edit/5
+        public ActionResult Edit(int id)
+        {
+            try
+            {
+                ViewBag.CasosJudiciales = service.mostrarCasos();
+                var evidenciaBuscada = service.buscarEvidencia(id);
+                return View(evidenciaBuscada);
+            }
+            catch (Exception)
+            {
                 return RedirectToAction("Index");
             }
-            ViewBag.CasosJudiciales = service.mostrarCasoJudicial();
-            return View(evidencita);
         }
-        catch
+        // POST: EvidenciaController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Evidencia evidencita)
         {
-            ViewBag.CasosJudiciales = service.mostrarCasoJudicial();
-            return View(evidencita);
+            try
+            {
+                
+                if (ModelState.IsValid)
+                {
+                    service.actualizarEvidencia(evidencita);
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ViewBag.CasosJudiciales = service.mostrarCasos();
+                    return View(evidencita);
+                }
+            }
+            catch
+            {
+                ViewBag.CasosJudiciales = service.mostrarCasos();
+                return View(evidencita);
+            }
+        }
+        // GET: EvidenciaController/Delete/5
+        public ActionResult Delete(int id)
+        {
+            try
+            {
+                var evidenciaEliminada = service.buscarEvidencia(id);
+                service.eliminarEvidencia(evidenciaEliminada);
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index");
+            }
         }
     }
-
-    // GET: EvidenciaController/Edit/5
-    public ActionResult Edit(int id)
-    {
-        try
-        {
-            var evidenciaBuscada = service.buscarEvidencia(id);
-            ViewBag.CasosJudiciales = service.mostrarCasoJudicial();
-
-            return View(evidenciaBuscada);
-        }
-        catch (Exception)
-        {
-            return RedirectToAction("Index");
-        }
-    }
-
-    // POST: EvidenciaController/Edit/5
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public ActionResult Edit(Evidencia evidencita)
-    {
-        try
-        {
-            if (ModelState.IsValid)
-                service.actualizarEvidencia(evidencita);
-            return RedirectToAction("Index");
-        }
-        catch
-        {
-            ViewBag.CasosJudiciales = service.mostrarCasoJudicial();
-            return View(evidencita);
-        }
-    }
-
-    // GET: EvidenciaController/Delete/5
-    public ActionResult Delete(int id)
-    {
-        try
-        {
-            var evidenciaBuscada = service.buscarEvidencia(id);
-            return View(evidenciaBuscada);
-        }
-        catch (Exception)
-        {
-            return RedirectToAction("Index");
-        }
-    }
-
-    // POST: EvidenciaController/Delete/5
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public ActionResult Delete(int id, string confirmar)
-    {
-        try
-        {
-            var evidenciaEliminada = service.buscarEvidencia(id);
-            service.eliminarEvidencia(evidenciaEliminada);
-            return RedirectToAction("Index");
-        }
-        catch (Exception)
-        {
-            return RedirectToAction("Index");
-        }
-    }
-
 }
-
-

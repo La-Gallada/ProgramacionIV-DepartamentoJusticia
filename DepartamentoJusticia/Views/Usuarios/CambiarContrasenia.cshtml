@@ -1,10 +1,10 @@
 @model Usuario
 
 @{
-    ViewData["Title"] = "Cambiar contrasena";
+    ViewData["Title"] = "Cambiar contraseña";
 }
 
-<h1>Cambiar contrasena</h1>
+<h1>Cambiar contraseña</h1>
 
 <p>Usuario: @Model.NombreUsuario</p>
 
@@ -14,12 +14,12 @@
     <input asp-for="Id" type="hidden" />
 
     <div class="mb-3">
-        <label for="nuevaContrasenia" class="form-label">Nueva contrasena</label>
+        <label for="nuevaContrasenia" class="form-label">Nueva contraseña</label>
         <input id="nuevaContrasenia" name="nuevaContrasenia" type="password" class="form-control" required />
     </div>
 
     <div class="mb-3">
-        <label for="confirmarNuevaContrasenia" class="form-label">Confirmar nueva contrasena</label>
+        <label for="confirmarNuevaContrasenia" class="form-label">Confirmar nueva contraseña</label>
         <input id="confirmarNuevaContrasenia" name="confirmarNuevaContrasenia" type="password" class="form-control" required />
         <span class="text-danger">@Html.ValidationMessage("confirmarNuevaContrasenia")</span>
     </div>

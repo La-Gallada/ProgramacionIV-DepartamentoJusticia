@@ -15,7 +15,11 @@ public static class Etiquetas
     {
         return (nivelRiesgo ?? "").Trim() switch
         {
+<<<<<<< HEAD
             "Riesgo Critico" => "dj-estado-critico",
+=======
+            "Riesgo Crítico" => "dj-estado-critico",
+>>>>>>> refactor/homogeneizar-crud-profesora
             "Riesgo Alto" => "dj-estado-peligro",
             "Riesgo Moderado" => "dj-estado-alerta",
             "Riesgo Bajo" => "dj-estado-exito",

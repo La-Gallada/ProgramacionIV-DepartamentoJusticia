@@ -40,7 +40,7 @@ namespace DepartamentoJusticia.Controllers
         // GET: CasosController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            return RedirectToAction("Index");
         }
 
         // GET: CasosController/Create

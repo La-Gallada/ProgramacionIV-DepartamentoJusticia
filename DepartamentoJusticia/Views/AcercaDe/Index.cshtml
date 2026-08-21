@@ -1,6 +1,8 @@
+@using DepartamentoJusticia.ViewModels
 @{
     ViewData["Title"] = "Acerca de";
 }
+<<<<<<< HEAD
 
 <partial name="_EncabezadoModulo" model='new EncabezadoModulo {
     Titulo = "Acerca de",
@@ -33,16 +35,48 @@
             <div class="dj-detalle-item">
                 <dt>Version del sistema</dt>
                 <dd>1.0</dd>
+=======
+<partial name="_EncabezadoModulo" model='new EncabezadoModulo {
+    Titulo = "Acerca del sistema",
+    Descripcion = "Información general del proyecto y del equipo de desarrollo." }' />
+<div class="dj-panel">
+    <div class="dj-panel-titulo">Identificación del proyecto</div>
+    <div class="dj-panel-cuerpo">
+        <dl class="dj-detalle">
+            <div class="dj-detalle-item">
+                <dt>Nombre de la aplicación</dt>
+                <dd>Sistema del Departamento de Justicia</dd>
+            </div>
+            <div class="dj-detalle-item">
+                <dt>Universidad</dt>
+                <dd>@ViewBag.Universidad</dd>
+            </div>
+            <div class="dj-detalle-item">
+                <dt>Curso</dt>
+                <dd>@ViewBag.Curso</dd>
+            </div>
+            <div class="dj-detalle-item">
+                <dt>Profesora</dt>
+                <dd>@ViewBag.Profesora</dd>
+            </div>
+            <div class="dj-detalle-item">
+                <dt>Versión</dt>
+                <dd>@ViewBag.Version</dd>
+>>>>>>> refactor/homogeneizar-crud-profesora
             </div>
         </dl>
     </div>
 </div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> refactor/homogeneizar-crud-profesora
 <div class="dj-panel">
     <div class="dj-panel-titulo">Integrantes del grupo</div>
     <div class="dj-panel-cuerpo">
         <div class="dj-tabla-envoltura">
             <table class="dj-tabla">
+<<<<<<< HEAD
                 <tbody>
                     <tr>
                         <td>Christopher Phillips Arroyo</td>
@@ -56,15 +90,36 @@
                     <tr>
                         <td>Maryeri Gómez Hernández</td>
                     </tr>
+=======
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var integrante in (List<string[]>)ViewBag.Integrantes)
+                    {
+                        <tr>
+                            <td>@integrante[0]</td>
+                        </tr>
+                    }
+>>>>>>> refactor/homogeneizar-crud-profesora
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+<<<<<<< HEAD
 
 <div class="dj-panel">
     <div class="dj-panel-titulo">Imagen institucional</div>
     <div class="dj-panel-cuerpo">
         <img src="~/img/acerca-de-justicia.svg" alt="Imagen relacionada con el Departamento de Justicia" class="dj-imagen-institucional" />
+=======
+<div class="dj-panel">
+    <div class="dj-panel-titulo">Imagen institucional</div>
+    <div class="dj-panel-cuerpo">
+        <img src="~/img/justicia/footer_horizontal.png" alt="Departamento de Justicia" style="width:100%;border-radius:6px;" />
+>>>>>>> refactor/homogeneizar-crud-profesora
     </div>
 </div>

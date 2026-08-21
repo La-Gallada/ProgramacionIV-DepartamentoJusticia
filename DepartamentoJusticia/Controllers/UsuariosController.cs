@@ -1,136 +1,177 @@
 using DepartamentoJusticia.Models;
 using DepartamentoJusticia.Services;
 using Microsoft.AspNetCore.Mvc;
-
-namespace DepartamentoJusticia.Controllers;
-
-public class UsuariosController : ControladorBase
+namespace DepartamentoJusticia.Controllers
 {
-    private readonly Service service;
-
-    public UsuariosController(Service service)
+    public class UsuariosController : ControladorBase
     {
-        this.service = service;
-    }
+        // GET: UsuariosController
+        Service service;
+        public UsuariosController() { service = new Service(); }
 
-    public IActionResult Index(string nombreCompleto, string identificacion, string nombreUsuario, string cargo, string estado)
-    {
-        ViewBag.NombreCompleto = nombreCompleto;
-        ViewBag.Identificacion = identificacion;
-        ViewBag.NombreUsuario = nombreUsuario;
-        ViewBag.Cargo = cargo;
-        ViewBag.Estado = estado;
-
-        List<Usuario> listaUsuarios = service.BuscarUsuarios(nombreCompleto, identificacion, nombreUsuario, cargo, estado);
-        return View(listaUsuarios);
-    }
-
-    [HttpGet]
-    public IActionResult Create()
-    {
-        return View();
-    }
-
-    [HttpPost]
-    public IActionResult Create(Usuario usuario, string confirmarContrasenia)
-    {
-        if (service.NombreUsuarioExiste(usuario.NombreUsuario))
+        public ActionResult Index(string nombreCompleto, string identificacion, string nombreUsuario, string cargo, string estado)
         {
-            ModelState.AddModelError("NombreUsuario", "El nombre de usuario ya existe.");
+            try
+            {
+                ViewBag.NombreCompleto = nombreCompleto;
+                ViewBag.Identificacion = identificacion;
+                ViewBag.NombreUsuario = nombreUsuario;
+                ViewBag.Cargo = cargo;
+                ViewBag.Estado = estado;
+
+                if (!string.IsNullOrEmpty(nombreCompleto))
+                    return View(service.buscarUsuariosPorNombre(nombreCompleto));
+                else if (!string.IsNullOrEmpty(identificacion))
+                    return View(service.buscarUsuariosPorIdentificacion(identificacion));
+                else if (!string.IsNullOrEmpty(nombreUsuario))
+                    return View(service.buscarUsuariosPorNombreUsuario(nombreUsuario));
+                else if (!string.IsNullOrEmpty(cargo))
+                    return View(service.buscarUsuariosPorCargo(cargo));
+                else if (!string.IsNullOrEmpty(estado))
+                    return View(service.buscarUsuariosPorEstado(estado));
+                else
+                    return View(service.mostrarUsuarios());
+            }
+            catch
+            {
+                return View(service.mostrarUsuarios());
+            }
         }
-
-        if (usuario.Contrasenia != confirmarContrasenia)
-        {
-            ModelState.AddModelError("confirmarContrasenia", "La confirmacion de contrasena no coincide.");
-        }
-
-        if (!ModelState.IsValid)
-        {
-            return View(usuario);
-        }
-
-        service.AgregarUsuario(usuario);
-        return RedirectToAction("Index");
-    }
-
-    [HttpGet]
-    public IActionResult Edit(int id)
-    {
-        Usuario? usuario = service.ObtenerUsuarioPorId(id);
-
-        if (usuario == null)
+        // GET: UsuariosController/Details/5
+        public ActionResult Details(int id)
         {
             return RedirectToAction("Index");
         }
-
-        return View(usuario);
-    }
-
-    [HttpPost]
-    public IActionResult Edit(Usuario usuario)
-    {
-        if (service.NombreUsuarioExiste(usuario.NombreUsuario, usuario.Id))
+        // GET: UsuariosController/Create
+        public ActionResult Create()
         {
-            ModelState.AddModelError("NombreUsuario", "El nombre de usuario ya existe.");
+            return View(new Usuario());
         }
-
-        if (!ModelState.IsValid)
+        // POST: UsuariosController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Usuario usuarito, string confirmarContrasenia)
         {
-            return View(usuario);
+            try
+            {
+                if (service.existeNombreUsuario(usuarito.NombreUsuario))
+                {
+                    ModelState.AddModelError("NombreUsuario", "El nombre de usuario ya existe");
+                }
+
+                if (usuarito.Contrasenia != confirmarContrasenia)
+                {
+                    ModelState.AddModelError("Contrasenia", "La confirmacion de contrasenia no coincide");
+                }
+
+                if (ModelState.IsValid)
+                {
+                    service.agregarUsuario(usuarito);
+                    return RedirectToAction("Index");
+                }
+                else return View(usuarito);
+            }
+            catch
+            {
+                return View(usuarito);
+            }
         }
-
-        service.ActualizarUsuario(usuario);
-        return RedirectToAction("Index");
-    }
-
-    [HttpGet]
-    public IActionResult Delete(int id)
-    {
-        Usuario? usuario = service.ObtenerUsuarioPorId(id);
-
-        if (usuario == null)
+        // GET: UsuariosController/Edit/5
+        public ActionResult Edit(int id)
         {
-            return RedirectToAction("Index");
+            try
+            {
+                var usuarioBuscado = service.buscarUsuario(id);
+                return View(usuarioBuscado);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index");
+            }
         }
-
-        return View(usuario);
-    }
-
-    [HttpPost]
-    public IActionResult Delete(int id, string confirmar)
-    {
-        service.EliminarUsuario(id);
-        return RedirectToAction("Index");
-    }
-
-    [HttpGet]
-    public IActionResult CambiarContrasenia(int id)
-    {
-        Usuario? usuario = service.ObtenerUsuarioPorId(id);
-
-        if (usuario == null)
+        // POST: UsuariosController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Usuario usuarito)
         {
-            return RedirectToAction("Index");
+            try
+            {
+                var usuarioExistente = service.buscarUsuario(usuarito.Id);
+                usuarito.Contrasenia = usuarioExistente.Contrasenia;
+                ModelState.Remove(nameof(Usuario.Contrasenia));
+
+                if (service.existeNombreUsuario(usuarito.NombreUsuario, usuarito.Id))
+                {
+                    ModelState.AddModelError("NombreUsuario", "El nombre de usuario ya existe");
+                }
+
+                if (ModelState.IsValid)
+                {
+                    service.actualizarUsuario(usuarito);
+                    return RedirectToAction("Index");
+                }
+                else return View(usuarito);
+            }
+            catch
+            {
+                return View(usuarito);
+            }
         }
-
-        return View(usuario);
-    }
-
-    [HttpPost]
-    public IActionResult CambiarContrasenia(int id, string nuevaContrasenia, string confirmarNuevaContrasenia)
-    {
-        if (nuevaContrasenia != confirmarNuevaContrasenia)
+        // GET: UsuariosController/CambiarContrasenia/5
+        public ActionResult CambiarContrasenia(int id)
         {
-            ModelState.AddModelError("confirmarNuevaContrasenia", "La confirmacion de contrasena no coincide.");
+            try
+            {
+                var usuarioBuscado = service.buscarUsuario(id);
+                return View(usuarioBuscado);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index");
+            }
         }
-
-        if (!ModelState.IsValid)
+        // POST: UsuariosController/CambiarContrasenia/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CambiarContrasenia(int id, string nuevaContrasenia, string confirmarNuevaContrasenia)
         {
-            Usuario? usuario = service.ObtenerUsuarioPorId(id);
-            return View(usuario);
-        }
+            try
+            {
+                var usuarioBuscado = service.buscarUsuario(id);
 
-        service.ActualizarContrasenia(id, nuevaContrasenia);
-        return RedirectToAction("Index");
+                if (string.IsNullOrWhiteSpace(nuevaContrasenia))
+                {
+                    ModelState.AddModelError("nuevaContrasenia", "La nueva contraseña es obligatoria.");
+                    return View(usuarioBuscado);
+                }
+
+                if (nuevaContrasenia != confirmarNuevaContrasenia)
+                {
+                    ModelState.AddModelError("", "La confirmacion de contrasenia no coincide");
+                    return View(usuarioBuscado);
+                }
+
+                service.actualizarContrasenia(id, nuevaContrasenia);
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index");
+            }
+        }
+        // GET: UsuariosController/Delete/5
+        public ActionResult Delete(int id)
+        {
+            try
+            {
+                var usuarioEliminado = service.buscarUsuario(id);
+                service.eliminarUsuario(usuarioEliminado);
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index");
+            }
+        }
     }
 }

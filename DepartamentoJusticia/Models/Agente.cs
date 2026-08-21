@@ -39,14 +39,14 @@ namespace DepartamentoJusticia.Models
             this.Estado = "";
             this.SalarioTotal = 0;
         }
-        //Pacha con jet
+        
         public double CalcularSalarioTotal()
         {
-            // 1.8% del salario base por cada año de experiencia
+          
             double incentivoExperiencia = SalarioBase * 0.018 * AniosExperiencia;
-            // Si el rango no es válido, no hay incentivo
+        
             double incentivoRango = 0;
-            // Porcentaje según el rango, siempre sobre el salario base
+           
             switch (Rango)
             {
                 case "Especial":
@@ -62,7 +62,7 @@ namespace DepartamentoJusticia.Models
                     incentivoRango = SalarioBase * 0.25;
                     break;
             }
-            // Suma de los tres componentes
+           
             return SalarioBase + incentivoExperiencia + incentivoRango;
         }
         [Required]

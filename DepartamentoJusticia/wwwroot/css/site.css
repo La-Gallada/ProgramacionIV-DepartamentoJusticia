@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 html {
     font-size: 14px;
     min-height: 100%;
@@ -16,3 +17,6 @@ html {
 .form-check-input:focus {
     box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
+=======
+/* Sin uso. Todos los estilos viven en wwwroot/css/departamento.css */
+>>>>>>> refactor/homogeneizar-crud-profesora

@@ -35,9 +35,18 @@ public class Tribunal
 
     [Required]
     public int Id { get => id; set => id = value; }
+    [Required(ErrorMessage = "El nombre es obligatorio.")]
     public string Nombre { get => nombre; set => nombre = value; }
+
+    [Required(ErrorMessage = "El estado es obligatorio.")]
     public string Estado { get => estado; set => estado = value; }
+
+    [Required(ErrorMessage = "La ciudad es obligatoria.")]
     public string Ciudad { get => ciudad; set => ciudad = value; }
+
+    [Required(ErrorMessage = "El juez asignado es obligatorio.")]
     public string JuezAsignado { get => juezAsignado; set => juezAsignado = value; }
+
+    [Required(ErrorMessage = "La cantidad de salas es obligatoria.")]
     public int CantidadSalas { get => cantidadSalas; set => cantidadSalas = value; }
 }

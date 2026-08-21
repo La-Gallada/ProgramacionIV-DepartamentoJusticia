@@ -35,9 +35,7 @@ public class Service : DbContext
 
     public List<Agente> mostrarAgentesActivos()
     {
-        return Agentes
-            .Where(a => a.Estado == "Activo")
-            .ToList();
+        return Agentes.Where(a => a.Estado == "Activo").ToList();
     }
 
     public Agente buscarAgente(int id)
@@ -52,10 +50,10 @@ public class Service : DbContext
         throw new Exception("Este agente no se encuentra registrado");
     }
 
-    public Agente buscarAgentePorNombre(string nombreCompleto)
+   
+    public Agente obtenerAgenteParaCalculo(string nombreCompleto)
     {
-        var agenteBuscado = Agentes
-            .FirstOrDefault(a => a.NombreCompleto == nombreCompleto);
+        var agenteBuscado = Agentes.FirstOrDefault(a => a.NombreCompleto == nombreCompleto);
 
         if (agenteBuscado != null)
         {
@@ -65,12 +63,6 @@ public class Service : DbContext
         throw new Exception("Este agente no se encuentra registrado");
     }
 
-    public bool existeAgentePorNombre(string nombreCompleto)
-    {
-        return Agentes.Any(a =>
-            a.NombreCompleto == nombreCompleto &&
-            a.Estado == "Activo");
-    }
 
     public void eliminarAgente(Agente agentito)
     {
@@ -80,8 +72,7 @@ public class Service : DbContext
 
     public void actualizarAgente(Agente agentito)
     {
-        var agenteAntiguo = Agentes
-            .FirstOrDefault(a => a.Id == agentito.Id);
+        var agenteAntiguo = Agentes.FirstOrDefault(a => a.Id == agentito.Id);
 
         if (agenteAntiguo != null)
         {
@@ -105,23 +96,17 @@ public class Service : DbContext
 
     public List<Agente> buscarAgentesPorNombre(string nombreCompleto)
     {
-        return Agentes
-            .Where(a => a.NombreCompleto == nombreCompleto)
-            .ToList();
+        return Agentes.Where(a => a.NombreCompleto.Contains(nombreCompleto)).ToList();
     }
 
     public List<Agente> buscarAgentesPorEspecialidad(string especialidad)
     {
-        return Agentes
-            .Where(a => a.Especialidad == especialidad)
-            .ToList();
+        return Agentes.Where(a => a.Especialidad == especialidad).ToList();
     }
 
     public List<Agente> buscarAgentesPorRango(string rango)
     {
-        return Agentes
-            .Where(a => a.Rango == rango)
-            .ToList();
+        return Agentes.Where(a => a.Rango == rango).ToList();
     }
 
     #endregion
@@ -139,23 +124,17 @@ public class Service : DbContext
         return casosJudiciales.ToList();
     }
 
-    public List<CasoJudicial> mostrarCasoJudicial()
-    {
-        return mostrarCasos();
-    }
-
+ 
     public CasoJudicial buscarCaso(int id)
     {
-        var casoBuscado = casosJudiciales
-            .FirstOrDefault(c => c.Id == id);
+        var casoBuscado = casosJudiciales.FirstOrDefault(c => c.Id == id);
 
         if (casoBuscado != null)
         {
             return casoBuscado;
         }
 
-        throw new Exception(
-            "Este caso judicial no se encuentra registrado");
+        throw new Exception("Este caso judicial no se encuentra registrado");
     }
 
     public void eliminarCaso(CasoJudicial casito)
@@ -166,8 +145,7 @@ public class Service : DbContext
 
     public void actualizarCaso(CasoJudicial casito)
     {
-        var casoAntiguo = casosJudiciales
-            .FirstOrDefault(c => c.Id == casito.Id);
+        var casoAntiguo = casosJudiciales.FirstOrDefault(c => c.Id == casito.Id);
 
         if (casoAntiguo != null)
         {
@@ -184,36 +162,30 @@ public class Service : DbContext
         }
         else
         {
-            throw new Exception(
-                "No se pudo actualizar el caso judicial");
+            throw new Exception("No se pudo actualizar el caso judicial");
         }
     }
 
     public List<CasoJudicial> buscarCasosPorNumero(string numeroCaso)
     {
-        return casosJudiciales
-            .Where(c => c.NumeroCaso == numeroCaso)
-            .ToList();
+        return casosJudiciales.Where(c => c.NumeroCaso.Contains(numeroCaso)).ToList();
     }
 
     public List<CasoJudicial> buscarCasosPorTipoDelito(string tipoDelito)
     {
-        return casosJudiciales
-            .Where(c => c.TipoDelito == tipoDelito)
-            .ToList();
+        return casosJudiciales.Where(c => c.TipoDelito == tipoDelito).ToList();
     }
 
     public List<CasoJudicial> buscarCasosPorPrioridad(string prioridad)
     {
-        return casosJudiciales
-            .Where(c => c.Prioridad == prioridad)
-            .ToList();
+        return casosJudiciales.Where(c => c.Prioridad == prioridad).ToList();
     }
 
     #endregion
 
     #region Sospechosos
 
+<<<<<<< HEAD
     public List<Sospechoso> ObtenerSospechosos()
     {
         return sospechosos
@@ -351,6 +323,78 @@ public class Service : DbContext
             .OrderBy(c => c.NumeroCaso)
             .Select(c => c.NumeroCaso)
             .ToList();
+=======
+    public void agregarSospechoso(Sospechoso sospechosito)
+    {
+        sospechosos.Add(sospechosito);
+        SaveChanges();
+    }
+
+    public List<Sospechoso> mostrarSospechosos()
+    {
+        return sospechosos.ToList();
+    }
+
+    public Sospechoso buscarSospechoso(int id)
+    {
+        var sospechosoBuscado = sospechosos.FirstOrDefault(s => s.Id == id);
+
+        if (sospechosoBuscado != null)
+        {
+            return sospechosoBuscado;
+        }
+
+        throw new Exception("Este sospechoso no se encuentra registrado");
+    }
+
+    public void eliminarSospechoso(Sospechoso sospechosito)
+    {
+        sospechosos.Remove(sospechosito);
+        SaveChanges();
+    }
+
+    public void actualizarSospechoso(Sospechoso sospechosito)
+    {
+        var sospechosoAntiguo = sospechosos.FirstOrDefault(s => s.Id == sospechosito.Id);
+
+        if (sospechosoAntiguo != null)
+        {
+            sospechosoAntiguo.Identificacion = sospechosito.Identificacion;
+            sospechosoAntiguo.NombreCompleto = sospechosito.NombreCompleto;
+            sospechosoAntiguo.Nacionalidad = sospechosito.Nacionalidad;
+            sospechosoAntiguo.FechaNacimiento = sospechosito.FechaNacimiento;
+            sospechosoAntiguo.NivelPeligrosidad = sospechosito.NivelPeligrosidad;
+            sospechosoAntiguo.EstadoLegal = sospechosito.EstadoLegal;
+            sospechosoAntiguo.NumeroCaso = sospechosito.NumeroCaso;
+            sospechosoAntiguo.NivelRiesgo = sospechosito.NivelRiesgo;
+
+            SaveChanges();
+        }
+        else
+        {
+            throw new Exception("No se pudo actualizar el sospechoso");
+        }
+    }
+
+    public List<Sospechoso> buscarSospechososPorNombre(string nombreCompleto)
+    {
+        return sospechosos.Where(s => s.NombreCompleto.Contains(nombreCompleto)).ToList();
+    }
+
+    public List<Sospechoso> buscarSospechososPorEstadoLegal(string estadoLegal)
+    {
+        return sospechosos.Where(s => s.EstadoLegal == estadoLegal).ToList();
+    }
+
+    public List<Sospechoso> buscarSospechososPorRiesgo(string nivelRiesgo)
+    {
+        return sospechosos.Where(s => s.NivelRiesgo == nivelRiesgo).ToList();
+    }
+
+    public List<string> mostrarNumerosDeCaso()
+    {
+        return casosJudiciales.Select(c => c.NumeroCaso).ToList();
+>>>>>>> refactor/homogeneizar-crud-profesora
     }
 
     #endregion
@@ -368,50 +412,16 @@ public class Service : DbContext
         return evidencias.ToList();
     }
 
-    public List<Evidencia> buscarEvidencias(
-        string codigo,
-        string tipoEvidencia,
-        DateTime? fechaRecoleccion)
-    {
-        IQueryable<Evidencia> consulta = evidencias;
-
-        if (!string.IsNullOrWhiteSpace(codigo))
-        {
-            consulta = consulta
-                .Where(e => e.Codigo.Contains(codigo));
-        }
-
-        if (!string.IsNullOrWhiteSpace(tipoEvidencia))
-        {
-            consulta = consulta
-                .Where(e => e.TipoEvidencia == tipoEvidencia);
-        }
-
-        if (fechaRecoleccion.HasValue)
-        {
-            DateTime fechaBuscar =
-                fechaRecoleccion.Value.Date;
-
-            consulta = consulta.Where(
-                e => DbFunctions.TruncateTime(
-                    e.FechaRecoleccion) == fechaBuscar);
-        }
-
-        return consulta.ToList();
-    }
-
     public Evidencia buscarEvidencia(int id)
     {
-        var evidenciaBuscada = evidencias
-            .FirstOrDefault(v => v.Id == id);
+        var evidenciaBuscada = evidencias.FirstOrDefault(e => e.Id == id);
 
         if (evidenciaBuscada != null)
         {
             return evidenciaBuscada;
         }
 
-        throw new Exception(
-            "No se encuentra esa evidencia");
+        throw new Exception("No se encuentra esa evidencia");
     }
 
     public void eliminarEvidencia(Evidencia evidencita)
@@ -422,36 +432,40 @@ public class Service : DbContext
 
     public void actualizarEvidencia(Evidencia evidencita)
     {
-        var evidenciaAntigua = evidencias
-            .FirstOrDefault(v => v.Id == evidencita.Id);
+        var evidenciaAntigua = evidencias.FirstOrDefault(e => e.Id == evidencita.Id);
 
         if (evidenciaAntigua != null)
         {
-            evidenciaAntigua.Codigo =
-                evidencita.Codigo;
-
-            evidenciaAntigua.TipoEvidencia =
-                evidencita.TipoEvidencia;
-
-            evidenciaAntigua.Descripcion =
-                evidencita.Descripcion;
-
-            evidenciaAntigua.LugarHallazgo =
-                evidencita.LugarHallazgo;
-
-            evidenciaAntigua.FechaRecoleccion =
-                evidencita.FechaRecoleccion;
-
-            evidenciaAntigua.NumeroCaso =
-                evidencita.NumeroCaso;
+            evidenciaAntigua.Codigo = evidencita.Codigo;
+            evidenciaAntigua.TipoEvidencia = evidencita.TipoEvidencia;
+            evidenciaAntigua.Descripcion = evidencita.Descripcion;
+            evidenciaAntigua.LugarHallazgo = evidencita.LugarHallazgo;
+            evidenciaAntigua.FechaRecoleccion = evidencita.FechaRecoleccion;
+            evidenciaAntigua.NumeroCaso = evidencita.NumeroCaso;
 
             SaveChanges();
         }
         else
         {
-            throw new Exception(
-                "No se pudo actualizar la evidencia");
+            throw new Exception("No se pudo actualizar la evidencia");
         }
+    }
+
+    public List<Evidencia> buscarEvidenciasPorCodigo(string codigo)
+    {
+        return evidencias.Where(e => e.Codigo.Contains(codigo)).ToList();
+    }
+
+    public List<Evidencia> buscarEvidenciasPorTipo(string tipoEvidencia)
+    {
+        return evidencias.Where(e => e.TipoEvidencia == tipoEvidencia).ToList();
+    }
+
+    public List<Evidencia> buscarEvidenciasPorFecha(DateTime fechaRecoleccion)
+    {
+        DateTime fechaBuscar = fechaRecoleccion.Date;
+
+        return evidencias.Where(e => DbFunctions.TruncateTime(e.FechaRecoleccion) == fechaBuscar).ToList();
     }
 
     #endregion
@@ -471,16 +485,14 @@ public class Service : DbContext
 
     public Operativo buscarOperativo(int id)
     {
-        var operativoBuscado = operativos
-            .FirstOrDefault(o => o.Id == id);
+        var operativoBuscado = operativos.FirstOrDefault(o => o.Id == id);
 
         if (operativoBuscado != null)
         {
             return operativoBuscado;
         }
 
-        throw new Exception(
-            "Este operativo no se encuentra registrado");
+        throw new Exception("Este operativo no se encuentra registrado");
     }
 
     public void eliminarOperativo(Operativo operativito)
@@ -491,80 +503,49 @@ public class Service : DbContext
 
     public void actualizarOperativo(Operativo operativito)
     {
-        var operativoAntiguo = operativos
-            .FirstOrDefault(o => o.Id == operativito.Id);
+        var operativoAntiguo = operativos.FirstOrDefault(o => o.Id == operativito.Id);
 
         if (operativoAntiguo != null)
         {
-            operativoAntiguo.NombreOperativo =
-                operativito.NombreOperativo;
-
-            operativoAntiguo.FechaEjecucion =
-                operativito.FechaEjecucion;
-
-            operativoAntiguo.Ciudad =
-                operativito.Ciudad;
-
-            operativoAntiguo.TipoOperativo =
-                operativito.TipoOperativo;
-
-            operativoAntiguo.NombreAgente1 =
-                operativito.NombreAgente1;
-
-            operativoAntiguo.NombreAgente2 =
-                operativito.NombreAgente2;
-
-            operativoAntiguo.NombreAgente3 =
-                operativito.NombreAgente3;
-
-            operativoAntiguo.Resultado =
-                operativito.Resultado;
-
-            operativoAntiguo.NumeroCaso =
-                operativito.NumeroCaso;
-
-            operativoAntiguo.CostoOperativo =
-                operativito.CostoOperativo;
+            operativoAntiguo.NombreOperativo = operativito.NombreOperativo;
+            operativoAntiguo.FechaEjecucion = operativito.FechaEjecucion;
+            operativoAntiguo.Ciudad = operativito.Ciudad;
+            operativoAntiguo.TipoOperativo = operativito.TipoOperativo;
+            operativoAntiguo.NombreAgente1 = operativito.NombreAgente1;
+            operativoAntiguo.NombreAgente2 = operativito.NombreAgente2;
+            operativoAntiguo.NombreAgente3 = operativito.NombreAgente3;
+            operativoAntiguo.Resultado = operativito.Resultado;
+            operativoAntiguo.NumeroCaso = operativito.NumeroCaso;
+            operativoAntiguo.CostoOperativo = operativito.CostoOperativo;
 
             SaveChanges();
         }
         else
         {
-            throw new Exception(
-                "No se pudo actualizar el operativo");
+            throw new Exception("No se pudo actualizar el operativo");
         }
     }
 
-    public List<Operativo> buscarOperativosPorCiudad(
-        string ciudad)
+    public List<Operativo> buscarOperativosPorCiudad(string ciudad)
     {
-        return operativos
-            .Where(o => o.Ciudad == ciudad)
-            .ToList();
+        return operativos.Where(o => o.Ciudad.Contains(ciudad)).ToList();
     }
 
-    public List<Operativo> buscarOperativosPorFecha(
-        DateTime fecha)
+    public List<Operativo> buscarOperativosPorFecha(DateTime fecha)
     {
-        return operativos
-            .Where(o => o.FechaEjecucion == fecha)
-            .ToList();
+        DateTime fechaBuscar = fecha.Date;
+
+        return operativos.Where(o => DbFunctions.TruncateTime(o.FechaEjecucion) == fechaBuscar).ToList();
     }
 
-    public List<Operativo> buscarOperativosPorTipo(
-        string tipoOperativo)
+    public List<Operativo> buscarOperativosPorTipo(string tipoOperativo)
     {
-        return operativos
-            .Where(o => o.TipoOperativo == tipoOperativo)
-            .ToList();
+        return operativos.Where(o => o.TipoOperativo == tipoOperativo).ToList();
     }
 
-    public List<Operativo> buscarOperativosPorResultado(
-        string resultado)
+    public List<Operativo> buscarOperativosPorResultado(string resultado)
     {
-        return operativos
-            .Where(o => o.Resultado == resultado)
-            .ToList();
+        return operativos.Where(o => o.Resultado == resultado).ToList();
     }
 
     #endregion
@@ -590,53 +571,16 @@ public class Service : DbContext
         return tribunales.ToList();
     }
 
-    public List<Tribunal> buscarTribunales(
-        string nombre,
-        string ciudad,
-        string estado,
-        string juezAsignado)
-    {
-        IQueryable<Tribunal> consulta = tribunales;
-
-        if (!string.IsNullOrWhiteSpace(nombre))
-        {
-            consulta = consulta
-                .Where(t => t.Nombre.Contains(nombre));
-        }
-
-        if (!string.IsNullOrWhiteSpace(ciudad))
-        {
-            consulta = consulta
-                .Where(t => t.Ciudad.Contains(ciudad));
-        }
-
-        if (!string.IsNullOrWhiteSpace(estado))
-        {
-            consulta = consulta
-                .Where(t => t.Estado == estado);
-        }
-
-        if (!string.IsNullOrWhiteSpace(juezAsignado))
-        {
-            consulta = consulta
-                .Where(t => t.JuezAsignado.Contains(juezAsignado));
-        }
-
-        return consulta.ToList();
-    }
-
     public Tribunal buscarTribunal(int id)
     {
-        var tribunalBuscado = tribunales
-            .FirstOrDefault(v => v.Id == id);
+        var tribunalBuscado = tribunales.FirstOrDefault(t => t.Id == id);
 
         if (tribunalBuscado != null)
         {
             return tribunalBuscado;
         }
 
-        throw new Exception(
-            "No se encuentra ese tribunal");
+        throw new Exception("No se encuentra ese tribunal");
     }
 
     public void eliminarTribunal(Tribunal tribunalito)
@@ -647,39 +591,54 @@ public class Service : DbContext
 
     public void actualizarTribunal(Tribunal tribunalito)
     {
-        var tribunalAntiguo = tribunales
-            .FirstOrDefault(v => v.Id == tribunalito.Id);
+        var tribunalAntiguo = tribunales.FirstOrDefault(t => t.Id == tribunalito.Id);
 
         if (tribunalAntiguo != null)
         {
-            tribunalAntiguo.Nombre =
-                tribunalito.Nombre;
-
-            tribunalAntiguo.Estado =
-                tribunalito.Estado;
-
-            tribunalAntiguo.Ciudad =
-                tribunalito.Ciudad;
-
-            tribunalAntiguo.JuezAsignado =
-                tribunalito.JuezAsignado;
-
-            tribunalAntiguo.CantidadSalas =
-                tribunalito.CantidadSalas;
+            tribunalAntiguo.Nombre = tribunalito.Nombre;
+            tribunalAntiguo.Estado = tribunalito.Estado;
+            tribunalAntiguo.Ciudad = tribunalito.Ciudad;
+            tribunalAntiguo.JuezAsignado = tribunalito.JuezAsignado;
+            tribunalAntiguo.CantidadSalas = tribunalito.CantidadSalas;
 
             SaveChanges();
         }
         else
         {
-            throw new Exception(
-                "No se pudo actualizar el tribunal");
+            throw new Exception("No se pudo actualizar el tribunal");
         }
+    }
+
+    public List<Tribunal> buscarTribunalesPorNombre(string nombre)
+    {
+        return tribunales.Where(t => t.Nombre.Contains(nombre)).ToList();
+    }
+
+    public List<Tribunal> buscarTribunalesPorCiudad(string ciudad)
+    {
+        return tribunales.Where(t => t.Ciudad.Contains(ciudad)).ToList();
+    }
+
+    public List<Tribunal> buscarTribunalesPorEstado(string estado)
+    {
+        return tribunales.Where(t => t.Estado == estado).ToList();
+    }
+
+    public List<Tribunal> buscarTribunalesPorJuez(string juezAsignado)
+    {
+        return tribunales.Where(t => t.JuezAsignado.Contains(juezAsignado)).ToList();
+    }
+
+    public List<string> mostrarNombresDeTribunal()
+    {
+        return tribunales.Select(t => t.Nombre).ToList();
     }
 
     #endregion
 
     #region Audiencias
 
+<<<<<<< HEAD
     public List<Audiencia> ObtenerAudiencias()
     {
         return audiencias
@@ -787,257 +746,226 @@ public class Service : DbContext
         {
             return false;
         }
+=======
+    public void agregarAudiencia(Audiencia audiencita)
+    {
+        audiencias.Add(audiencita);
+        SaveChanges();
+    }
+
+    public List<Audiencia> mostrarAudiencias()
+    {
+        return audiencias.ToList();
+    }
+
+    public Audiencia buscarAudiencia(int id)
+    {
+        var audienciaBuscada = audiencias.FirstOrDefault(a => a.Id == id);
+
+        if (audienciaBuscada != null)
+        {
+            return audienciaBuscada;
+        }
+
+        throw new Exception("Esta audiencia no se encuentra registrada");
+    }
+
+    public void eliminarAudiencia(Audiencia audiencita)
+    {
+        audiencias.Remove(audiencita);
+        SaveChanges();
+    }
+
+    public void actualizarAudiencia(Audiencia audiencita)
+    {
+        var audienciaAntigua = audiencias.FirstOrDefault(a => a.Id == audiencita.Id);
+
+        if (audienciaAntigua != null)
+        {
+            audienciaAntigua.Fecha = audiencita.Fecha;
+            audienciaAntigua.Hora = audiencita.Hora;
+            audienciaAntigua.TipoAudiencia = audiencita.TipoAudiencia;
+            audienciaAntigua.NombreTribunal = audiencita.NombreTribunal;
+            audienciaAntigua.NumeroCaso = audiencita.NumeroCaso;
+            audienciaAntigua.Observaciones = audiencita.Observaciones;
+            audienciaAntigua.Estado = audiencita.Estado;
+
+            SaveChanges();
+        }
+        else
+        {
+            throw new Exception("No se pudo actualizar la audiencia");
+        }
+    }
+
+    public List<Audiencia> buscarAudienciasPorTribunal(string nombreTribunal)
+    {
+        return audiencias.Where(a => a.NombreTribunal == nombreTribunal).ToList();
+    }
+
+    public List<Audiencia> buscarAudienciasPorTipo(string tipoAudiencia)
+    {
+        return audiencias.Where(a => a.TipoAudiencia == tipoAudiencia).ToList();
+    }
+
+    public List<Audiencia> buscarAudienciasPorEstado(string estado)
+    {
+        return audiencias.Where(a => a.Estado == estado).ToList();
+>>>>>>> refactor/homogeneizar-crud-profesora
     }
 
     #endregion
 
     #region Usuarios
 
-    public void AgregarUsuario(Usuario usuario)
+    public void agregarUsuario(Usuario usuarito)
     {
-        usuarios.Add(usuario);
+        usuarios.Add(usuarito);
         SaveChanges();
     }
 
-    public List<Usuario> ObtenerUsuarios()
+    public List<Usuario> mostrarUsuarios()
     {
-        List<Usuario> listaUsuarios =
-            usuarios.AsNoTracking().ToList();
-
-        return listaUsuarios;
+        return usuarios.ToList();
     }
 
-    public Usuario? ObtenerUsuarioPorId(int id)
+    public Usuario buscarUsuario(int id)
     {
-        Usuario? usuario = usuarios
-            .AsNoTracking()
-            .FirstOrDefault(u => u.Id == id);
+        var usuarioBuscado = usuarios.FirstOrDefault(u => u.Id == id);
 
-        return usuario;
-    }
-
-    public bool ActualizarUsuario(Usuario usuario)
-    {
-        Usuario? usuarioActual =
-            usuarios.Find(usuario.Id);
-
-        if (usuarioActual == null)
+        if (usuarioBuscado != null)
         {
-            return false;
+            return usuarioBuscado;
         }
 
-        usuarioActual.NombreCompleto =
-            usuario.NombreCompleto;
+        throw new Exception("Este usuario no se encuentra registrado");
+    }
 
-        usuarioActual.Identificacion =
-            usuario.Identificacion;
-
-        usuarioActual.Cargo =
-            usuario.Cargo;
-
-        usuarioActual.FechaRegistro =
-            usuario.FechaRegistro;
-
-        usuarioActual.Estado =
-            usuario.Estado;
-
-        usuarioActual.NombreUsuario =
-            usuario.NombreUsuario;
-
+    public void eliminarUsuario(Usuario usuarito)
+    {
+        usuarios.Remove(usuarito);
         SaveChanges();
-
-        return true;
     }
 
-    public bool EliminarUsuario(int id)
+    public void actualizarUsuario(Usuario usuarito)
     {
-        Usuario? usuario =
-            usuarios.Find(id);
+        var usuarioAntiguo = usuarios.FirstOrDefault(u => u.Id == usuarito.Id);
 
-        if (usuario == null)
+        if (usuarioAntiguo != null)
         {
-            return false;
+            usuarioAntiguo.NombreCompleto = usuarito.NombreCompleto;
+            usuarioAntiguo.Identificacion = usuarito.Identificacion;
+            usuarioAntiguo.Cargo = usuarito.Cargo;
+            usuarioAntiguo.FechaRegistro = usuarito.FechaRegistro;
+            usuarioAntiguo.Estado = usuarito.Estado;
+            usuarioAntiguo.NombreUsuario = usuarito.NombreUsuario;
+
+            SaveChanges();
         }
-
-        usuarios.Remove(usuario);
-        SaveChanges();
-
-        return true;
+        else
+        {
+            throw new Exception("No se pudo actualizar el usuario");
+        }
     }
 
-    public bool NombreUsuarioExiste(
-        string nombreUsuario,
-        int idExcluir = 0)
+    public void actualizarContrasenia(int id, string nuevaContrasenia)
     {
-        return usuarios.Any(
-            u => u.NombreUsuario == nombreUsuario &&
-                 u.Id != idExcluir);
+        var usuarioAntiguo = usuarios.FirstOrDefault(u => u.Id == id);
+
+        if (usuarioAntiguo != null)
+        {
+            usuarioAntiguo.Contrasenia = nuevaContrasenia;
+            SaveChanges();
+        }
+        else
+        {
+            throw new Exception("No se pudo actualizar la contrasenia");
+        }
     }
 
-    public List<Usuario> BuscarUsuarios(
-        string nombreCompleto,
-        string identificacion,
-        string nombreUsuario,
-        string cargo,
-        string estado)
+    public bool existeNombreUsuario(string nombreUsuario, int idExcluir = 0)
     {
-        IQueryable<Usuario> consulta =
-            usuarios.AsNoTracking();
-
-        if (!string.IsNullOrWhiteSpace(nombreCompleto))
-        {
-            consulta = consulta.Where(
-                u => u.NombreCompleto.Contains(nombreCompleto));
-        }
-
-        if (!string.IsNullOrWhiteSpace(identificacion))
-        {
-            consulta = consulta.Where(
-                u => u.Identificacion.Contains(identificacion));
-        }
-
-        if (!string.IsNullOrWhiteSpace(nombreUsuario))
-        {
-            consulta = consulta.Where(
-                u => u.NombreUsuario.Contains(nombreUsuario));
-        }
-
-        if (!string.IsNullOrWhiteSpace(cargo))
-        {
-            consulta = consulta.Where(
-                u => u.Cargo == cargo);
-        }
-
-        if (!string.IsNullOrWhiteSpace(estado))
-        {
-            consulta = consulta.Where(
-                u => u.Estado == estado);
-        }
-
-        List<Usuario> listaUsuarios =
-            consulta.ToList();
-
-        return listaUsuarios;
+        return usuarios.Any(u => u.NombreUsuario == nombreUsuario && u.Id != idExcluir);
     }
 
-    public bool ActualizarContrasenia(
-        int id,
-        string nuevaContrasenia)
+    public List<Usuario> buscarUsuariosPorNombre(string nombreCompleto)
     {
-        Usuario? usuario =
-            usuarios.Find(id);
-
-        if (usuario == null)
-        {
-            return false;
-        }
-
-        usuario.Contrasenia =
-            nuevaContrasenia;
-
-        SaveChanges();
-
-        return true;
+        return usuarios.Where(u => u.NombreCompleto.Contains(nombreCompleto)).ToList();
     }
 
-    public Usuario? ValidarUsuario(
-        string nombreUsuario,
-        string contrasenia)
+    public List<Usuario> buscarUsuariosPorIdentificacion(string identificacion)
     {
-        Usuario? usuario = usuarios
-            .FirstOrDefault(
-                u => u.NombreUsuario == nombreUsuario);
+        return usuarios
+            .Where(u => u.Identificacion.Contains(identificacion))
+            .ToList();
+    }
 
-        if (usuario == null)
+    public List<Usuario> buscarUsuariosPorNombreUsuario(string nombreUsuario)
+    {
+        return usuarios.Where(u => u.NombreUsuario.Contains(nombreUsuario)).ToList();
+    }
+
+    public List<Usuario> buscarUsuariosPorCargo(string cargo)
+    {
+        return usuarios.Where(u => u.Cargo == cargo).ToList();
+    }
+
+    public List<Usuario> buscarUsuariosPorEstado(string estado)
+    {
+        return usuarios.Where(u => u.Estado == estado).ToList();
+    }
+
+    public Usuario login(string nombreUsuario, string contrasenia)
+    {
+        var usuarioLogueado = usuarios.FirstOrDefault(u => u.NombreUsuario == nombreUsuario && u.Contrasenia == contrasenia && u.Estado == "Activo");
+
+        if (usuarioLogueado != null)
         {
-            return null;
+            return usuarioLogueado;
         }
 
-        if (usuario.Contrasenia != contrasenia)
-        {
-            return null;
-        }
-
-        if (usuario.Estado != "Activo")
-        {
-            return null;
-        }
-
-        return usuario;
+        throw new Exception("Datos de inicio de sesion incorrectos");
     }
 
     #endregion
 
-    #region Bitácora
+    #region Bitacora
 
-    public void RegistrarBitacora(
-        string nombreUsuario,
-        string resultado)
+    public void registrarBitacora(string nombreUsuario, string resultado)
     {
-        Bitacora bitacora = new Bitacora();
+        Bitacora bitacorita = new Bitacora();
 
-        bitacora.Fecha =
-            DateTime.Now.Date;
+        bitacorita.Fecha = DateTime.Now.Date;
+        bitacorita.Hora = DateTime.Now.TimeOfDay;
+        bitacorita.NombreUsuario = nombreUsuario;
+        bitacorita.Resultado = resultado;
 
-        bitacora.Hora =
-            DateTime.Now.TimeOfDay;
-
-        bitacora.NombreUsuario =
-            nombreUsuario;
-
-        bitacora.Resultado =
-            resultado;
-
-        bitacoras.Add(bitacora);
-
+        bitacoras.Add(bitacorita);
         SaveChanges();
     }
 
-    public List<Bitacora> ObtenerBitacora()
+    public List<Bitacora> mostrarBitacora()
     {
-        List<Bitacora> listaBitacora =
-            bitacoras.AsNoTracking().ToList();
-
-        return listaBitacora;
+        return bitacoras.ToList();
     }
 
-    public List<Bitacora> BuscarBitacora(
-        string nombreUsuario,
-        string resultado,
-        DateTime? fecha)
+    public List<Bitacora> buscarBitacoraPorUsuario(string nombreUsuario)
     {
-        IQueryable<Bitacora> consulta =
-            bitacoras.AsNoTracking();
+        return bitacoras.Where(b => b.NombreUsuario.Contains(nombreUsuario)).ToList();
+    }
 
-        if (!string.IsNullOrWhiteSpace(nombreUsuario))
-        {
-            consulta = consulta.Where(
-                b => b.NombreUsuario.Contains(nombreUsuario));
-        }
+    public List<Bitacora> buscarBitacoraPorResultado(string resultado)
+    {
+        return bitacoras.Where(b => b.Resultado == resultado).ToList();
+    }
 
-        if (!string.IsNullOrWhiteSpace(resultado))
-        {
-            consulta = consulta.Where(
-                b => b.Resultado == resultado);
-        }
+    public List<Bitacora> buscarBitacoraPorFecha(DateTime fecha)
+    {
+        DateTime fechaBuscar = fecha.Date;
 
-        if (fecha.HasValue)
-        {
-            DateTime fechaBuscar =
-                fecha.Value.Date;
-
-            consulta = consulta.Where(
-                b => b.Fecha == fechaBuscar);
-        }
-
-        consulta = consulta
-            .OrderByDescending(b => b.Fecha)
-            .ThenByDescending(b => b.Hora);
-
-        List<Bitacora> listaBitacora =
-            consulta.ToList();
-
-        return listaBitacora;
+        return bitacoras
+            .Where(b => DbFunctions.TruncateTime(b.Fecha) == fechaBuscar)
+            .ToList();
     }
 
     #endregion
