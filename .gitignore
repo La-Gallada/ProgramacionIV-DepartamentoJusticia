@@ -1,6 +1,8 @@
 bin/
 obj/
 .vs/
+output/
+tmp/
 
 *.user
 *.csproj.user
@@ -10,3 +12,9 @@ obj/
 
 TestResults/
 *.log
+*.tmp
+*.temp
+
+# Bases de datos locales generadas por SQL Server / LocalDB
+*.mdf
+*.ldf
